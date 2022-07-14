@@ -15,17 +15,35 @@
     </div>  
     <div class="main">
         <div class="bottomNav"></div>
-         <div class="searchBar">
-            <input
-                autocomplete="off"
+
+         <form autocomplete="off" class="searchBar">
+
+            <div class="inputWidth">
+                <input
                 id="search"
                 type="text"
                 value=""
                 placeholder="SEARCH"
                 class="input"
-              />
+                onKeyUp="showResults(this.value)"/>
               <img src="resources/lupa.png" alt="Lupa" class="Lupa" />
-         </div>
+            
+              <div class="resultBackground">
+
+                <div id="result" class="result">
+                <!-- <p>Edsger W.Dijkstra</p>
+                <p>Edsger W.Dijkstra</p> -->
+                </div>
+
+              </div>
+
+            </div>
+            
+            
+              
+
+         </form>
+         
          <div class="quoteOfTheDay">
             <div class="text">
                 <p class="qotd">QUOTE OF THE DAY</p>
@@ -43,10 +61,45 @@
             
          </div>
          <div class="listOfQuotes">
-            <p>LIST OF QUOTES</p>
-            <div class="Quotes">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id</p>
+            <p class="listOfQuotesTitle">LIST OF QUOTES</p>
+            <div class="QuotesList">
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                
+                
                 
             </div>
          </div>
