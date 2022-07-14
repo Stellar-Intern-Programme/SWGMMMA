@@ -1,18 +1,25 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {Provider} from 'react-redux';
+import {StyleSheet, ScrollView} from 'react-native';
+import Register from './views/Register';
+import configureStore from './src/store/configureStore';
 
 const App = () => {
+  const {store} = configureStore();
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text>ASDFG</Text>
-    </View>
+    <Provider store={store}>
+      <ScrollView style={styles.sectionContainer}>
+        <Register />
+      </ScrollView>
+    </Provider>
   );
 };
 
+//@ts-ignore
 const styles = StyleSheet.create({
   sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+    backgroundColor: '#1D1D1D',
   },
 });
 

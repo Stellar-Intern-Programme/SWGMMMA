@@ -25,7 +25,21 @@
     
 }
 
+.favorite{
+    height: 100%;
+    overflow: hidden;
+    max-height: 200px;
+    transition: .5s height;
+}
 
+@keyframes displayNone {
+    100% { max-height: 0px; }
+}
+
+.closeFavorite {
+    height: 0;
+    animation: displayNone .5s;
+}
 .fav{
     font-family: Inter;
     font-size: 18px;
@@ -87,10 +101,13 @@
     letter-spacing: 0em;
   }
 
+.searchbar input {
+    padding-left: 35px;
+}
+
 .searchbar input::placeholder {
     color: #D9D9D9;
     font-family: Inter;
-    padding-left: 19px;
     font-size: 14px;
     font-weight: 400;
     line-height: 17px;
@@ -116,7 +133,7 @@ width: 17.5px;
     flex-direction: column;
     align-items: center;
     width: fit-content;
-    /* transition: .5s all; */
+
 }
 .tren{
     font-family: Inter;
@@ -144,28 +161,166 @@ width: 17.5px;
     align-items: flex-end;
 }
 .infoPopup{
+    
     display: flex;
     background-color:#1D1D1D ;
-    height: 60%;
-    width: 100%;
+    height: 70%;
+    width: 100vw;
     overflow: hidden;
     border-radius: 20px 20px 0px 0px ;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+}
+.overButtonDrag{
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 .butonDrag{
     margin-top: 12px;
-    position: absolute;
-    z-index: 7;
+    z-index: 2;
     background: #727272;
     width: 63px;
     height: 7px;
     border-radius: 20px;
+    margin-bottom: 34px;
 }
 .fundalPopup{
-    opacity: 80%;
+    opacity: 100%;
+    position: absolute;    
     width: 100vw;
+    z-index: 0;
 }
 .coverAll{
 margin-left: 22px;    
+}
+.songfoto{
+    margin-bottom: 8px;
+    opacity: 100%;
+    z-index: 6;
+}
+.pozamelodie{
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.information{
+    z-index: 2;
+    padding-left: 9%;
+    width: 100vw;
+}
+.title{
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 15px;
+    letter-spacing: 0em;
+    margin: 0;
+    color:  #BEBDBD;
+}
+.ARTIST{
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 15px;
+    letter-spacing: 0em;
+    margin: 0;
+    color:  #BEBDBD;
+}
+.Album{
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 15px;
+    letter-spacing: 0em;
+    margin: 0;
+    color:  #BEBDBD;
+}
+.titlename{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29px;
+    margin: 0;
+    color: white;
+}
+.artistname{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29px;
+    margin: 0;
+    color: white; 
+}
+.AlbumName{
+    font-family: Inter;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 29px;
+    margin: 0;
+    color: white;
+    word-wrap: normal;
+    width: 300px;
+}
+.positionintop{
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 15px;
+    color:  white;
+    margin: 0;
+}
+.titlnr{
+    width: 88%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+}
+.buttonPlay{
+    z-index: 2;
+    margin-bottom: 24px;
+    width: 100%;
+    display: flex;
+    justify-content:flex-end ;
+}
+.buttonPlay img{
+   margin-right:11%;
+}
+.buttonFavorite{
+    display: flex;
+    background-color: #1A73E8;
+    height:53px ;
+    border-radius: 7px;
+    align-items: center;
+    justify-content: center;
+    width:79% ;
+}
+.buttonFavorite p{
+    color: white;
+    font-family: Inter;
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 22px;
+}
+.buttonFavoriteOver{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+.buttonFavoriteOver p{
+    font-family: Inter;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 15px;
+    color: white;
+}
+.ics{
+    display: none;
+    position: absolute;
+    bottom: 12px;
+    left: 10px;
+    height: 12px;
+    width: 12px;
 }
