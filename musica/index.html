@@ -10,10 +10,10 @@
 </head>
 <body class="body">
   <div class="upper">
-    <p>MUSICA</p>
+    <p id="musica">MUSICA</p>
   </div> 
   <div class="coverAll">
-  <div class="favorite">
+  <div class="favorite" id="favorite">
     <p class="fav">FAVORITE SONGS</p>
     <div class="actualFavSongs">
         <div class="imgsfavsong">
@@ -23,7 +23,7 @@
         </div>
     </div>
   </div>
-  <div class="searchbar">
+  <div class="searchbar" id="searchbar">
     <input
       autocomplete="off"
       id="search"
@@ -32,9 +32,10 @@
       placeholder="SEARCH"
       class="Placeholder"
     />
-    <img src="resurse/Vectorlupa.svg" alt="Lupa" class="lupa">
+    <img src="resurse/Vectorics.svg" alt="x" class="ics" id="ics">
+    <img onclick="searchClick()" src="resurse/Vectorlupa.svg" alt="Lupa" class="lupa">
   </div> 
-  <div class="trending">
+  <div class="trending" id="trending">
     <p class="tren">TRENDING SONGS</p>
     <div class="gridTrending">
         
@@ -164,9 +165,34 @@
 </div>
   <div class="backGroundPopup">
     <div class="infoPopup">
-        <div class="butonDrag">
+        <div class="overButtonDrag">
+            <div class="butonDrag">
+            </div>
         </div>
        <img class="fundalPopup" src="resurse/500x500-000000-80-0-0-3 2fundalPopup.svg" alt="guys"> 
+       <div class="pozamelodie">
+            <img src="resurse/1000x1000-000000-80-0-0 1songfoto.svg" alt="songfoto" class="songfoto">
+       </div>
+        <div class="information">
+            <div class="titlnr">
+                <p class="title">Title</p>
+                <p class="positionintop">#1 in chart</p>
+            </div>
+            <p class="titlename">GET LUKY</p>
+            <p class="ARTIST">Artist</p>
+            <p class="artistname">DAFT PUNK</p>
+            <p class="Album">Album</p>
+            <p class="AlbumName">RANDOM ACCESS MEMORIES</p>
+        </div>
+        <div class="buttonPlay">
+            <img src="resurse/VectorPLAY.svg" alt="">
+        </div>
+        <div class="buttonFavoriteOver">
+            <div class="buttonFavorite">
+                <p>Add to Favorites</p>
+            </div>
+            <p>See dezeer page</p>
+        </div>
 
     </div>
   </div>
