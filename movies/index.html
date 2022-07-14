@@ -13,24 +13,27 @@
 </head>
 <body>
     <div class="container">
-        <div class="top-title"> <p>MOVIES</p> </div>
-        <div class="movies">
-            <div class="favorite-movies"><p>FAVORITE MOVIES</p> <div class="fav-movie-list"><img src="src/minions.jpg" alt="Minions"> 
+        <div class="top-title"> <p id="topTitle">MOVIES</p> </div>
+        <div class="movies" id="movies">
+            <div class="favorite-movies" id="favoriteMovies"><p>FAVORITE MOVIES</p> <div class="fav-movie-list"><img src="src/minions.jpg"  onclick = "openModal()" alt="Minions"> 
                 <img src="src/infinity_war.jpg" alt="Infinity War">
                  <img src="src/star_wars.jpg" alt="star wars"> <img src="src/Johnny_English.jpg" alt="Johnny English">
             </div>
-            </div><div class="search"> <input type="text" placeholder="SEARCH"> <img src="src/search.svg" alt="search"></div>
-            <div class="trending-movies"><p>TRENDING MOVIES</p> <div class="trend-movie-list"><img src="src/old_star_wars.jpg" alt="star wars"> 
+            </div><div class="search" id="divSearch" onclick="searchMenu()">  <div class="searchInput"><div class="x" id="x" onclick = "closeSearchMenu()">&times;</div><input type="text" placeholder="SEARCH" id="searchInput"></div> <img src="src/search.svg" alt="search"></div>
+            <div class="recommend-movies" id="recommendMovies"><p>MOVIES with </p> <div class="recom-movie-list"> <img src="src/amongus.png" onclick="closeSearchMenu()" alt="Johnny English"> <img src="src/profile_pic.jpg" alt="">
+            </div> </div>
+            <div class="trending-movies" id="trendingMovies"><p>TRENDING MOVIES</p> <div class="trend-movie-list"><img src="src/old_star_wars.jpg" alt="star wars"> 
                 <img src="src/tenet.jpg" alt="tenet">
                  <img src="src/matrix.jpg" alt="matrix"> <img src="src/pet.jpg" alt="cimitirul animalelor">
+            </div>
             </div>
             </div>
             <!-- <img src="src/bottom-test.png" class="bottom-test" alt=""> -->
         </div>
         
     </div>
-    <div class="pop-up-add">
-        <div class="movie-info"><div class="drag"></div> 
+    <div class="pop-up-add" id="modalBackground" >
+        <div class="movie-info" id="modal"><div class="drag"></div> <div class="close-modal" onclick="closeModal()"> &times; </div> 
             <div class="info">
                 <div class="info-text">
                     <p class="info-small-text">Title</p>
