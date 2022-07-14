@@ -1,0 +1,232 @@
+*{
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+::placeholder { 
+    color: white;
+    opacity: .5; 
+  }
+body{
+    background-color: #1D1D1D;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+.container{
+    max-height: 950px;
+    max-width: 700px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.top-title{
+    color: #FFFF;
+    font-weight: 900;
+    font-size: 18px;
+    flex: 0.15;
+    left: 0px;
+    top: 0px;
+    background: #0C0C0C;
+    border-radius: 0px 0px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.movies{
+    flex: 0.85;
+    background-color: #1D1D1D;
+    padding: 25px 0px 25px 0px;
+    overflow: auto;
+}
+.favorite-movies{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 25px;
+}
+.favorite-movies p{
+    color: white;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 0px 0px 15px 22px;
+}
+.fav-movie-list{
+    display: flex;
+    gap: 18px;
+    overflow: scroll;
+    margin-left: 22px;
+}
+.fav-movie-list img{
+    height: 201px;
+    width: 135px;
+    border-radius: 20px;
+}
+.search{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 341px;
+    height: 38px;
+    background: #727272;
+    border-radius: 12px;
+    margin-left: 22px;
+    margin-right: 22px;
+    padding: 0px 20px 0px 20px ;
+}
+.search input{
+    height: 33px;
+    color: white;
+    background-color: #727272;
+    margin: none;
+    border: none;
+    outline: none;
+    border-radius: 20px;   
+}
+.trending-movies{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 25px;
+}
+.trending-movies p{
+    padding-top: 25px ;
+    color: white;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 22px 0px 15px 22px;
+}
+.trend-movie-list{
+    display: flex;
+    gap: 18px;
+    overflow: scroll;
+    margin-left: 22px;
+    
+}
+.trend-movie-list img{
+    height: 201px;
+    width: 135px;
+    border-radius: 20px;
+    /* margin-bottom: 80px; */
+}
+.bottom-test{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+}
+.pop-up-add{
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+.movie-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30vh;
+    height: 70vh;
+    width: 100vw;
+    background-color: #1D1D1D;
+    bottom: 0;
+    border-radius: 20px 20px 0px 0px;
+}
+.drag{
+    width: 63px;
+    height: 7px;   
+    background: #727272;
+    border-radius: 20px;
+    margin-top: 12px;
+}
+.info{
+    padding: 24px 24px 0px 24px;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    width: 85%;
+}
+.info img{
+    height: 201px;
+    width: 135px;
+    border-radius: 20px;
+}
+.info-text{
+    display: flex;
+    flex-direction: column;
+}
+.info-small-text{
+font-size: 12px;
+font-weight: 900;
+color: #BEBDBD;
+padding-top: 10px;
+}
+.info-big-text{
+    font-size: 24px;
+    font-weight: 900;
+}
+.info-text .trailer{
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 15px;
+    text-decoration-line: underline;
+    color: #E81A1A;
+}
+.description{
+   
+    padding-top: 10px;
+    padding-bottom: 20px;
+
+}
+.description-text{
+    font-weight: 900;
+    font-size: 12px;
+    overflow: auto;
+    color: white;
+    height: 15vh;
+    padding: 1px 0px 1px 0px;
+}
+.companies-images{
+    display: flex;
+    width: 80vw;
+    height: fit-content;
+    justify-content: space-between;
+    padding: 10px 0px 10px 0px;
+}
+.companies-images img{
+    width: 80px;
+    height: 27px;
+}
+.add-fav{
+    display: flex;
+    width: 75vw;
+    height:12vw;
+    background-color: #1A73E8;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-radius: 7px;
+}
+.add-fav p{
+    font-size: 18px;
+
+}
+.imbd-page{
+    color: white;
+    font-weight: 900;
+    font-size: 12px;
+    line-height: 15px;
+    text-decoration: none;
+}
+.iframe{
+    position: absolute;
+    top: 10vh;
+    left: -130vw;
+    transition: .5s all;
+}
+
+
+@media screen and (max-width: 700px) {
+}
