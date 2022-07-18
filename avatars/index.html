@@ -18,7 +18,7 @@
     <div class="container">
         <div class="top">
             <div class="titel">
-                <img src="src/Profile Pic.svg" alt="avatar" class="avatar">
+                <img src="src/Profile Pic.svg" onclick= profilePic(this) alt="avatar" class="avatar">
 
                 <div class="text-top">
                     <p>SUPERAVATAR</p>
@@ -42,11 +42,19 @@
 
         </div>
         <div class="pop-up">
-            .pop-up
+             
             <span onclick="removePopUp()">&times;</span>
             <img src="src/fund bomabstic.svg" alt="error">
-            <div class="pop-up-text"><p>3D-MAN</p></div>
+            <div class="pop-up-text" id="pop-up-text"><p></p></div>
+            <div class="set-avatar"><p>SET AS AVATAR</p></div>
         
+
+        </div>
+        <div class="pop-up-avatar">
+            <span onclick="profilePicRemove()">&times;</span>
+            <img src="src/Profile Pic.svg" alt="error">
+            <div class="remove-avatar"><p>REMOVE AVATAR</p></div>
+
 
         </div>
     </div>
