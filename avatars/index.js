@@ -8,6 +8,8 @@ function avatarSelect(e) {
     document.querySelector('.pop-up').style.display = 'block'
     console.log(e)
     document.querySelector('.pop-up img').src = e.getAttribute('src')
+    document.querySelector(".pop-up p").textContent = e.getAttribute("avatar-name")
+
 
 }
 function removePopUp() {
@@ -36,10 +38,9 @@ function avatar() {
                 img.setAttribute('onclick', "avatarSelect(this)")
                 img.setAttribute('alt', "avatar")
                 img.setAttribute('class', "SuperHero")
-                console.log(img)
-                console.log(images)
+                img.setAttribute('avatar-name', result.name)
                 imageContainer.appendChild(img)
-                console.log(imageContainer)
+                if (IMAGE_NOT_AVAIL === result.name) return
             })
 
 
@@ -49,10 +50,27 @@ function avatar() {
 
 avatar()
 
+function profilePic(f) {
+    document.querySelector('.pop-up-avatar').style.display = 'block'
+    console.log(f)
+    document.querySelector('.pop-up-avatar img').src = f.getAttribute('src')
 
-//  A formatted version of a popular md5 implementation.
-//  Original copyright (c) Paul Johnston & Greg Holt.
-//  The function itself is now 42 lines long.
+}
+function profilePicRemove() {
+    document.querySelector('.pop-up-avatar').style.display = 'none'
+    document.querySelector('.pop-up-avatar img').src = '/'
+}
+
+
+
+
+
+
+
+
+
+
+
 
 function md5(inputString) {
     var hc = "0123456789abcdef";
@@ -97,4 +115,5 @@ function md5(inputString) {
     }
     return rh(a) + rh(b) + rh(c) + rh(d);
 }
+
 
