@@ -1,7 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 
-const FrontDesign = () => {
+const FrontDesign = ({navigation}: {navigation: any}) => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigation.navigate('Login');
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <Image

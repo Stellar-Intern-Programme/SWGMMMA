@@ -20,6 +20,7 @@ export enum CONVERSATION_ACTIONS {
   ADD_CONVERSATION = 'ADD_CONVERSATION',
   REMOVE_CONVERSATION = 'REMOVE_CONVERSATION',
   DELETE_DATA = 'DELETE_DATA',
+  STATUS_CONVERSATION = 'STATUS_CONVERSATION',
 }
 
 const reducer = (state: any = INITIAL_STATE, action: any) => {
@@ -59,7 +60,6 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
 
       let totalUnseen;
       if (email !== senderEmail) {
-        // const hasMessages = Object.keys(state.lastMessages).some((p: any) => { console.log(p, action.payload.id); return p === action.payload.id })
         totalUnseen =
           (state.lastMessages?.[action.payload.id]?.totalUnseen || 0) + 1;
       } else {
@@ -264,6 +264,32 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
       const newConversations = state.conversations.filter(
         (conv: any) => conv._id !== action.payload.conversationId,
       );
+
+      return {
+        ...state,
+        conversations: newConversations,
+      };
+    }
+    case CONVERSATION_ACTIONS.STATUS_CONVERSATION: {
+      let newConversations = state.conversations;
+
+      if (action.payload.friendId) {
+        newConversations = newConversations.map((conv: any) => {
+          if (conv.peopleIds.includes(action.payload.friendId)) {
+            conv.blocked = action.payload.convStatus;
+          }
+
+          return conv;
+        });
+      } else if (action.payload.conversationId) {
+        newConversations = newConversations.map((conv: any) => {
+          if (conv._id === action.payload.conversationId) {
+            conv.blocked = action.payload.convStatus;
+          }
+
+          return conv;
+        });
+      }
 
       return {
         ...state,
