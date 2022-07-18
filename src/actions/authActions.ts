@@ -3,13 +3,16 @@ import axios from 'axios';
 import {AUTH_ACTIONS} from '../reducers/authReducer';
 import {server} from '../config/index';
 
-export const verifyLogin = () => async (dispatch: any) => {
+export const verifyLogin = (authToken: string) => async (dispatch: any) => {
   try {
     const result = (
       await axios.post(
         `${server}/api/miscellaneous/isAuthenticated`,
         {},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {Cookie: `auth-token=${authToken || ''};`},
+        },
       )
     ).data;
 
@@ -17,10 +20,11 @@ export const verifyLogin = () => async (dispatch: any) => {
       type: AUTH_ACTIONS.LOGGED_IN,
       payload: {name: result.username, email: result.email, id: result.userId},
     });
-  } catch (err) {
+  } catch (err: any) {
     dispatch({
       type: AUTH_ACTIONS.NOT_LOGGED_IN,
     });
+    console.log(err.response.data.err);
   }
 };
 
@@ -45,22 +49,27 @@ export const login =
     email,
     password,
     onSuccess,
+    authToken,
   }: {
     email: string;
     password: string;
-    onSuccess: () => void;
+    onSuccess: any;
+    authToken: string;
   }) =>
   async (dispatch: any) => {
     dispatch({
       type: AUTH_ACTIONS.START_LOADING,
     });
 
-    const data = {email, password};
+    const data = {email, password, authToken};
 
     try {
       const result = (
         await axios.post(`${server}/api/authentication/login`, data, {
           withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${authToken || ''};`,
+          },
         })
       ).data;
 
@@ -69,15 +78,17 @@ export const login =
         payload: {result},
       });
 
-      onSuccess();
+      onSuccess({authToken: result.authToken});
 
       return;
     } catch (err: any) {
       if (
         err &&
         err.response &&
+        err.response.data &&
         err.response.data.type &&
-        err.response.data.type === 'email'
+        err.response.data.type === 'email' &&
+        err.response.data.message
       ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
@@ -90,8 +101,10 @@ export const login =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
         err.response.data.type &&
-        err.response.data.type === 'password'
+        err.response.data.type === 'password' &&
+        err.response.data.message
       ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
@@ -104,8 +117,10 @@ export const login =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
         err.response.data.type &&
-        err.response.data.type === 'both'
+        err.response.data.type === 'both' &&
+        err.response.data.message
       ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
@@ -115,7 +130,12 @@ export const login =
             name: 'both',
           },
         });
-      } else {
+      } else if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
           payload: {
@@ -125,6 +145,8 @@ export const login =
           },
         });
       }
+
+      console.log(err.response.data.err);
     }
 
     dispatch({
@@ -139,11 +161,13 @@ export const register =
     password,
     username,
     onSuccess,
+    authToken,
   }: {
     email: string;
     password: string;
     username: string;
-    onSuccess: (param: string) => void;
+    onSuccess: (param: string, dummyToken: string) => void;
+    authToken: string;
   }) =>
   async (dispatch: any) => {
     dispatch({
@@ -156,6 +180,9 @@ export const register =
       const result = (
         await axios.post(`${server}/api/authentication/register`, data, {
           withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${authToken || ''};`,
+          },
         })
       ).data;
 
@@ -164,17 +191,17 @@ export const register =
         payload: {loading: false, uniqueUrl: result.uniqueParam},
       });
 
+      onSuccess(result.uniqueParam, result.dummyCookie);
+
       dispatch({
         type: AUTH_ACTIONS.STOP_LOADING,
       });
-
-      onSuccess(result.uniqueParam);
-
-      return;
     } catch (err: any) {
       if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'email'
       ) {
@@ -189,6 +216,8 @@ export const register =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'password'
       ) {
@@ -203,6 +232,8 @@ export const register =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'username'
       ) {
@@ -214,7 +245,12 @@ export const register =
             name: 'username',
           },
         });
-      } else {
+      } else if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         dispatch({
           type: AUTH_ACTIONS.REGISTER_FAIL,
           payload: {
@@ -224,26 +260,43 @@ export const register =
           },
         });
       }
-    }
 
+      console.log(err.response.data.err);
+    }
     dispatch({
       type: AUTH_ACTIONS.STOP_LOADING,
     });
   };
 
 export const codeRegister =
-  ({code, onSuccess}: {code: string; onSuccess: () => void}) =>
+  ({
+    code,
+    onSuccess,
+    dummyToken,
+  }: {
+    code: string;
+    onSuccess: ({authToken}: {authToken: string}) => void;
+    dummyToken: string;
+  }) =>
   async (dispatch: any) => {
     dispatch({
       type: AUTH_ACTIONS.START_LOADING,
     });
 
     try {
-      await axios.post(
-        `${server}/api/authentication/register/complete`,
-        {code},
-        {withCredentials: true},
-      );
+      const result = (
+        await axios.post(
+          `${server}/api/authentication/register/complete`,
+          {code},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `dummy-cookie=${dummyToken};`,
+              Authorization: `Bearer ${dummyToken}`,
+            },
+          },
+        )
+      ).data;
 
       dispatch({
         type: AUTH_ACTIONS.CODE_REGISTER_SUCCESS,
@@ -254,13 +307,15 @@ export const codeRegister =
         type: AUTH_ACTIONS.STOP_LOADING,
       });
 
-      onSuccess();
+      onSuccess({authToken: result.authToken});
 
       return;
     } catch (err: any) {
       if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'code'
       ) {
@@ -272,7 +327,12 @@ export const codeRegister =
             name: 'code',
           },
         });
-      } else {
+      } else if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         dispatch({
           type: AUTH_ACTIONS.CODE_REGISTER_FAIL,
           payload: {
@@ -282,6 +342,8 @@ export const codeRegister =
           },
         });
       }
+
+      console.log(err.response.data.err);
     }
 
     dispatch({
@@ -315,6 +377,7 @@ export const forgotPassword =
         type: AUTH_ACTIONS.FP_FAIL,
         payload: {error: err.response.data.message, name: 'email'},
       });
+      console.log(err.response.data.err);
     }
 
     dispatch({
@@ -359,6 +422,8 @@ export const completeForgotPassword =
       if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'password'
       ) {
@@ -369,6 +434,8 @@ export const completeForgotPassword =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'confirmPassword'
       ) {
@@ -379,6 +446,8 @@ export const completeForgotPassword =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'page'
       ) {
@@ -395,6 +464,7 @@ export const completeForgotPassword =
           payload: {error: err.response.data.message, name: 'fullError'},
         });
       }
+      console.log(err.response.data.err);
     }
 
     dispatch({

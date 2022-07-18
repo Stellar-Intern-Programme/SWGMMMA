@@ -22,6 +22,8 @@ export interface AuthPropsReducer {
     confirmPassword: string;
     fullError: string;
   };
+  navigation: any;
+  route: any;
   defaultState: (dispatch: any) => void;
   login: (dispatch: any) => Promise<void>;
   register: (dispatch: any) => Promise<void>;
