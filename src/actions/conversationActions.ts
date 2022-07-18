@@ -95,7 +95,7 @@ export const receiveMessage =
     senderEmail: string;
     id: number;
     finished: boolean;
-    onMyMessage: ({senderEmail}: {senderEmail: string}) => void;
+    onMyMessage: any;
     conversationId: string;
     message: any;
     email: string;
@@ -289,6 +289,31 @@ export const removeConversation =
 
       if (onSuccess) {
         onSuccess();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+export const statusConversation =
+  ({
+    conversationId,
+    convStatus,
+    onSocket,
+  }: {
+    conversationId: string;
+    convStatus: boolean;
+    onSocket?: any;
+  }) =>
+  async (dispatch: any) => {
+    try {
+      dispatch({
+        type: CONVERSATION_ACTIONS.STATUS_CONVERSATION,
+        payload: {conversationId, convStatus},
+      });
+
+      if (onSocket) {
+        onSocket();
       }
     } catch (err) {
       console.log(err);
