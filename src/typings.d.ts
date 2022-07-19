@@ -51,7 +51,7 @@ export interface FormHandler {
   };
   setField: (name: string, newValue: string) => void;
   setError: (name: string, newValue: string) => void;
-  verifyValidity: () => void;
+  verifyValidity: () => boolean;
 }
 
 export type initialValues = {

@@ -9,6 +9,7 @@ interface TextFieldProps {
   customStyles?: any;
   label?: string;
   error?: string;
+  loading?: boolean;
 }
 
 const TextField: FC<TextFieldProps> = ({
@@ -19,6 +20,7 @@ const TextField: FC<TextFieldProps> = ({
   customStyles = {},
   label = '',
   error = '',
+  loading = false,
 }) => {
   const onChangeText = (newValue: string) => {
     setField(name, newValue);
@@ -33,7 +35,9 @@ const TextField: FC<TextFieldProps> = ({
       }}>
       <View style={{flexDirection: 'row'}}>
         <Text style={styles.label}>{label}</Text>
-        <Text style={styles.error}>{error.length ? `(${error})` : ''}</Text>
+        <Text style={styles.error}>
+          {error.length && !loading ? `(${error})` : ''}
+        </Text>
       </View>
       <TextInput
         style={styles.input}

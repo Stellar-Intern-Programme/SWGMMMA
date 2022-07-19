@@ -26,6 +26,4 @@ const rootReducer = combineReducers({
   conversation: conversationReducer,
 });
 
-// export const persistRootReducer = persistReducer(persistConfig, rootReducer)
-
 export default rootReducer;
