@@ -1,41 +1,26 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import configureStore from './src/store/configureStore';
-// import HomeRoot from './src/routes/HomeRoot';
-// import AuthRoot from './src/routes/AuthRoot';
+import RootRoute from './src/routes/RootRoute';
 import AuthComponent from './views/AuthComponent';
-import Login from './views/Auth/Login';
-import Register from './views/Auth/Register';
-import ForgotPassword from './views/Auth/ForgotPassword';
-import FrontDesign from './views/Layout/FrontDesign';
-import Code from './views/Auth/Code';
 import {StyleSheet} from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SplashScreen from 'react-native-splash-screen';
+import {SingletonHooksContainer} from 'react-singleton-hook';
 
 const App = () => {
   const {store} = configureStore();
-  const Stack = createNativeStackNavigator();
+
+  useEffect(() => {
+    // SplashScreen.hide();
+  }, []);
 
   return (
     <Provider store={store}>
+      <SingletonHooksContainer />
       <AuthComponent>
         <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={'FrontDesign'}
-            screenOptions={{
-              headerShown: false,
-              header: () => null,
-              contentStyle: styles.sectionContainer,
-            }}>
-            <Stack.Screen name={'Login'} component={Login} />
-            <Stack.Screen name={'Register'} component={Register} />
-            <Stack.Screen name={'ForgotPassword'} component={ForgotPassword} />
-            <Stack.Screen name={'FrontDesign'} component={FrontDesign} />
-            <Stack.Screen name={'Code'} component={Code} />
-          </Stack.Navigator>
-          {/*<HomeRoot />*/}
-          {/*<AuthRoot />*/}
+          <RootRoute />
         </NavigationContainer>
       </AuthComponent>
     </Provider>

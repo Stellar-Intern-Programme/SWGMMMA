@@ -39,9 +39,10 @@ body {
 }
 .avatar {
   display: flex;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   margin-top: -10px;
+  border-radius: 30px;
 }
 form {
   background-color: grey;
@@ -194,4 +195,8 @@ button {
   z-index: 100;
   justify-content: center;
   border-radius: 7px;
+}
+
+.displayNone{
+  display: none;
 }
