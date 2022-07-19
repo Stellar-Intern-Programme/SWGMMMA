@@ -62,7 +62,7 @@ function actuallyShowResults(data){
 
 function hideResults(){
   moveUp()
-
+  
   const topOverlay = document.getElementById("topSideOverlayWithBackground")
   const overlay = document.getElementById("overlay")
   const divResults = document.getElementById("resultBackground")
@@ -70,6 +70,9 @@ function hideResults(){
   const searchBar = document.getElementById("search")
   const X = document.getElementById("X")
   const inputWidth = document.getElementById("inputWidth")
+
+  const quotePopUp = document.getElementById("quotePopUp")
+  quotePopUp.style.display = "none"
 
   inputWidth.style.zIndex = "auto"
 
@@ -88,6 +91,8 @@ function moveUp() {
   const overlayTop = document.getElementById("overlayTop")
   const search = document.getElementById("search")
     const lupa = document.getElementById("Lupa")
+    const results = document.getElementById("resultBackground")
+    const topSide = document.getElementById("topSideOverlayWithBackground")
 
   overlayTop.style.display = "none"
   lupa.style.zIndex = "5"
@@ -101,6 +106,8 @@ function moveUp() {
   function frame() {
     if (pos  < -215) {
       clearInterval(up);
+      results.style.display = "none"
+      topSide.style.display = "none"
     } else {
       pos-= 6;
       elem.style.top = pos + 'px';
@@ -148,8 +155,6 @@ function moveDown() {
     qouteOfTheDay.style.display = "none"
     searchResults.style.display = "flex"
 
-    console.log(author)
-
     fetch("https://programming-quotes-api.herokuapp.com/quotes/author/" + author)
       .then((res) => res.json())
       .then((data) => { 
@@ -162,21 +167,20 @@ function moveDown() {
   function addQuotes(data){    
     let index = 0;
     let test = 1;
-    const shorterText = data.filter(quote => quote.en.length < 140)
-    const longerText = data.filter(quote => quote.en.length >= 140)
-    let diff = 0;
-    const shorterBiggerThanLonger = shorterText.length / 2 >= longerText.length
-    if(shorterText.length / 2 < longerText.length) {
-      diff = longerText.length - (shorterText.length / 2)
-    } else diff = (shorterText.length / 2) - longerText.length
-
-    for(let i = 0; i<data.length; i++){
-      index++
-      console.log(index)
-
-    const selectedQuote = (shorterBiggerThanLonger)
 
     const divMare = document.getElementById("quoteSearchResults")
+    
+    divMare.innerHTML = ""
+
+    divMare.style.display = "flex"
+    divMare.style.marginLeft = "0px"
+    
+    let i
+
+    for(i = 0; i<data.length; i++){
+      index++
+
+    
     const divMic = document.createElement("div")
     const pQuote = document.createElement("p")
     const openQuote = document.createElement("img")
@@ -201,10 +205,6 @@ function moveDown() {
     else{
       divMic.setAttribute("class", "quotesSearchResults")
       pQuote.setAttribute("class", "quoteTextSearchResults")
-      
-    //   if(data[i+1].en.length < 140 && data[i+2].en.length > 140){
-    //   pQuote.style.backgroundColor = "pink"
-    // }
     }
 
     pQuote.innerText = data[i].en;
@@ -218,6 +218,56 @@ function moveDown() {
     
     }
     
-
+  if(i == 1){
+    divMare.style.display= "block"
+    divMare.style.marginLeft = "30px"
+  }
 
   } 
+  
+let id
+
+  window.addEventListener("load", () => {
+    
+    fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+      .then((res) => res.json())
+      .then((data) => {
+        id = data.id
+        console.log(id)
+        const quote = document.getElementById("quote")
+        const author = document.getElementById("author")
+        quote.innerHTML = data.en
+        author.innerHTML = "BY " + data.author.toUpperCase();
+      });
+    
+  });
+
+  function mainPageQuotePopUp(){
+    fetch("https://programming-quotes-api.herokuapp.com/quotes/" + id)
+      .then((res) => res.json())
+      .then((data) => {
+        openModal(data)
+      });
+  }
+
+  function openModal(data){
+    const quotePopUp = document.getElementById("quotePopUp")
+    quotePopUp.style.display = "flex"
+
+    const overlay = document.getElementById("overlay")
+    overlay.style.display = "flex"
+
+    const popUpQuote = document.getElementById("popUpQuote")
+    const popUpAuthor = document.getElementById("popUpAuthor")
+
+    popUpQuote.innerHTML = ""
+    popUpQuote.innerHTML = data.en
+
+    popUpAuthor.innerHTML = ""
+    popUpAuthor.innerHTML = data.author
+
+    const search = document.getElementById("search")
+    search.style.zIndex = "1"
+    const lupa = document.getElementById("Lupa")
+    lupa.style.zIndex = "1"
+  }

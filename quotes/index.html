@@ -12,6 +12,24 @@
 <body class="background" id="background">
 
 
+    <div class="quotePopUp" id="quotePopUp">
+        <div class="popUpText" id="popUpText">
+            <p class="popUpQuote" id="popUpQuote">
+            All repairs tend to destroy structure, to increase the entropy and disorder of a system.
+            </p>
+            <p class="popUpAuthor" id="popUpAuthor">
+            BY JEFF HAMMERBECHER
+            </p>
+        
+        
+            <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
+            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" />
+        </div>
+            
+        <img src="resources/X.png" alt="X" class="popUpX" id="popUpX"  onclick="hideResults()"/>
+        <button class="addToFavorite" id="addToFavorite">ADD TO FAVORITE</button>
+    </div>
+
     <div class="topSideOverlayWithBackground" id="topSideOverlayWithBackground">
         <div class="overlayTop" id="overlayTop"></div>
         <div class="topSideOverlay">
@@ -23,6 +41,7 @@
 
 
     <div class="overlay" id="overlay" onclick="hideResults()"></div>
+    
     <div class="Title">
         <p>PROGRAMMING QUOTES</p>
     </div> 
@@ -70,13 +89,15 @@
                 <p class="qotd">QUOTE OF THE DAY</p>
                 <p class="FavQuote">SEE FAVORITE QUOTE</p>
             </div>
-            <div class="theQuote">
+            <div class="theQuote" id="theQuote" >
                 <div class="quotes">
                     <img src="resources/open.png" alt="Open Quote" class="openQuote" />
                     <img src="resources/close.png" alt="Close Quote" class="closeQuote" />
                 </div>
-                <p class="quote">The best minds of my genereation are thinking about how to make people click ads.</p>
-                <p class="author">BY JEFF HAMMERBACHER</p>
+                <p class="quote" id="quote" onclick="mainPageQuotePopUp()">
+                    The best minds of my generationare thinking about how to make peopple click ads.
+                </p>
+                <p class="author" id="author">BY JEFF HAMMERBACHER</p>
                 <img src="resources/Reroll.png" alt="reroll" class="reroll" />
             </div>
             
