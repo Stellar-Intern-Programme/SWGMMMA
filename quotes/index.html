@@ -9,26 +9,40 @@
     <script src="script.js"></script>
 </head>
 
-<body class="background">
+<body class="background" id="background">
+
+
+    <div class="topSideOverlayWithBackground" id="topSideOverlayWithBackground">
+        <div class="overlayTop" id="overlayTop"></div>
+        <div class="topSideOverlay">
+            <div class="TitleOverlay">
+               <p>PROGRAMMING QUOTES</p>
+            </div>
+         </div>
+    </div>
+
+
+    <div class="overlay" id="overlay" onclick="hideResults()"></div>
     <div class="Title">
         <p>PROGRAMMING QUOTES</p>
-    </div>  
+    </div> 
+     <div class="bottomNav"></div>
     <div class="main">
-        <div class="bottomNav"></div>
+        
 
-         <form autocomplete="off" class="searchBar">
+         <form autocomplete="off" class="searchBar" id="searchBar">
 
-            <div class="inputWidth">
+            <div class="inputWidth" id="inputWidth">
                 <input
                 id="search"
                 type="text"
                 value=""
                 placeholder="SEARCH"
                 class="input"
-                onKeyUp="showResults(this.value)"/>
-              <img src="resources/lupa.png" alt="Lupa" class="Lupa" />
-            
-              <div class="resultBackground">
+                onKeyUp="showResults()"/>
+              <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" />
+              <img src="resources/X.png" alt="X" class="X" id="X" onclick="hideResults()"/>
+              <div class="resultBackground" id="resultBackground">
 
                 <div id="result" class="result">
                 <!-- <p>Edsger W.Dijkstra</p>
@@ -43,8 +57,15 @@
               
 
          </form>
+
+         <div class="searchResults" id="searchResults">
+            <h1>SEARCH RESULTS</h1>
+            <div class="quoteSearchResults" id="quoteSearchResults">
+                
+            </div>
+        </div>
          
-         <div class="quoteOfTheDay">
+         <div class="quoteOfTheDay" id="quoteOfTheDay">
             <div class="text">
                 <p class="qotd">QUOTE OF THE DAY</p>
                 <p class="FavQuote">SEE FAVORITE QUOTE</p>
@@ -60,7 +81,7 @@
             </div>
             
          </div>
-         <div class="listOfQuotes">
+         <div class="listOfQuotes" id = "listOfQuotes">
             <p class="listOfQuotesTitle">LIST OF QUOTES</p>
             <div class="QuotesList">
                 <div class="quoteInTheList">
@@ -99,6 +120,7 @@
                     <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
                 </div>
                 
+
                 
                 
             </div>

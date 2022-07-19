@@ -113,8 +113,9 @@ button {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  border-radius: 20px;
+  width: 80vw;
+  height: 80vw;
+  border-radius: 20px;  
   object-fit: cover;
 }
 .SuperHero {
@@ -127,7 +128,70 @@ button {
   display: flex;
   color: white;
   z-index: 100;
-  left: 40%;
   top: 71%;
   font-size: 24px;
+  text-align: center;
+    width: 100%;
+    justify-content: center;
+}
+.set-avatar{
+  position: absolute;
+  display: flex;
+  color: white;
+  background: #1A73E8;
+  align-items: center;
+  width: 70%;
+  height: 6%;
+  top:90%;
+  left: 15%;
+  font-size: 18px;
+  z-index: 100;
+  justify-content: center;
+  border-radius: 7px;
+}
+.pop-up-avatar {
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgb(0 0 0 / 56%);
+  height: 100%;
+  width: 100%;
+  z-index: 100;
+  display: none;
+}
+.pop-up-avatar span {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 40px;
+  font-weight: bolder;
+  color: #fff;
+  cursor: pointer;
+  z-index: 100;
+}
+.pop-up-avatar img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vw;
+  border-radius: 20px;  
+  object-fit: cover;
+}
+.remove-avatar{
+  position: absolute;
+  display: flex;
+  color: white;
+  background: #E81A1A;
+  align-items: center;
+  width: 70%;
+  height: 6%;
+  top:90%;
+  left: 15%;
+  font-size: 18px;
+  z-index: 100;
+  justify-content: center;
+  border-radius: 7px;
 }
