@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -27,7 +27,6 @@ type RootStackParamList = {
 const Register = ({
   serverErrors,
   register,
-  loading,
   defaultState,
 }: Omit<
   AuthPropsReducer,
@@ -37,11 +36,14 @@ const Register = ({
   | 'forgotPassword'
   | 'route'
   | 'navigation'
+  | 'loading'
 >) => {
   const {values, errors, setField, verifyValidity, setError} = useFormHandler(
     {email: '', password: '', username: ''},
     serverErrors,
   );
+
+  const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -50,30 +52,33 @@ const Register = ({
   }, [defaultState]);
 
   const onSuccess = async (url: string, dummyToken: string) => {
-    console.log(url);
     await AsyncStorage.setItem('dummyToken', dummyToken);
     navigation.navigate('Code', {url_param: url});
   };
 
+  const onFinish = () => {
+    setLoading(false);
+  };
+
   const registerRequest = async () => {
     setError('fullError', '');
+    if (verifyValidity()) return;
 
-    verifyValidity();
+    try {
+      setLoading(true);
 
-    if (
-      errors?.email?.length > 0 ||
-      errors?.password?.length > 0 ||
-      errors?.username?.length > 0
-    )
-      return;
-
-    await register({
-      email: values.email,
-      password: values.password,
-      username: values.username,
-      onSuccess,
-      authToken: (await AsyncStorage.getItem('auth-token')) || '',
-    });
+      await register({
+        email: values.email,
+        password: values.password,
+        username: values.username,
+        onSuccess,
+        authToken: (await AsyncStorage.getItem('auth-token')) || '',
+        onFinish,
+      });
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+    }
   };
 
   return (
@@ -121,7 +126,6 @@ export default connect(
   (state: any) => ({
     loggedIn: state.auth.loggedIn,
     serverErrors: state.auth.errors,
-    loading: state.auth.loading,
   }),
   {register: registerConnect, defaultState: defaultStateConnect},
 )(Register);

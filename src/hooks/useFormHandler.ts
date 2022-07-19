@@ -60,6 +60,20 @@ const useFormHandler: (intialValues: any, serverErrors: any) => FormHandler = (
       newErrors[key] = validate(key, values[key]);
     });
     setErrors(newErrors);
+
+    console.log(
+      Boolean(
+        Object.keys(newErrors).every(
+          (err: any) => newErrors[err] === '' || !newErrors[err],
+        ),
+      ),
+    );
+
+    return !Boolean(
+      Object.keys(newErrors).every(
+        (err: any) => newErrors[err] === '' || !newErrors[err],
+      ),
+    );
   };
 
   useEffect(() => {

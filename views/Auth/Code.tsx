@@ -17,7 +17,6 @@ import Button from '../../src/components/Auth/Button';
 
 const Code = ({
   loggedIn,
-  loading,
   codeRegister,
   serverErrors,
   defaultState,
@@ -25,7 +24,7 @@ const Code = ({
   route,
 }: Omit<
   AuthPropsReducer,
-  'completeForgotPassword' | 'login' | 'register' | 'forgotPassword'
+  'completeForgotPassword' | 'login' | 'register' | 'forgotPassword' | 'loading'
 >) => {
   const [startLoad, setStartLoad] = useState(false);
 
@@ -34,6 +33,8 @@ const Code = ({
     serverErrors,
   );
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     defaultState({});
   }, [defaultState]);
@@ -41,6 +42,10 @@ const Code = ({
   const onSuccess = async ({authToken}: {authToken: string}) => {
     await AsyncStorage.setItem('auth-token', authToken);
     navigation.navigate('Home');
+  };
+
+  const onFinish = () => {
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -69,22 +74,23 @@ const Code = ({
     verifyValidityURL();
   }, [route.params.url_param, loggedIn, route.name, navigation]);
 
-  const registerCompleteRequest = async (e: any) => {
-    e.preventDefault();
-
-    verifyValidity();
-
+  const registerCompleteRequest = async () => {
     setError('fullError', '');
+    if (verifyValidity()) return;
 
-    if (errors?.code?.length > 0) {
-      return;
+    try {
+      setLoading(true);
+
+      await codeRegister({
+        code: values.code,
+        onSuccess,
+        dummyToken: await AsyncStorage.getItem('dummyToken'),
+        onFinish,
+      });
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
     }
-
-    await codeRegister({
-      code: values.code,
-      onSuccess,
-      dummyToken: await AsyncStorage.getItem('dummyToken'),
-    });
   };
 
   if (!startLoad) return null;
@@ -131,7 +137,6 @@ const Code = ({
 export default connect(
   (state: any) => ({
     loggedIn: state.auth.loggedIn,
-    loading: state.auth.loading,
     serverErrors: state.auth.errors,
   }),
   {codeRegister: codeRegisterConnect, defaultState: defaultStateConnect},

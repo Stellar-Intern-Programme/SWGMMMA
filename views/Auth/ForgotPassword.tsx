@@ -5,22 +5,28 @@ import {
   StyleSheet,
   Text,
   View,
-  Pressable,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {connect} from 'react-redux';
 import useFormHandler from '../../src/hooks/useFormHandler';
-import {forgotPassword, defaultState} from '../../src/actions/authActions';
+import {
+  forgotPassword as forgotPasswordConnect,
+  defaultState as defaultStateConnect,
+} from '../../src/actions/authActions';
+import {useNavigation} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
 import {AuthPropsReducer} from '../../src/typings';
 import TextField from '../../src/components/Auth/TextField';
 import Button from '../../src/components/Auth/Button';
 import BackArrow from '../../src/components/Auth/BackArrow';
 
+type RootStackParamList = {
+  Login: {id: string};
+};
+
 const ForgotPassword = ({
   serverErrors,
   forgotPassword,
-  loading,
   defaultState,
 }: Omit<
   AuthPropsReducer,
@@ -30,8 +36,12 @@ const ForgotPassword = ({
   | 'login'
   | 'navigation'
   | 'route'
+  | 'loading'
 >) => {
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const {values, errors, setError, setField, verifyValidity} = useFormHandler(
     {email: ''},
@@ -44,19 +54,30 @@ const ForgotPassword = ({
 
   const onSuccess = () => {
     setSent(true);
+    setLoading(false);
+  };
+
+  const onFinish = () => {
+    setLoading(false);
   };
 
   const forgotPassRequest = async () => {
     setError('fullName', '');
+    console.log('pass');
+    if (verifyValidity()) return;
 
-    verifyValidity();
+    try {
+      setLoading(true);
 
-    if (errors?.email?.length > 0) return;
-
-    await forgotPassword({email: values.email, onSuccess});
+      await forgotPassword({email: values.email, onSuccess, onFinish});
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const sendBack = () => {};
+  const sendBack = () => {
+    navigation.navigate('Login', {id: 'Login'});
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -114,7 +135,7 @@ export default connect(
     serverErrors: state.auth.errors,
     loading: state.auth.loading,
   }),
-  {forgotPassword, defaultState},
+  {forgotPassword: forgotPasswordConnect, defaultState: defaultStateConnect},
 )(ForgotPassword);
 
 const styles = StyleSheet.create({

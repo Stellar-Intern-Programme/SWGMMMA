@@ -6,14 +6,14 @@ import Code from '../../views/Auth/Code';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {StyleSheet} from 'react-native';
-import {connect} from 'react-redux';
+import CompleteForgotPassword from '../../views/Auth/CompleteForgotPassword';
 
-const AuthRoot = ({loggedIn}: {loggedIn: boolean}) => {
+const AuthRoute = () => {
   const Stack = createNativeStackNavigator();
 
-  return !loggedIn ? (
+  return (
     <Stack.Navigator
-      initialRouteName={'FrontDesign'}
+      initialRouteName={'Login'}
       screenOptions={{
         headerShown: false,
         header: () => null,
@@ -24,16 +24,15 @@ const AuthRoot = ({loggedIn}: {loggedIn: boolean}) => {
       <Stack.Screen name={'ForgotPassword'} component={ForgotPassword} />
       <Stack.Screen name={'FrontDesign'} component={FrontDesign} />
       <Stack.Screen name={'Code'} component={Code} />
+      <Stack.Screen
+        name={'CompleteForgotPassword'}
+        component={CompleteForgotPassword}
+      />
     </Stack.Navigator>
-  ) : (
-    <></>
   );
 };
 
-export default connect(
-  (state: any) => ({loggedIn: state.auth.loggedIn}),
-  {},
-)(AuthRoot);
+export default AuthRoute;
 
 const styles = StyleSheet.create({
   sectionContainer: {

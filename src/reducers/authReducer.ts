@@ -40,6 +40,14 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         username: action.payload.username,
         email: action.payload.email,
         userId: action.payload.id,
+        errors: {
+          email: '',
+          password: '',
+          confirmPassword: '',
+          username: '',
+          fullError: '',
+          code: '',
+        },
       };
     }
     case AUTH_ACTIONS.NOT_LOGGED_IN: {
