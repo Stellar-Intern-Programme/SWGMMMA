@@ -3,6 +3,13 @@ const PUBLIC_KEY = "ead971b9b0e9d9eda3c0fe71e0efcf69"
 const IMAGE_NOT_AVAIL = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available"
 const date = Date.now()
 
+window.addEventListener("load", () => {
+    const userProfilePic = document.getElementById("profilePic")
+    userProfilePic.setAttribute('src', (localStorage.getItem('avatarPicture') === "/" || !localStorage.getItem('avatarPicture')) ? 'src/Profile Pic.svg' : localStorage.getItem('avatarPicture'))
+    console.log(localStorage.getItem('avatarPicture'))
+
+})
+
 const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
 function avatarSelect(e) {
     document.querySelector('.pop-up').style.display = 'block'
@@ -12,13 +19,42 @@ function avatarSelect(e) {
 
 
 }
+
+
+function laMamaAcasa(){ 
+const value = document.getElementById("query").value
+
+fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date +"&limit=100&nameStartsWith=" + value)
+.then((res) => res.json())
+.then((data) => {
+    searchResults(data)
+    console.log(data)
+});
+}
+
+function searchResults(data){
+        
+        const avatarPicture = document.getElementById("avatar-picture")
+        avatarPicture.innerHTML = ""
+
+    for(let i = 0; i< data.data.count; i++){
+       console.log(data.data.results[i])
+        const img = document.createElement("img")
+        img.setAttribute("src", data.data.results[i].thumbnail.path +"." + data.data.results[i].thumbnail.extension)
+        img.setAttribute("class","SuperHero")
+        
+        avatarPicture.appendChild(img)
+
+    }
+}
+
 function removePopUp() {
     document.querySelector('.pop-up').style.display = 'none'
     document.querySelector('.pop-up img').src = '/'
 }
 function avatar() {
     const showAvatar = document.getElementById("avatarPicture")
-    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date)
+    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100")   
         .then(response => {
             if (!response.ok) {
                 throw Error("ERROR")
@@ -30,6 +66,7 @@ function avatar() {
 
 
             data.data.results.forEach((result, key) => {
+                
                 const images = document.querySelectorAll('.SuperHero')
                 if (IMAGE_NOT_AVAIL === result.thumbnail.path) return
                 const imageContainer = document.getElementById("avatar-picture")
@@ -40,7 +77,7 @@ function avatar() {
                 img.setAttribute('class', "SuperHero")
                 img.setAttribute('avatar-name', result.name)
                 imageContainer.appendChild(img)
-                if (IMAGE_NOT_AVAIL === result.name) return
+
             })
 
 
@@ -60,7 +97,19 @@ function profilePicRemove() {
     document.querySelector('.pop-up-avatar').style.display = 'none'
     document.querySelector('.pop-up-avatar img').src = '/'
 }
+function changeAvatar() {
+    const userProfilePic = document.getElementById("profilePic")
+    const popUpPicture = document.getElementById("pop-up-picture")
+    const imgSrc = popUpPicture.getAttribute("src")
 
+    userProfilePic.setAttribute('src', imgSrc)
+    localStorage.setItem('avatarPicture', imgSrc)
+}
+function removeAvatar() {
+    const profilePic = document.getElementById("profilePic")
+    profilePic.setAttribute('src', "src/Profile Pic.svg")
+    localStorage.removeItem('avatarPicture')
+}
 
 
 
