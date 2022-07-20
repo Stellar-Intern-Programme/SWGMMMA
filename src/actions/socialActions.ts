@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {SOCIAL_ACTIONS} from '../reducers/socialReducer';
 import {server} from '../config/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const deleteSocialData = () => (dispatch: any) => {
   dispatch({
@@ -18,6 +19,9 @@ export const updateFriends = () => async (dispatch: any) => {
     const result = (
       await axios.get(`${server}/api/social/show-friends`, {
         withCredentials: true,
+        headers: {
+          Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+        },
       })
     ).data;
 
@@ -47,7 +51,12 @@ export const addFriend =
       await axios.post(
         `${server}/api/social/add-friend`,
         {email},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
+        },
       );
 
       onSuccess();
@@ -73,7 +82,12 @@ export const removeFriend =
         await axios.post(
           `${server}/api/social/remove-friend`,
           {email},
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 
@@ -99,6 +113,9 @@ export const showFriendRequests = () => async (dispatch: any) => {
     const result = (
       await axios.get(`${server}/api/social/show-friend-requests`, {
         withCredentials: true,
+        headers: {
+          Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+        },
       })
     ).data;
 
@@ -131,7 +148,12 @@ export const acceptFriendRequest =
         await axios.post(
           `${server}/api/social/accept-request`,
           {email},
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 
@@ -151,7 +173,12 @@ export const rejectFriendRequest =
       await axios.post(
         `${server}/api/social/reject-request`,
         {email},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
+        },
       );
 
       onSuccess();
@@ -172,7 +199,12 @@ export const showPeopleSearch =
         await axios.post(
           `${server}/api/social/show-people`,
           {email},
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 
@@ -215,7 +247,12 @@ export const blockFriend =
         await axios.post(
           `${server}/api/social/block-friend`,
           {email},
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 
@@ -246,7 +283,12 @@ export const unblockFriend =
         await axios.post(
           `${server}/api/social/unblock-friend`,
           {email},
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 

@@ -25,7 +25,9 @@ export const verifyLogin = (authToken: string) => async (dispatch: any) => {
     dispatch({
       type: AUTH_ACTIONS.NOT_LOGGED_IN,
     });
-    console.log(err.response.data.err);
+    if (err && err.response && err.response.data && err.response.data.err) {
+      console.log(err.response.data.err);
+    } else console.log(err);
   }
 };
 
@@ -60,10 +62,6 @@ export const login =
     onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     const data = {email, password, authToken};
 
     try {
@@ -149,15 +147,12 @@ export const login =
         });
       }
 
-      console.log(err.response.data.err);
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
     onFinish();
-
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-      payload: {loading: false},
-    });
   };
 
 export const register =
@@ -177,10 +172,6 @@ export const register =
     onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     const data = {email, password, username};
 
     try {
@@ -199,10 +190,6 @@ export const register =
       });
 
       onSuccess(result.uniqueParam, result.dummyCookie);
-
-      dispatch({
-        type: AUTH_ACTIONS.STOP_LOADING,
-      });
     } catch (err: any) {
       if (
         err &&
@@ -268,14 +255,12 @@ export const register =
         });
       }
 
-      console.log(err.response.data.err);
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
     onFinish();
-
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
   };
 
 export const codeRegister =
@@ -291,10 +276,6 @@ export const codeRegister =
     onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     try {
       const result = (
         await axios.post(
@@ -311,11 +292,7 @@ export const codeRegister =
 
       dispatch({
         type: AUTH_ACTIONS.CODE_REGISTER_SUCCESS,
-        payload: {loading: false, loggedIn: true},
-      });
-
-      dispatch({
-        type: AUTH_ACTIONS.STOP_LOADING,
+        payload: {email: result.email, name: result.name, id: result.id},
       });
 
       onSuccess({authToken: result.authToken});
@@ -354,14 +331,12 @@ export const codeRegister =
         });
       }
 
-      console.log(err.response.data.err);
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
     onFinish();
-
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
   };
 
 export const forgotPassword =
@@ -375,10 +350,6 @@ export const forgotPassword =
     onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     try {
       await axios.post(
         `${server}/api/authentication/forgot-password`,
@@ -403,14 +374,12 @@ export const forgotPassword =
         type: AUTH_ACTIONS.FP_FAIL,
         payload: {error: err.response.data.message, name: 'email'},
       });
-      console.log(err.response.data.err);
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
     onFinish();
-
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
   };
 
 export const completeForgotPassword =
@@ -430,10 +399,6 @@ export const completeForgotPassword =
     onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     try {
       await axios.post(
         `${server}/api/authentication/forgot-password/change/${unique_url}`,
@@ -486,10 +451,6 @@ export const completeForgotPassword =
         err.response.data.type &&
         err.response.data.type === 'page'
       ) {
-        dispatch({
-          type: AUTH_ACTIONS.STOP_LOADING,
-        });
-
         onPageFail();
 
         return;
@@ -499,12 +460,10 @@ export const completeForgotPassword =
           payload: {error: err.response.data.message, name: 'fullError'},
         });
       }
-      console.log(err.response.data.err);
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
     onFinish();
-
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
   };

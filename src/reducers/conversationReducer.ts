@@ -72,6 +72,7 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
         seen: !!action.payload.newMessage.seen.includes(action.payload.userId),
         totalUnseen,
         seenByOther: false,
+        time: action.payload.newMessage.time,
       };
 
       return {
@@ -115,12 +116,14 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
           seen: boolean;
           totalUnseen: number;
           seenByOther: boolean;
+          time: string;
         }) =>
           (obj[mess.id] = {
             message: mess.message,
             seen: mess.seen,
             totalUnseen: mess.totalUnseen,
             seenByOther: mess.seenByOther,
+            time: mess.time,
           }),
       );
 
