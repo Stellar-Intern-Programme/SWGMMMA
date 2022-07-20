@@ -1,14 +1,27 @@
 const PRIVATE_KEY = "2c549285f77b54f6c6ba08dd18c4d7de66678134"
 const PUBLIC_KEY = "ead971b9b0e9d9eda3c0fe71e0efcf69"
-const IMAGE_NOT_AVAIL = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available"
+const IMAGE_NOT_AVAIL = ["http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available", 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708']
+let avatarArray = []
 const date = Date.now()
 
 window.addEventListener("load", () => {
     const userProfilePic = document.getElementById("profilePic")
     userProfilePic.setAttribute('src', (localStorage.getItem('avatarPicture') === "/" || !localStorage.getItem('avatarPicture')) ? 'src/Profile Pic.svg' : localStorage.getItem('avatarPicture'))
     console.log(localStorage.getItem('avatarPicture'))
+    const avatarPictures = document.getElementById("avatar-picture")
+// // avatarPictures?.addEventListener("scroll", (e) =>{
+    
+// //         if(e.taget.scrollHeight - 300 <= e.taget.scrollTop){
+// //             for(let i= avatarArray.lenght-100 ; i <= avatarArray.lenght-1 ; i++){
+                
+// //             }
+// //         }
+     
+
+// })
 
 })
+
 
 const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
 function avatarSelect(e) {
@@ -21,10 +34,11 @@ function avatarSelect(e) {
 }
 
 
-function laMamaAcasa(){ 
+function laMamaAcasa(e){ 
 const value = document.getElementById("query").value
 
-fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date +"&limit=100&nameStartsWith=" + value)
+
+fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date +"&limit=100" + (value.length > 0 ? "&nameStartsWith=" + value : ''))
 .then((res) => res.json())
 .then((data) => {
     searchResults(data)
@@ -33,12 +47,11 @@ fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY
 }
 
 function searchResults(data){
-        
         const avatarPicture = document.getElementById("avatar-picture")
         avatarPicture.innerHTML = ""
 
     for(let i = 0; i< data.data.count; i++){
-       console.log(data.data.results[i])
+       if (IMAGE_NOT_AVAIL.includes(data.data.results[i].thumbnail.path)) continue
         const img = document.createElement("img")
         img.setAttribute("src", data.data.results[i].thumbnail.path +"." + data.data.results[i].thumbnail.extension)
         img.setAttribute("class","SuperHero")
@@ -46,6 +59,7 @@ function searchResults(data){
         avatarPicture.appendChild(img)
 
     }
+    
 }
 
 function removePopUp() {
@@ -64,11 +78,12 @@ function avatar() {
         .then(data => {
             console.log(data.data.results[0])
 
-
-            data.data.results.forEach((result, key) => {
+            avatarArray.push(...data.data.results)
+            console.log(avatarArray)
+          data.data.results.forEach((result, key) => {
                 
                 const images = document.querySelectorAll('.SuperHero')
-                if (IMAGE_NOT_AVAIL === result.thumbnail.path) return
+                if (IMAGE_NOT_AVAIL.includes(result.thumbnail.path)) return
                 const imageContainer = document.getElementById("avatar-picture")
                 const img = document.createElement("img", { onclick: "avatarSelect(this)", alt: "avatar", class: "SuperHero" })
                 img.setAttribute('src', result.thumbnail.path + "." + result.thumbnail.extension)
@@ -82,7 +97,7 @@ function avatar() {
 
 
         })
-
+       
 }
 
 avatar()

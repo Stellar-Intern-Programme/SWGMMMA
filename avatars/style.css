@@ -16,13 +16,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  justify-content: center;
 }
 .top {
   display: flex;
   flex-direction: row;
   background-color: #0c0c0c;
-  margin-top: -50px;
   height: 15%;
   width: 100%;
   justify-content: center;
@@ -195,8 +193,4 @@ button {
   z-index: 100;
   justify-content: center;
   border-radius: 7px;
-}
-
-.displayNone{
-  display: none;
 }

@@ -27,10 +27,10 @@
 
             </div>
 
-        </div>
+        </div>  
 
-        <form id="form" role="search">
-            <input type="search" id="query" name="q" placeholder="Search..." aria-label="Search through site content" onclick="laMamaAcasa()">
+        <form id="form" role="search" onsubmit="laMamaAcasa(this); return false">
+            <input type="search" id="query" name="q" placeholder="Search..." aria-label="Search through site content">
             <button>
                 <img src="src/searchbar - Copy.svg" alt="search" class="Loop">
             </button>
