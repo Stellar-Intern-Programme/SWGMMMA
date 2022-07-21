@@ -9,13 +9,13 @@ window.addEventListener("load", () => {
     userProfilePic.setAttribute('src', (localStorage.getItem('avatarPicture') === "/" || !localStorage.getItem('avatarPicture')) ? 'src/Profile Pic.svg' : localStorage.getItem('avatarPicture'))
     console.log(localStorage.getItem('avatarPicture'))
     const avatarPictures = document.getElementById("avatar-picture")
-// // avatarPictures?.addEventListener("scroll", (e) =>{
+// avatarPictures?.addEventListener("scroll", (e) =>{
     
-// //         if(e.taget.scrollHeight - 300 <= e.taget.scrollTop){
-// //             for(let i= avatarArray.lenght-100 ; i <= avatarArray.lenght-1 ; i++){
+//         if(e.taget.scrollHeight - 300 <= e.taget.scrollTop){
+//             for(let i= avatarArray.lenght - 100 ; i <= avatarArray.lenght-1 ; i++){
                 
-// //             }
-// //         }
+//             }
+//         }
      
 
 // })
