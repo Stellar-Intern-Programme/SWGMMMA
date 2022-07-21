@@ -3,72 +3,48 @@ const PUBLIC_KEY = "ead971b9b0e9d9eda3c0fe71e0efcf69"
 const IMAGE_NOT_AVAIL = ["http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available", 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708']
 let avatarArray = []
 const date = Date.now()
+let loading;
+let current_offset = 0
+let fetchLoading
+let searchInputValue
+let total = 0
+
 
 window.addEventListener("load", () => {
     const userProfilePic = document.getElementById("profilePic")
     userProfilePic.setAttribute('src', (localStorage.getItem('avatarPicture') === "/" || !localStorage.getItem('avatarPicture')) ? 'src/Profile Pic.svg' : localStorage.getItem('avatarPicture'))
     console.log(localStorage.getItem('avatarPicture'))
+    loading = document.querySelector('.loading')
+    searchInputValue = document.getElementById("query")
     const avatarPictures = document.getElementById("avatar-picture")
-// avatarPictures?.addEventListener("scroll", (e) =>{
-    
-//         if(e.taget.scrollHeight - 300 <= e.taget.scrollTop){
-//             for(let i= avatarArray.lenght - 100 ; i <= avatarArray.lenght-1 ; i++){
-                
-//             }
-//         }
-     
+    avatarPictures?.addEventListener("scroll", (e) => {
+        const { scrollTop, scrollHeight, clientHeight } = document.getElementById('avatar-picture')
+        if (clientHeight + scrollTop >= scrollHeight - 5 && !fetchLoading) {
+            fetchLoading = true
+            showLoading()
+        }
 
-// })
+    })
 
+    avatar()
 })
+function showLoading() {
+    console.log(avatarArray.length , total)
+    if (avatarArray.length < total) {
+        loading.classList.add('show')
 
-
-const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
-function avatarSelect(e) {
-    document.querySelector('.pop-up').style.display = 'block'
-    console.log(e)
-    document.querySelector('.pop-up img').src = e.getAttribute('src')
-    document.querySelector(".pop-up p").textContent = e.getAttribute("avatar-name")
-
-
-}
-
-
-function laMamaAcasa(e){ 
-const value = document.getElementById("query").value
-
-
-fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date +"&limit=100" + (value.length > 0 ? "&nameStartsWith=" + value : ''))
-.then((res) => res.json())
-.then((data) => {
-    searchResults(data)
-    console.log(data)
-});
-}
-
-function searchResults(data){
-        const avatarPicture = document.getElementById("avatar-picture")
-        avatarPicture.innerHTML = ""
-
-    for(let i = 0; i< data.data.count; i++){
-       if (IMAGE_NOT_AVAIL.includes(data.data.results[i].thumbnail.path)) continue
-        const img = document.createElement("img")
-        img.setAttribute("src", data.data.results[i].thumbnail.path +"." + data.data.results[i].thumbnail.extension)
-        img.setAttribute("class","SuperHero")
-        
-        avatarPicture.appendChild(img)
-
+        // load more data
+        setTimeout(() => {
+            current_offset = current_offset + 100
+            avatar(current_offset)
+        }
+        , 1000)
     }
-    
 }
 
-function removePopUp() {
-    document.querySelector('.pop-up').style.display = 'none'
-    document.querySelector('.pop-up img').src = '/'
-}
-function avatar() {
+function avatar(offset = 0) {
     const showAvatar = document.getElementById("avatarPicture")
-    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100")   
+    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100&offset=" + offset + ((searchInputValue.value.length > 0 && searchInputValue.value) ? "&nameStartsWith=" + searchInputValue.value : ''))
         .then(response => {
             if (!response.ok) {
                 throw Error("ERROR")
@@ -76,12 +52,10 @@ function avatar() {
             return response.json()
         })
         .then(data => {
-            console.log(data.data.results[0])
-
+            total = data.data.total
             avatarArray.push(...data.data.results)
-            console.log(avatarArray)
-          data.data.results.forEach((result, key) => {
-                
+            data.data.results.forEach((result, key) => {
+
                 const images = document.querySelectorAll('.SuperHero')
                 if (IMAGE_NOT_AVAIL.includes(result.thumbnail.path)) return
                 const imageContainer = document.getElementById("avatar-picture")
@@ -92,15 +66,74 @@ function avatar() {
                 img.setAttribute('class', "SuperHero")
                 img.setAttribute('avatar-name', result.name)
                 imageContainer.appendChild(img)
+                loading.classList.remove('show');
 
             })
-
+            fetchLoading = false
 
         })
-       
+
 }
 
-avatar()
+const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
+function avatarSelect(e) {
+    document.querySelector('.pop-up').style.display = 'block'
+    console.log(e)
+    document.querySelector('.pop-up img').src = e.getAttribute('src')
+    document.querySelector(".pop-up p").textContent = e.getAttribute('avatar-name')
+
+
+}
+
+
+function laMamaAcasa(e) {
+    const value = document.getElementById("query").value
+
+
+    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100&offset=" + (value.length > 0 ? "&nameStartsWith=" + value : ''))
+        .then((res) => res.json())
+        .then((data) => {
+            searchResults(data)
+            console.log(data)
+        });
+}
+
+function searchResults(data) {
+    const avatarPicture = document.getElementById("avatar-picture")
+    avatarPicture.innerHTML = ""
+    total = data.data.total
+
+    for (let i = 0; i < data.data.count; i++) {
+        if (IMAGE_NOT_AVAIL.includes(data.data.results[i].thumbnail.path)) continue
+        const img = document.createElement("img")
+        img.setAttribute("src", data.data.results[i].thumbnail.path + "." + data.data.results[i].thumbnail.extension)
+        img.setAttribute("class", "SuperHero")
+        img.setAttribute('onclick', "avatarSelect(this)")
+        img.setAttribute('alt', "avatar")
+        img.setAttribute('avatar-name', data.data.results[i].name)
+        if (avatarArray.length < total) {
+            loading.classList.add('show')
+    
+            
+            setTimeout(() => {
+                current_offset = current_offset + 100
+                avatar(current_offset)
+            }
+            , 1000)
+        }
+        avatarPicture.appendChild(img)
+
+
+    }
+
+}
+
+function removePopUp() {
+    document.querySelector('.pop-up').style.display = 'none'
+    document.querySelector('.pop-up img').src = '/'
+}
+
+
 
 function profilePic(f) {
     document.querySelector('.pop-up-avatar').style.display = 'block'

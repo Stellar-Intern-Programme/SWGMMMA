@@ -27,9 +27,10 @@
 
             </div>
 
-        </div>  
+        </div>
 
-        <form id="form" role="search" onsubmit="laMamaAcasa(this); return false">
+        <form id="form" role="search" 
+        autocomplete="off" onsubmit="laMamaAcasa(this); return false">
             <input type="search" id="query" name="q" placeholder="Search..." aria-label="Search through site content">
             <button>
                 <img src="src/searchbar - Copy.svg" alt="search" class="Loop">
@@ -44,9 +45,11 @@
         <div class="pop-up">
 
             <span onclick="removePopUp()">&times;</span>
-            <img src="src/fund bomabstic.svg" id="pop-up-picture" alt="error">
-            <div class="pop-up-text" id="pop-up-text">
-                <p></p>
+            <div class="spin">
+                <img src="src/fund bomabstic.svg" id="pop-up-picture" alt="error">
+                <div class="pop-up-text" id="pop-up-text">
+                    <p></p>
+                </div>
             </div>
             <div class="set-avatar" id="set-avatar" onclick="changeAvatar()">
                 <p>SET AS AVATAR</p>
@@ -62,6 +65,11 @@
             </div>
 
 
+        </div>
+        <div class="loading">
+            <div class="ball"></div>
+            <div class="ball"></div>
+            <div class="ball"></div>
         </div>
     </div>
 
