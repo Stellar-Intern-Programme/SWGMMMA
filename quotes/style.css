@@ -68,19 +68,11 @@ body {
     font-size: 18px;
 }
 
-.bottomNav{
-    width: 100%;
-    height: 8%;
-    position:absolute;
-    bottom:0px;
-    background-color: #0C0C0C;border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-}
 
 
 .main{
     width: 100%;
-    height: 77%;
+    height: 85%;
     overflow-y: scroll;
 }
 
@@ -152,6 +144,17 @@ body {
     border-radius: 20px;
 }
 
+.heart{
+    position: absolute;
+    left: 90px;
+    width: 30px;
+    height: 30px;
+    background-color: #727272;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
 .input::placeholder{
     color:#D9D9D9;
     font-family: 'Inter';
@@ -206,12 +209,9 @@ body {
 }
 
 .text{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
+    width: 85%;
     padding-top:12px;
     padding-bottom:12px;
-    gap:23px;
 }
 
 .qotd{
@@ -239,13 +239,17 @@ body {
     flex-direction: column;
     background-color:#2E2E2E;
     width:85%;
+    min-height: 364px;
     padding-top: 18px;
     border-radius:20px;
 }
 
 .quote{
+    display: flex;
+    align-items: center;
     font-family: 'Inter';
     font-weight: 900;
+    min-height: 282px;
     font-size: 28px;
     color: white;
     margin: 0px;
@@ -299,7 +303,6 @@ body {
     margin:0px;
     padding-left: 33px;
     padding-top:21px;
-    
 }
 
 .QuotesList{
@@ -359,6 +362,19 @@ body {
 }
 
 .overlay{
+    position: fixed;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+
+  .quoteOverlay{
     position: fixed;
     display: none;
     width: 100vw;
@@ -473,7 +489,7 @@ body {
     height: 72.24%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-
+    overflow: scroll;
 }
 
 .popUpText{
@@ -529,4 +545,202 @@ body {
     background-color: #1A73E8;
     border: 0px;
     border-radius: 7px;
+}
+
+
+
+
+
+
+
+
+
+
+.TitleLightMode{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e1cdb4;
+    margin: 0px;
+    width: 100%;
+    height: 15%;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.TitleLightMode p{
+    color: #2c2825;
+    margin: 0px;
+    padding-top:15px;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.backgroundLightMode{
+    background-color: #F7ECDE;
+    height: 100vh;
+    width: 100vw;
+    margin: 0px
+}
+
+.heartLightMode{
+    position: absolute;
+    left: 90px;
+    width: 30px;
+    height: 30px;
+    background-color: #54BAB9;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.MoonLightMode{
+    position: absolute;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    background-color: #54BAB9;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.LupaLightMode{
+    position:absolute;
+    top: 0px;
+    left: 0%;
+    background-color: #54BAB9;
+    padding: 11px;
+    border-radius: 20px;
+}
+
+.inputLightMode{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    width: fit-content;
+    width: 1%;
+    height: 38px;
+    border-radius: 21px;
+    border: 0;
+    outline: none;
+    margin: 0px;
+    background-color: #54BAB9;
+    color: white;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 35px;
+}
+
+.inputLightMode::placeholder{
+    color:#D9D9D9;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.qotdLightMode{
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+    color: #2c2825;
+    margin: 0px;
+}
+
+.theQuoteLightMode{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    background-color: #e1cdb4;
+    width:85%;
+    min-height: 364px;
+    padding-top: 18px;
+    border-radius:20px;
+}
+
+.quoteLightMode{
+    display: flex;
+    align-items: center;
+    font-family: 'Inter';
+    font-weight: 900;
+    min-height: 282px;
+    font-size: 28px;
+    color: #503c2b;
+    margin: 0px;
+    margin-top: 23px;
+    width: 85%;
+    text-align: center;
+}
+
+.authorLightMode{
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #503c2b;
+    margin: 0px;
+    padding-bottom: 33px;
+    padding-top:9px;
+}
+
+.rerollLightMode{
+    position:absolute;
+    bottom: -15px;
+    right: -15px;
+    background-color: #54BAB9;
+    border-radius:30px;
+    padding:14px;
+    transform: rotate(0);
+    transition: transform .5;
+}
+
+.listOfQuotesTitleLightMode{
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+    color: #2c2825;
+    margin:0px;
+    padding-left: 33px;
+    padding-top:21px;
+}
+
+.quoteInTheListLightMode{
+    display: flex;
+    position: relative;
+    align-items: center ;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 12px;
+    background-color: #e1cdb4;
+    height: 145px;
+    border-radius: 20px;
+}
+
+.quoteInTheListTextLightMode{
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 12px;
+    color: #503c2b;
+    margin:0px;
+    text-align: left;
+    inline-size: 110px;
+    overflow-wrap: break-word;
+    padding-right: 25px;
+    padding-left:15px;
+}
+
+.ArrowRightLightMode{
+    position: absolute;
+    background-color: #54BAB9;
+    padding-inline: 9px;
+    padding-top:6px;
+    padding-bottom:6px;
+    border-radius: 40px;
+    bottom: 6px;
+    right: 5px;
 }
