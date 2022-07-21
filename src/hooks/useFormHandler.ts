@@ -61,14 +61,6 @@ const useFormHandler: (intialValues: any, serverErrors: any) => FormHandler = (
     });
     setErrors(newErrors);
 
-    console.log(
-      Boolean(
-        Object.keys(newErrors).every(
-          (err: any) => newErrors[err] === '' || !newErrors[err],
-        ),
-      ),
-    );
-
     return !Boolean(
       Object.keys(newErrors).every(
         (err: any) => newErrors[err] === '' || !newErrors[err],
@@ -77,17 +69,8 @@ const useFormHandler: (intialValues: any, serverErrors: any) => FormHandler = (
   };
 
   useEffect(() => {
-    if (
-      serverErrors?.email?.length > 0 ||
-      serverErrors?.password?.length > 0 ||
-      serverErrors?.both?.length > 0 ||
-      serverErrors?.fullError?.length > 0 ||
-      serverErrors?.username?.length > 0 ||
-      serverErrors?.confirmPassword?.length > 0
-    ) {
-      setErrors(serverErrors);
-    }
-  }, [serverErrors, setErrors]);
+    setErrors(serverErrors);
+  }, [serverErrors]);
 
   return {values, errors, setField, verifyValidity, setError};
 };

@@ -59,13 +59,15 @@
                 placeholder="SEARCH"
                 class="input"
                 onKeyUp="showResults()"/>
-              <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" />
+              <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" onclick="extendSearchBar()"/>
               <img src="resources/X.png" alt="X" class="X" id="X" onclick="hideResults()"/>
+              
+              <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon"/>
+
+
               <div class="resultBackground" id="resultBackground">
 
                 <div id="result" class="result">
-                <!-- <p>Edsger W.Dijkstra</p>
-                <p>Edsger W.Dijkstra</p> -->
                 </div>
 
               </div>
@@ -98,7 +100,7 @@
                     The best minds of my generationare thinking about how to make peopple click ads.
                 </p>
                 <p class="author" id="author">BY JEFF HAMMERBACHER</p>
-                <img src="resources/Reroll.png" alt="reroll" class="reroll" />
+                <img src="resources/Reroll.png" alt="reroll" class="reroll" onclick="reroll()" id="reroll"/>
             </div>
             
          </div>

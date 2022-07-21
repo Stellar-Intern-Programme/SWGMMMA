@@ -28,7 +28,6 @@ function actuallyShowResults(data){
 
   overlay.style.display= "flex"
 
-
   results.innerHTML = ""
 
   if(value.length == 0){
@@ -71,8 +70,12 @@ function hideResults(){
   const X = document.getElementById("X")
   const inputWidth = document.getElementById("inputWidth")
 
+
+  
   const quotePopUp = document.getElementById("quotePopUp")
-  quotePopUp.style.display = "none"
+  if(quotePopUp.style.top == "233px"){
+    quoteMoveDown()
+  }
 
   inputWidth.style.zIndex = "auto"
 
@@ -226,18 +229,21 @@ function moveDown() {
   } 
   
 let id
+let en
 
   window.addEventListener("load", () => {
-    
     fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
       .then((res) => res.json())
       .then((data) => {
+      
         id = data.id
-        console.log(id)
+        const rerollButton = document.getElementById("reroll")
         const quote = document.getElementById("quote")
         const author = document.getElementById("author")
         quote.innerHTML = data.en
         author.innerHTML = "BY " + data.author.toUpperCase();
+
+        
       });
     
   });
@@ -246,11 +252,12 @@ let id
     fetch("https://programming-quotes-api.herokuapp.com/quotes/" + id)
       .then((res) => res.json())
       .then((data) => {
-        openModal(data)
+      openModal(data)
       });
   }
 
   function openModal(data){
+    quoteMoveUp()
     const quotePopUp = document.getElementById("quotePopUp")
     quotePopUp.style.display = "flex"
 
@@ -270,4 +277,83 @@ let id
     search.style.zIndex = "1"
     const lupa = document.getElementById("Lupa")
     lupa.style.zIndex = "1"
+  }
+
+var quoteUp = null  
+
+  function quoteMoveUp() {
+  
+    var elem = document.getElementById("quotePopUp");
+    var pos = 843;
+    clearInterval(quoteUp);
+    quoteUp = setInterval(frame, 5);
+    function frame() {
+      if (pos  < 238) {
+        clearInterval(quoteUp);
+      } else {
+        pos-= 10;
+        elem.style.top = pos + 'px';
+      }
+    }
+  
+  }
+
+  var quoteDown = null
+
+  function quoteMoveDown(){
+
+    var elem = document.getElementById("quotePopUp");
+    var pos = 238;
+    clearInterval(quoteDown);
+    quoteDown = setInterval(frame, 5);
+    function frame() {
+      if (pos  >= 843) {
+        clearInterval(quoteDown);
+        elem.style.display = "none"
+      } else {
+        pos+= 10;
+        elem.style.top = pos + 'px';
+      }
+    }
+  }
+
+let rolls = 0;
+
+  function reroll(en){
+    fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+    .then((res) => res.json())
+    .then((data) => {
+    
+      id = data.id
+      const rerollButton = document.getElementById("reroll")
+      const quote = document.getElementById("quote")
+      const author = document.getElementById("author")
+      quote.innerHTML = data.en
+      author.innerHTML = "BY " + data.author.toUpperCase();
+      rolls++
+      rerollButton.style.transform = `rotate(${180*rolls}deg)`
+    });
+  } 
+
+  var sb = null;
+
+  function extendSearchBar(){
+    var elem = document.getElementById("search");
+    var lupa = document.getElementById("Lupa")
+
+    search.style.zIndex = "1"
+    lupa.style.zIndex = "1"
+
+    var pos = 1;
+    clearInterval(sb);
+    sb = setInterval(frame, 5);
+    function frame() {
+      if (pos == 89) {
+        clearInterval(sb);
+      } else {
+        pos+= 1;
+        elem.style.width = pos + '%';
+        lupa.style.left = pos-1 + '%'
+      }
+    }
   }
