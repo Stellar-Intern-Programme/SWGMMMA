@@ -13,7 +13,7 @@
     margin: 0%;
     background-color:  #1D1D1D;
     flex-direction: column;
-
+    overflow-y: hidden;
 }
 .upper p{
     color: white;
@@ -26,18 +26,15 @@
 }
 
 .favorite{
+    animation: displayFlex  .5s;
     height: 100%;
     overflow: hidden;
     max-height: 200px;
-    transition: .5s height;
-}
-
-@keyframes displayNone {
-    100% { max-height: 0px; }
+    transition: .5s max-height;
 }
 
 .closeFavorite {
-    height: 0;
+    max-height: 0;
     animation: displayNone .5s;
 }
 .fav{
@@ -143,7 +140,12 @@ width: 17.5px;
     letter-spacing: 0em;
     color: white;
 }
+.trending{
+    display: flex;
+    flex-direction: column;
+}
 .gridTrending{
+    gap: 10px;    
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: repeat(10, 1fr);
