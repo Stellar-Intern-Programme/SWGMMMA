@@ -22,8 +22,8 @@
             </p>
         
         
-            <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
-            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" />
+            <!-- <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
+            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" /> -->
         </div>
             
         <img src="resources/X.png" alt="X" class="popUpX" id="popUpX"  onclick="hidePopUp()"/>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="topSideOverlayWithBackground" id="topSideOverlayWithBackground">
-        <div class="overlayTop" id="overlayTop"></div>
+        <div class="overlayTop" id="overlayTop" onclick="hideResults()"></div>
         <div class="topSideOverlay">
             <div class="TitleOverlay">
                <p>PROGRAMMING QUOTES</p>
@@ -62,7 +62,7 @@
               <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" onclick="extendSearchBar()"/>
               <img src="resources/X.png" alt="X" class="X" id="X" onclick="hideResults()"/>
               
-              <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon" onclick="LightMode()"/>
+              <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon" onclick="lightDarkMode()"/>
 
 
               <img src="resources/Favorites.png" alt="heart" class="heart" id="heart"/>
