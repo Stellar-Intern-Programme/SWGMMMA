@@ -22,16 +22,16 @@
             </p>
         
         
-            <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
-            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" />
+            <!-- <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
+            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" /> -->
         </div>
             
-        <img src="resources/X.png" alt="X" class="popUpX" id="popUpX"  onclick="hideResults()"/>
+        <img src="resources/X.png" alt="X" class="popUpX" id="popUpX"  onclick="hidePopUp()"/>
         <button class="addToFavorite" id="addToFavorite">ADD TO FAVORITE</button>
     </div>
 
     <div class="topSideOverlayWithBackground" id="topSideOverlayWithBackground">
-        <div class="overlayTop" id="overlayTop"></div>
+        <div class="overlayTop" id="overlayTop" onclick="hideResults()"></div>
         <div class="topSideOverlay">
             <div class="TitleOverlay">
                <p>PROGRAMMING QUOTES</p>
@@ -41,11 +41,11 @@
 
 
     <div class="overlay" id="overlay" onclick="hideResults()"></div>
+    <div class="quoteOverlay" id="quoteOverlay" onclick="hidePopUp()"></div>
     
     <div class="Title">
         <p>PROGRAMMING QUOTES</p>
     </div> 
-     <div class="bottomNav"></div>
     <div class="main">
         
 
@@ -62,8 +62,10 @@
               <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" onclick="extendSearchBar()"/>
               <img src="resources/X.png" alt="X" class="X" id="X" onclick="hideResults()"/>
               
-              <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon"/>
+              <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon" onclick="lightDarkMode()"/>
 
+
+              <img src="resources/Favorites.png" alt="heart" class="heart" id="heart"/>
 
               <div class="resultBackground" id="resultBackground">
 
@@ -89,7 +91,6 @@
          <div class="quoteOfTheDay" id="quoteOfTheDay">
             <div class="text">
                 <p class="qotd">QUOTE OF THE DAY</p>
-                <p class="FavQuote">SEE FAVORITE QUOTE</p>
             </div>
             <div class="theQuote" id="theQuote" >
                 <div class="quotes">
@@ -107,7 +108,7 @@
          <div class="listOfQuotes" id = "listOfQuotes">
             <p class="listOfQuotesTitle">LIST OF QUOTES</p>
             <div class="QuotesList">
-                <div class="quoteInTheList">
+                <div class="quoteInTheList" id="quoteInTheList">
                     <p class="quoteInTheListText">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
                     </p>

@@ -61,7 +61,6 @@ function actuallyShowResults(data){
 
 function hideResults(){
   moveUp()
-  
   const topOverlay = document.getElementById("topSideOverlayWithBackground")
   const overlay = document.getElementById("overlay")
   const divResults = document.getElementById("resultBackground")
@@ -69,13 +68,8 @@ function hideResults(){
   const searchBar = document.getElementById("search")
   const X = document.getElementById("X")
   const inputWidth = document.getElementById("inputWidth")
-
-
   
   const quotePopUp = document.getElementById("quotePopUp")
-  if(quotePopUp.style.top == "233px"){
-    quoteMoveDown()
-  }
 
   inputWidth.style.zIndex = "auto"
 
@@ -111,6 +105,7 @@ function moveUp() {
       clearInterval(up);
       results.style.display = "none"
       topSide.style.display = "none"
+      deextendSearchBar()
     } else {
       pos-= 6;
       elem.style.top = pos + 'px';
@@ -167,7 +162,8 @@ function moveDown() {
 
   }
 
-  function addQuotes(data){    
+  function addQuotes(data){   
+    const title = document.querySelector(".TitleLightMode")
     let index = 0;
     let test = 1;
 
@@ -190,9 +186,17 @@ function moveDown() {
     const arrowRight = document.createElement("img")
 
     arrowRight.setAttribute("src", "resources/ArrowRight.png")
-    arrowRight.setAttribute("class", "ArrowRight")
-    openQuote.setAttribute("src", "resources/open.png")
+    if(title == null){
+      arrowRight.setAttribute("class", "ArrowRight")
+      openQuote.setAttribute("src", "resources/open.png")
+      
+    }
+    else{
+      arrowRight.setAttribute("class", "ArrowRightLightMode")
+      openQuote.setAttribute("src", "resources/openLightMode.png")
+    }
     openQuote.setAttribute("class", "closedQuote")
+    
     
     if(data[i].en.length > 140 && index%2 == test){
       if(test == 0){
@@ -201,13 +205,30 @@ function moveDown() {
       else{
         test = 0
       }
-      divMic.setAttribute("class", "quotesSearchResultsBigBoy")
+      if(title == null){
+        divMic.setAttribute("class", "quotesSearchResultsBigBoy")
       pQuote.setAttribute("class", "quoteTextSearchResultsBigBoy")
+      
+      }
+      else{
+        
+        divMic.setAttribute("class", "quotesSearchResultsBigBoyLightMode")
+        pQuote.setAttribute("class", "quoteTextSearchResultsBigBoyLightMode")
+      }
+      
 
     }
     else{
-      divMic.setAttribute("class", "quotesSearchResults")
-      pQuote.setAttribute("class", "quoteTextSearchResults")
+      if(title == null){
+        divMic.setAttribute("class", "quotesSearchResults")
+        pQuote.setAttribute("class", "quoteTextSearchResults")
+      }
+      else{
+        
+        divMic.setAttribute("class", "quotesSearchResultsLightMode")
+        pQuote.setAttribute("class", "quoteTextSearchResultsLightMode")
+      }
+      
     }
 
     pQuote.innerText = data[i].en;
@@ -228,31 +249,34 @@ function moveDown() {
 
   } 
   
-let id
-let en
+  let id
 
-  window.addEventListener("load", () => {
-    fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+function randomQuote(){
+  fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
       .then((res) => res.json())
       .then((data) => {
-      
-        id = data.id
-        const rerollButton = document.getElementById("reroll")
-        const quote = document.getElementById("quote")
-        const author = document.getElementById("author")
-        quote.innerHTML = data.en
-        author.innerHTML = "BY " + data.author.toUpperCase();
-
-        
+        if(data.en.length <= 130){
+          id = data.id
+          const quote = document.getElementById("quote")
+          const author = document.getElementById("author")
+          quote.innerHTML = data.en
+          author.innerHTML = "BY " + data.author.toUpperCase();
+        }
+        else{
+          randomQuote()
+        }
       });
-    
+}
+
+  window.addEventListener("load", () => {
+      randomQuote()
   });
 
   function mainPageQuotePopUp(){
     fetch("https://programming-quotes-api.herokuapp.com/quotes/" + id)
       .then((res) => res.json())
       .then((data) => {
-      openModal(data)
+        openModal(data)
       });
   }
 
@@ -261,8 +285,8 @@ let en
     const quotePopUp = document.getElementById("quotePopUp")
     quotePopUp.style.display = "flex"
 
-    const overlay = document.getElementById("overlay")
-    overlay.style.display = "flex"
+    const overlay = document.getElementById("quoteOverlay")
+    quoteOverlay.style.display = "flex"
 
     const popUpQuote = document.getElementById("popUpQuote")
     const popUpAuthor = document.getElementById("popUpAuthor")
@@ -277,6 +301,21 @@ let en
     search.style.zIndex = "1"
     const lupa = document.getElementById("Lupa")
     lupa.style.zIndex = "1"
+
+    const quote = document.getElementById("popUpQuote")
+    if(quote.innerHTML.length > 180){
+      quote.style.height = "72%"
+      const quoteText = document.getElementById("popUpText")
+      quoteText.style.marginTop = "13%"
+      quoteText.style.height = "76%"
+    }
+  }
+
+  function hidePopUp(){
+      quoteMoveDown()
+      const quoteOverlay = document.getElementById("quoteOverlay");
+      quoteOverlay.style.display = "none"
+  
   }
 
 var quoteUp = null  
@@ -317,22 +356,15 @@ var quoteUp = null
     }
   }
 
-let rolls = 0;
+// let rolls = 0;
 
-  function reroll(en){
-    fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
-    .then((res) => res.json())
-    .then((data) => {
+  function reroll(){
     
-      id = data.id
-      const rerollButton = document.getElementById("reroll")
-      const quote = document.getElementById("quote")
-      const author = document.getElementById("author")
-      quote.innerHTML = data.en
-      author.innerHTML = "BY " + data.author.toUpperCase();
-      rolls++
-      rerollButton.style.transform = `rotate(${180*rolls}deg)`
-    });
+      randomQuote()
+      // rolls++
+      // rerollButton.style.transform = `rotate(${180*rolls}deg)`
+      // const rerollButton = document.getElementById("reroll")
+ 
   } 
 
   var sb = null;
@@ -351,9 +383,293 @@ let rolls = 0;
       if (pos == 89) {
         clearInterval(sb);
       } else {
-        pos+= 1;
+        pos+= 2;
         elem.style.width = pos + '%';
         lupa.style.left = pos-1 + '%'
       }
     }
+
+    x()
   }
+
+  function x(){
+    const x = document.getElementById("X")
+    x.style.display = "flex"
+    x.style.zIndex = "1"
+    
+  }
+
+var dsb = null;
+
+function deextendSearchBar(){
+  var elem = document.getElementById("search");
+  var lupa = document.getElementById("Lupa")
+
+    search.style.zIndex = "1"
+    lupa.style.zIndex = "1"
+
+    var pos = 89;
+    clearInterval(dsb);
+    dsb = setInterval(frame, 5);
+    function frame() {
+      if (pos == 1) {
+        clearInterval(dsb);
+        const searchBar = document.getElementById("search")
+        searchBar.value = ""
+      } else {
+        pos-= 2;
+        elem.style.width = pos + '%';
+        lupa.style.left = pos-1 + '%'
+      }
+    }
+}
+
+let test = 0
+
+function lightDarkMode(){
+
+  if(test == 0){
+
+    test = 1
+
+    lightMode()
+  }
+  else{
+
+    test = 0
+
+    darkMode()
+  }
+}
+
+function lightMode(){
+
+  const title = document.querySelector(".Title")
+  title.classList.remove("Title")
+  title.classList.add("TitleLightMode")
+
+  const background = document.getElementById("background")
+  background.classList.remove("background")
+  background.classList.add("backgroundLightMode")
+
+  const heart = document.querySelector(".heart")
+  heart.classList.remove("heart")
+  heart.classList.add("heartLightMode")
+
+  const Moon = document.querySelector(".Moon")
+  Moon.setAttribute("src", "resources/LightMode.png")
+  Moon.classList.remove("Moon")
+  Moon.classList.add("MoonLightMode")
+
+  const lupa = document.querySelector(".Lupa")
+  lupa.classList.remove("Lupa")
+  lupa.classList.add("LupaLightMode")
+
+  const input = document.querySelector(".input")
+  input.classList.remove("input")
+  input.classList.add("inputLightMode")
+
+  const qotd = document.querySelector(".qotd")
+  qotd.classList.remove("qotd")
+  qotd.classList.add("qotdLightMode")
+
+  const theQuote = document.querySelector(".theQuote")
+  theQuote.classList.remove("theQuote")
+  theQuote.classList.add("theQuoteLightMode")
+
+  const quote = document.querySelector(".quote")
+  quote.classList.remove("quote")
+  quote.classList.add("quoteLightMode")
+
+  const author = document.querySelector(".author")
+  author.classList.remove("author")
+  author.classList.add("authorLightMode")
+
+  const openQuote = document.querySelector(".openQuote")
+  openQuote.setAttribute("src", "resources/openLightMode.png")
+
+  const closeQuote = document.querySelector(".closeQuote")
+  closeQuote.setAttribute("src", "resources/closeLightMode.png")
+
+  const reroll = document.querySelector(".reroll")
+  reroll.classList.remove("reroll")
+  reroll.classList.add("rerollLightMode")
+
+  const listOfQuotesTitle = document.querySelector(".listOfQuotesTitle")
+  listOfQuotesTitle.classList.remove("listOfQuotesTitle")
+  listOfQuotesTitle.classList.add("listOfQuotesTitleLightMode")
+
+  const quoteInTheList = document.querySelectorAll(".quoteInTheList")
+  for(let i = 0; i<5; i++){
+    
+  quoteInTheList[i].classList.remove("quoteInTheList")
+  quoteInTheList[i].classList.add("quoteInTheListLightMode")
+  }
+
+  const quoteInTheListText = document.querySelectorAll(".quoteInTheListText")
+  for(let i = 0; i<5; i++){
+  quoteInTheListText[i].classList.remove("quoteInTheListText")
+  quoteInTheListText[i].classList.add("quoteInTheListTextLightMode")
+  }
+
+  const ArrowRight = document.querySelectorAll(".ArrowRight")
+  for(let i = 0; i<5; i++){
+    ArrowRight[i].classList.remove("ArrowRight")
+    ArrowRight[i].classList.add("ArrowRightLightMode")
+  }
+
+  const closedQuote = document.querySelectorAll(".closedQuote")
+  for(let i = 0; i<5; i++){
+    closedQuote[i].setAttribute("src", "resources/closeLightMode.png")
+ 
+  }
+  
+  const resultBackground = document.querySelector(".resultBackground")
+  resultBackground.classList.remove("resultBackground")
+  resultBackground.classList.add("resultBackgroundLightMode")
+
+  const topSideOverlayWithBackground = document.querySelector(".topSideOverlayWithBackground")
+  topSideOverlayWithBackground.classList.remove("topSideOverlayWithBackground")
+  topSideOverlayWithBackground.classList.add("topSideOverlayWithBackgroundLightMode")
+
+  const TitleOverlay = document.querySelector(".TitleOverlay")
+  TitleOverlay.classList.remove("TitleOverlay")
+  TitleOverlay.classList.add("TitleOverlayLightMode")
+
+  const searchResults = document.querySelector(".searchResults")
+  searchResults.classList.remove("searchResults")
+  searchResults.classList.add("searchResultsLightMode")
+  
+  const quotePopUp = document.querySelector(".quotePopUp")
+  quotePopUp.classList.remove("quotePopUp")
+  quotePopUp.classList.add("quotePopUpLightMode")
+  
+  const popUpQuote = document.querySelector(".popUpQuote")
+  popUpQuote.classList.remove("popUpQuote")
+  popUpQuote.classList.add("popUpQuoteLightMode")
+
+  const popUpAuthor = document.querySelector(".popUpAuthor")
+  popUpAuthor.classList.remove("popUpAuthor")
+  popUpAuthor.classList.add("popUpAuthorLightMode")
+
+  const addToFavorite = document.querySelector(".addToFavorite")
+  addToFavorite.classList.remove("addToFavorite")
+  addToFavorite.classList.add("addToFavoriteLightMode")
+
+}
+
+
+function darkMode(){
+  const title = document.querySelector(".TitleLightMode")
+  title.classList.remove("TitleLightMode")
+  title.classList.add("Title")
+
+  const background = document.querySelector(".backgroundLightMode")
+  background.classList.remove("backgroundLightMode")
+  background.classList.add("background")
+
+  const heart = document.querySelector(".heartLightMode")
+  heart.classList.remove("heartLightMode")
+  heart.classList.add("heart")
+
+  const Moon = document.querySelector(".MoonLightMode")
+  Moon.setAttribute("src", "resources/DarkMode.png")
+  Moon.classList.remove("MoonLightMode")
+  Moon.classList.add("Moon")
+
+  const lupa = document.querySelector(".LupaLightMode")
+  lupa.classList.remove("LupaLightMode")
+  lupa.classList.add("Lupa")
+
+  const input = document.querySelector(".inputLightMode")
+  input.classList.remove("inputLightMode")
+  input.classList.add("input")
+
+  const qotd = document.querySelector(".qotdLightMode")
+  qotd.classList.remove("qotdLightMode")
+  qotd.classList.add("qotd")
+
+  const theQuote = document.querySelector(".theQuoteLightMode")
+  theQuote.classList.remove("theQuoteLightMode")
+  theQuote.classList.add("theQuote")
+
+  const quote = document.querySelector(".quoteLightMode")
+  quote.classList.remove("quoteLightMode")
+  quote.classList.add("quote")
+
+  const author = document.querySelector(".authorLightMode")
+  author.classList.remove("authorLightMode")
+  author.classList.add("author")
+
+  const openQuote = document.querySelector(".openQuote")
+  openQuote.setAttribute("src", "resources/open.png")
+
+  const closeQuote = document.querySelector(".closeQuote")
+  closeQuote.setAttribute("src", "resources/close.png")
+
+  const reroll = document.querySelector(".rerollLightMode")
+  reroll.classList.remove("rerollLightMode")
+  reroll.classList.add("reroll")
+
+  const listOfQuotesTitle = document.querySelector(".listOfQuotesTitleLightMode")
+  listOfQuotesTitle.classList.remove("listOfQuotesTitleLightMode")
+  listOfQuotesTitle.classList.add("listOfQuotesTitle")
+
+  const quoteInTheList = document.querySelectorAll(".quoteInTheListLightMode")
+  for(let i = 0; i<5; i++){
+    
+  quoteInTheList[i].classList.remove("quoteInTheListLightMode")
+  quoteInTheList[i].classList.add("quoteInTheList")
+  }
+
+  const quoteInTheListText = document.querySelectorAll(".quoteInTheListTextLightMode")
+  for(let i = 0; i<5; i++){
+  quoteInTheListText[i].classList.remove("quoteInTheListTextLightMode")
+  quoteInTheListText[i].classList.add("quoteInTheListText")
+  }
+
+  const ArrowRight = document.querySelectorAll(".ArrowRightLightMode")
+  for(let i = 0; i<5; i++){
+    ArrowRight[i].classList.remove("ArrowRightLightMode")
+    ArrowRight[i].classList.add("ArrowRight")
+  }
+
+  const closedQuote = document.querySelectorAll(".closedQuote")
+  for(let i = 0; i<5; i++){
+    closedQuote[i].setAttribute("src", "resources/close.png")
+ 
+  }
+
+  const resultBackground = document.querySelector(".resultBackgroundLightMode")
+  resultBackground.classList.remove("resultBackgroundLightMode")
+  resultBackground.classList.add("resultBackground")
+
+  const topSideOverlayWithBackground = document.querySelector(".topSideOverlayWithBackgroundLightMode")
+  topSideOverlayWithBackground.classList.remove("topSideOverlayWithBackgroundLightMode")
+  topSideOverlayWithBackground.classList.add("topSideOverlayWithBackground")
+
+  const TitleOverlay = document.querySelector(".TitleOverlayLightMode")
+  TitleOverlay.classList.remove("TitleOverlayLightMode")
+  TitleOverlay.classList.add("TitleOverlay")
+
+  const searchResults = document.querySelector(".searchResultsLightMode")
+  searchResults.classList.remove("searchResultsLightMode")
+  searchResults.classList.add("searchResults")
+  
+  const quotePopUp = document.querySelector(".quotePopUpLightMode")
+  quotePopUp.classList.remove("quotePopUpLightMode")
+  quotePopUp.classList.add("quotePopUp")
+  
+  const popUpQuote = document.querySelector(".popUpQuoteLightMode")
+  popUpQuote.classList.remove("popUpQuoteLightMode")
+  popUpQuote.classList.add("popUpQuote")
+
+  const popUpAuthor = document.querySelector(".popUpAuthorLightMode")
+  popUpAuthor.classList.remove("popUpAuthorLightMode")
+  popUpAuthor.classList.add("popUpAuthor")
+
+  const addToFavorite = document.querySelector(".addToFavoriteLightMode")
+  addToFavorite.classList.remove("addToFavoriteLightMode")
+  addToFavorite.classList.add("addToFavorite")
+  
+}
