@@ -1,17 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700;900&display=swap');
-
 body {
     box-sizing: border-box;
 }
 
-.background{
+
+/* .darkMode {
+    --fontColor: red;
+    --backgroundColor1: blue;
+    --backgroundColor2: green;
+} */
+
+.background {
     background-color: #1D1D1D;
     height: 100vh;
     width: 100vw;
     margin: 0px
 }
 
-.Title{
+.Title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,30 +29,30 @@ body {
     border-bottom-right-radius: 20px;
 }
 
-.Title p{
+.Title p {
     color: white;
     margin: 0px;
-    padding-top:15px;
+    padding-top: 15px;
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
 }
 
-.topSideOverlay{
-    width:100%;
+.topSideOverlay {
+    width: 100%;
     height: 77%;
 }
 
-.topSideOverlayWithBackground{
+.topSideOverlayWithBackground {
     background-color: #1D1D1D;
     position: absolute;
     z-index: 5;
     height: 19.48%;
-    width:100%;
+    width: 100%;
     display: none;
 }
 
-.TitleOverlay{
+.TitleOverlay {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -59,35 +65,32 @@ body {
     border-bottom-right-radius: 20px;
 }
 
-.TitleOverlay p{
+.TitleOverlay p {
     color: white;
     margin: 0px;
-    padding-top:15px;
+    padding-top: 15px;
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
 }
 
-
-
-.main{
+.main {
     width: 100%;
     height: 85%;
     overflow-y: scroll;
 }
 
-
-.searchBar{
+.searchBar {
     display: flex;
-    flex-direction:row;
-    align-items:center;
+    flex-direction: row;
+    align-items: center;
     justify-content: center;
-    margin-top:21px;
-    width:100%;
-    margin-right:0px;
+    margin-top: 21px;
+    width: 100%;
+    margin-right: 0px;
 }
 
-.input{
+.input {
     position: relative;
     display: flex;
     align-items: center;
@@ -100,7 +103,7 @@ body {
     border: 0;
     outline: none;
     margin: 0px;
-    background-color:#727272;
+    background-color: #727272;
     color: white;
     font-family: 'Inter';
     font-weight: 400;
@@ -108,32 +111,30 @@ body {
     padding-left: 35px;
 }
 
-.inputWidth{
+.inputWidth {
     display: flex;
     align-items: center;
     width: 85%;
     position: relative;
 }
 
-.X{
+.X {
     display: none;
     position: absolute;
     top: 14px;
     padding-left: 12px;
 }
 
-.Lupa{
-    position:absolute;
+.Lupa {
+    position: absolute;
     top: 0px;
     left: 0%;
     background-color: #727272;
     padding: 11px;
-    /* border-bottom-right-radius: 21px; */
-    /* border-top-right-radius: 21px; */
     border-radius: 20px;
 }
 
-.Moon{
+.Moon {
     position: absolute;
     left: 40px;
     width: 30px;
@@ -144,7 +145,7 @@ body {
     border-radius: 20px;
 }
 
-.heart{
+.heart {
     position: absolute;
     left: 90px;
     width: 30px;
@@ -155,14 +156,14 @@ body {
     border-radius: 20px;
 }
 
-.input::placeholder{
-    color:#D9D9D9;
+.input::placeholder {
+    color: #D9D9D9;
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
 }
 
-.resultBackground{
+.resultBackground {
     display: none;
     position: absolute;
     top: -177px;
@@ -178,7 +179,7 @@ body {
     overflow-y: scroll;
 }
 
-.result{
+.result {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -189,11 +190,9 @@ body {
     font-weight: 900;
     font-size: 18px;
     color: white;
-    
-    
 }
 
-.result p{
+.result p {
     margin: 0px;
     background-color: rgba(29, 29, 29, 0.7);
     padding-top: 8px;
@@ -202,19 +201,19 @@ body {
     border-radius: 30px;
 }
 
-.quoteOfTheDay{
-    display:flex;
+.quoteOfTheDay {
+    display: flex;
     flex-direction: column;
-    align-items:center;
+    align-items: center;
 }
 
-.text{
+.text {
     width: 85%;
-    padding-top:12px;
-    padding-bottom:12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
-.qotd{
+.qotd {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
@@ -222,7 +221,7 @@ body {
     margin: 0px;
 }
 
-.FavQuote{
+.FavQuote {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 12px;
@@ -231,20 +230,20 @@ body {
     margin: 0px;
 }
 
-.theQuote{
+.theQuote {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     flex-direction: column;
-    background-color:#2E2E2E;
-    width:85%;
+    background-color: #2E2E2E;
+    width: 85%;
     min-height: 364px;
     padding-top: 18px;
-    border-radius:20px;
+    border-radius: 20px;
 }
 
-.quote{
+.quote {
     display: flex;
     align-items: center;
     font-family: 'Inter';
@@ -258,56 +257,56 @@ body {
     text-align: center;
 }
 
-.author{
+.author {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
     color: white;
     margin: 0px;
     padding-bottom: 33px;
-    padding-top:9px;
+    padding-top: 9px;
 }
 
-.openQuote{
+.openQuote {
     position: absolute;
-    top:17px;
+    top: 17px;
     left: 12px;
 }
 
-.closeQuote{
+.closeQuote {
     position: absolute;
-    top:17px;
+    top: 17px;
     right: 12px;
 }
 
-.reroll{
-    position:absolute;
+.reroll {
+    position: absolute;
     bottom: -15px;
     right: -15px;
-    background-color:#1A73E8;
-    border-radius:30px;
-    padding:14px;
+    background-color: #1A73E8;
+    border-radius: 30px;
+    padding: 14px;
     transform: rotate(0);
-    transition: transform .5;
+    transition: transform .5s;
 }
 
-.rerollLMAOXD{
+.rerollLMAOXD {
     transform: rotate(360deg)
 }
 
-.listOfQuotesTitle{
+.listOfQuotesTitle {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
-    color:white;
-    margin:0px;
+    color: white;
+    margin: 0px;
     padding-left: 33px;
-    padding-top:21px;
+    padding-top: 21px;
 }
 
-.QuotesList{
+.QuotesList {
     display: flex;
-    gap:12px;
+    gap: 12px;
     padding-top: 20px;
     padding-left: 33px;
     overflow-x: scroll;
@@ -319,10 +318,10 @@ body {
     display: none;
 }
 
-.quoteInTheList{
+.quoteInTheList {
     display: flex;
     position: relative;
-    align-items: center ;
+    align-items: center;
     font-family: 'Inter';
     font-weight: 900;
     font-size: 12px;
@@ -331,37 +330,37 @@ body {
     border-radius: 20px;
 }
 
-.quoteInTheListText{
+.quoteInTheListText {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 12px;
-    color:white;
-    margin:0px;
+    color: white;
+    margin: 0px;
     text-align: left;
     inline-size: 110px;
     overflow-wrap: break-word;
     padding-right: 25px;
-    padding-left:15px;
+    padding-left: 15px;
 }
 
-.closedQuote{
+.closedQuote {
     position: absolute;
     top: -6px;
     right: 5px;
 }
 
-.ArrowRight{
+.ArrowRight {
     position: absolute;
     background-color: #1A73E8;
     padding-inline: 9px;
-    padding-top:6px;
-    padding-bottom:6px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     border-radius: 40px;
     bottom: 6px;
     right: 5px;
 }
 
-.overlay{
+.overlay {
     position: fixed;
     display: none;
     width: 100vw;
@@ -372,9 +371,9 @@ body {
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2;
-  }
+}
 
-  .quoteOverlay{
+.quoteOverlay {
     position: fixed;
     display: none;
     width: 100vw;
@@ -385,9 +384,9 @@ body {
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2;
-  }
+}
 
-  .overlayTop{
+.overlayTop {
     position: absolute;
     z-index: 5;
     top: 0;
@@ -397,25 +396,24 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-  }
+}
 
-.searchResults{
+.searchResults {
     display: none;
     flex-direction: column;
     margin-top: 16px;
-    
 }
 
-.searchResults h1{
+.searchResults h1 {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
-    color:white;
-    margin:0px;
+    color: white;
+    margin: 0px;
     margin-left: 30px;
 }
 
-.quoteSearchResults{
+.quoteSearchResults {
     display: flex;
     margin-bottom: 20px;
     flex-wrap: wrap;
@@ -424,7 +422,7 @@ body {
     margin-top: 16px;
 }
 
-.quotesSearchResults{
+.quotesSearchResults {
     margin: 0px;
     display: flex;
     position: relative;
@@ -432,37 +430,17 @@ body {
     width: 40%;
     height: 128px;
     border-radius: 20px;
-    align-items: center ;
+    align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-.quotesSearchResultsBigBoy{
+.quotesSearchResultsBigBoy {
     width: 85%;
-    margin: 0px;
-    display: inline-grid;
-    position: relative;
     background-color: #2E2E2E;
-    border-radius: 20px;
-    align-items: center ;
-    padding-top: 15px;
-    padding-bottom: 20px;
 }
 
-.quoteTextSearchResultsBigBoy{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 12px;
-    color: white;
-    margin:0px;
-    text-align: left;
-    inline-size: 290px;
-    overflow-wrap: break-word;
-    padding-right: 25px;
-    padding-left:20px;
-}
-
-.quoteTextSearchResults{
+.quoteTextSearchResults {
     display: -webkit-box;
     font-family: 'Inter';
     font-weight: 900;
@@ -477,7 +455,11 @@ body {
     -webkit-box-orient: vertical;
 }
 
-.quotePopUp{
+.quoteTextSearchResultsBigBoy {
+    inline-size: 290px;
+}
+
+.quotePopUp {
     display: none;
     flex-direction: column;
     align-items: center;
@@ -486,61 +468,74 @@ body {
     bottom: 0px;
     z-index: 5;
     background-color: #1D1D1D;
-    height: 72.24%;
+    height: 72vh;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
 
-.popUpText::-webkit-scrollbar {
+.popUpQuote::-webkit-scrollbar {
     display: none;
-  }
-
-.popUpText{
-    position: relative;
-    margin-top: 33%;
-    width: 74.79%;
 }
 
-.popUpQuote{
+
+/* .lightMode {
+    --fontColor: blue;
+    --backgroundColor: red;
+    --backgroundColor2: gray;
+} */
+
+.popUpText {
+    position: relative;
+    width: 74.79%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    padding: 35px 0;
+    height: 100%;
+    justify-content: center;
+}
+
+.popUpQuote {
     font-family: 'Inter';
     font-weight: 900;
+    max-height: 48vh;
+    display: flex;
     font-size: 28px;
+    overflow: scroll;
     color: white;
     text-align: center;
-    margin:0px;
-    height: 100%;
-    overflow-y: scroll;  
+    margin: 0px;
 }
 
-.popUpAuthor{
+.popUpAuthor {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
     color: white;
     text-align: center;
-    margin:0px;
+    margin: 0px;
     padding-top: 10px;
 }
 
-.popUpOpenQuote{
+.popUpOpenQuote {
     position: absolute;
     top: -10px;
     left: -30px;
 }
 
-.popUpCloseQuote{
+.popUpCloseQuote {
     position: absolute;
     top: -10px;
     right: -30px;
 }
 
-.popUpX{
+.popUpX {
     position: absolute;
     top: 20px;
     right: 20px;
 }
 
-.addToFavorite{
+.addToFavorite {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
@@ -554,359 +549,129 @@ body {
 }
 
 
+/* ____________________ LIGHT MODE ______________________ */
 
-
-
-
-
-
-
-
-.TitleLightMode{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.TitleLightMode {
     background-color: #e1cdb4;
-    margin: 0px;
-    width: 100%;
-    height: 15%;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
 }
 
-.TitleLightMode p{
+.TitleLightMode p {
     color: #2c2825;
-    margin: 0px;
-    padding-top:15px;
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 18px;
 }
 
-.backgroundLightMode{
+.backgroundLightMode {
     background-color: #F7ECDE;
-    height: 100vh;
-    width: 100vw;
-    margin: 0px
 }
 
-.heartLightMode{
-    position: absolute;
-    left: 90px;
-    width: 30px;
-    height: 30px;
+.heartLightMode {
     background-color: #83d9b1;
-    margin-left: 10px;
-    padding: 5px;
-    border-radius: 20px;
 }
 
-.MoonLightMode{
-    position: absolute;
-    left: 40px;
-    width: 30px;
-    height: 30px;
+.MoonLightMode {
     background-color: #83d9b1;
-    margin-left: 10px;
-    padding: 5px;
-    border-radius: 20px;
 }
 
-.LupaLightMode{
-    position:absolute;
-    top: 0px;
-    left: 0%;
+.LupaLightMode {
     background-color: #83d9b1;
-    padding: 11px;
-    border-radius: 20px;
 }
 
-.inputLightMode{
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: center;
-    width: fit-content;
-    width: 1%;
-    height: 38px;
-    border-radius: 21px;
-    border: 0;
-    outline: none;
-    margin: 0px;
+.inputLightMode {
     background-color: #83d9b1;
     color: white;
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 16px;
-    padding-left: 35px;
 }
 
-.inputLightMode::placeholder{
-    color:white;
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 14px;
-}
-
-.qotdLightMode{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 18px;
-    color: #2c2825;
-    margin: 0px;
-}
-
-.theQuoteLightMode{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-direction: column;
-    background-color: #e1cdb4;
-    width:85%;
-    min-height: 364px;
-    padding-top: 18px;
-    border-radius:20px;
-}
-
-.quoteLightMode{
-    display: flex;
-    align-items: center;
-    font-family: 'Inter';
-    font-weight: 900;
-    min-height: 282px;
-    font-size: 28px;
-    color: #503c2b;
-    margin: 0px;
-    margin-top: 23px;
-    width: 85%;
-    text-align: center;
-}
-
-.authorLightMode{
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 14px;
-    color: #503c2b;
-    margin: 0px;
-    padding-bottom: 33px;
-    padding-top:9px;
-}
-
-.rerollLightMode{
-    position:absolute;
-    bottom: -15px;
-    right: -15px;
-    background-color: #83d9b1;
-    border-radius:30px;
-    padding:14px;
-    transform: rotate(0);
-    transition: transform .5;
-}
-
-.listOfQuotesTitleLightMode{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 18px;
-    color: #2c2825;
-    margin:0px;
-    padding-left: 33px;
-    padding-top:21px;
-}
-
-.quoteInTheListLightMode{
-    display: flex;
-    position: relative;
-    align-items: center ;
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 12px;
-    background-color: #e1cdb4;
-    height: 145px;
-    border-radius: 20px;
-}
-
-.quoteInTheListTextLightMode{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 12px;
-    color: #503c2b;
-    margin:0px;
-    text-align: left;
-    inline-size: 110px;
-    overflow-wrap: break-word;
-    padding-right: 25px;
-    padding-left:15px;
-}
-
-.ArrowRightLightMode{
-    position: absolute;
-    background-color: #83d9b1;
-    padding-inline: 9px;
-    padding-top:6px;
-    padding-bottom:6px;
-    border-radius: 40px;
-    bottom: 6px;
-    right: 5px;
-}
-
-.resultBackgroundLightMode{
-    display: none;
-    position: absolute;
-    top: -177px;
-    background-color: #83d9b1;
-    width: 100%;
-    padding-top: 7px;
-    padding-bottom: 15px;
-    justify-content: center;
-    z-index: 4;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    max-height: 195px;
-    overflow-y: scroll;
-}
-
-.topSideOverlayWithBackgroundLightMode{
-    background-color: #F7ECDE;
-    position: absolute;
-    z-index: 5;
-    height: 19.48%;
-    width:100%;
-    display: none;
-}
-
-.TitleOverlayLightMode{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #e1cdb4;
-    margin: 0px;
-    width: 100%;
-    height: 100%;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-}
-
-.TitleOverlayLightMode p{
-    color: #2c2825;
-    margin: 0px;
-    padding-top:15px;
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 18px;
-}
-
-.searchResultsLightMode h1{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 18px;
-    color:#2c2825;
-    margin:0px;
-    margin-left: 30px;
-}
-
-.searchResultsLightMode{
-    display: none;
-    flex-direction: column;
-    margin-top: 16px;
-}
-
-.quotePopUpLightMode{
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 0px;
-    z-index: 5;
-    background-color: #e1cdb4;
-    height: 72.24%;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    overflow: scroll;
-}
-
-.popUpQuoteLightMode{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 28px;
-    color: #503c2b;
-    text-align: center;
-    margin:0px;
-}
-
-.popUpAuthorLightMode{
-    font-family: 'Inter';
-    font-weight: 400;
-    font-size: 14px;
-    color: #503c2b;
-    text-align: center;
-    margin:0px;
-    padding-top: 10px;
-}
-
-.addToFavoriteLightMode{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 18px;
+.inputLightMode::placeholder {
     color: white;
-    width: 79%;
-    height: 53px;
+}
+
+.qotdLightMode {
+    color: #2c2825;
+}
+
+.theQuoteLightMode {
+    background-color: #e1cdb4;
+}
+
+.quoteLightMode {
+    color: #503c2b;
+}
+
+.authorLightMode {
+    color: #503c2b;
+}
+
+.rerollLightMode {
     background-color: #83d9b1;
-    border: 0px;
-    border-radius: 7px;
 }
 
-.quotesSearchResultsLightMode{
-    margin: 0px;
-    display: flex;
+.listOfQuotesTitleLightMode {
+    color: #2c2825;
+}
+
+.quoteInTheListLightMode {
+    background-color: #e1cdb4;
+}
+
+.quoteInTheListTextLightMode {
+    color: #503c2b;
+}
+
+.ArrowRightLightMode {
+    background-color: #83d9b1;
+}
+
+.resultBackgroundLightMode {
+    background-color: #83d9b1;
+}
+
+.topSideOverlayWithBackgroundLightMode {
+    background-color: #F7ECDE;
+}
+
+.TitleOverlayLightMode {
+    background-color: #e1cdb4;
+}
+
+.TitleOverlayLightMode p {
+    color: #2c2825;
+}
+
+.searchResultsLightMode h1 {
+    color: #2c2825;
+}
+
+.searchResultsLightMode {
+    /* display: none;
+    flex-direction: column;
+    margin-top: 16px; */
+}
+
+.quotePopUpLightMode {
+    background-color: #e1cdb4;
+}
+
+.popUpQuoteLightMode {
+    color: #503c2b;
+}
+
+.popUpAuthorLightMode {
+    color: #503c2b;
+}
+
+.addToFavoriteLightMode {
+    color: white;
+    background-color: #83d9b1;
+}
+
+.quotesSearchResultsLightMode {
     position: relative;
     background-color: #e1cdb4;
-    width: 40%;
-    height: 128px;
-    border-radius: 20px;
-    align-items: center ;
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
 
-.quoteTextSearchResultsLightMode{
-    display: -webkit-box;
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 12px;
+.quoteTextSearchResultsLightMode {
     color: #503c2b;
-    margin: 0px;
-    text-align: left;
-    inline-size: 107px;
-    padding-left: 20px;
-    overflow: hidden;
-    -webkit-line-clamp: 9;
-    -webkit-box-orient: vertical;
 }
 
-.quotesSearchResultsBigBoyLightMode{
-    width: 85%;
-    margin: 0px;
-    display: inline-grid;
-    position: relative;
-    background-color: #e1cdb4;
-    border-radius: 20px;
-    align-items: center ;
-    padding-top: 15px;
-    padding-bottom: 20px;
-}
-
-.quoteTextSearchResultsBigBoyLightMode{
-    font-family: 'Inter';
-    font-weight: 900;
-    font-size: 12px;
+.quoteTextSearchResultsBigBoyLightMode {
     color: #503c2b;
-    margin:0px;
-    text-align: left;
-    inline-size: 290px;
-    overflow-wrap: break-word;
-    padding-right: 25px;
-    padding-left:20px;
 }
