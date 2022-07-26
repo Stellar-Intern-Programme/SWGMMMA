@@ -2,14 +2,18 @@ import axios from 'axios';
 
 import {AUTH_ACTIONS} from '../reducers/authReducer';
 import {server} from '../config/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const verifyLogin = () => async (dispatch: any) => {
+export const verifyLogin = (authToken: string) => async (dispatch: any) => {
   try {
     const result = (
       await axios.post(
         `${server}/api/miscellaneous/isAuthenticated`,
         {},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {Cookie: `auth-token=${authToken || ''};`},
+        },
       )
     ).data;
 
@@ -17,10 +21,13 @@ export const verifyLogin = () => async (dispatch: any) => {
       type: AUTH_ACTIONS.LOGGED_IN,
       payload: {name: result.username, email: result.email, id: result.userId},
     });
-  } catch (err) {
+  } catch (err: any) {
     dispatch({
       type: AUTH_ACTIONS.NOT_LOGGED_IN,
     });
+    if (err && err.response && err.response.data && err.response.data.err) {
+      console.log(err.response.data.err);
+    } else console.log(err);
   }
 };
 
@@ -45,22 +52,25 @@ export const login =
     email,
     password,
     onSuccess,
+    authToken,
+    onFinish,
   }: {
     email: string;
     password: string;
-    onSuccess: () => void;
+    onSuccess: any;
+    authToken: string;
+    onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
-    const data = {email, password};
+    const data = {email, password, authToken};
 
     try {
       const result = (
         await axios.post(`${server}/api/authentication/login`, data, {
           withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${authToken || ''};`,
+          },
         })
       ).data;
 
@@ -69,15 +79,17 @@ export const login =
         payload: {result},
       });
 
-      onSuccess();
+      onSuccess({authToken: result.authToken});
 
       return;
     } catch (err: any) {
       if (
         err &&
         err.response &&
+        err.response.data &&
         err.response.data.type &&
-        err.response.data.type === 'email'
+        err.response.data.type === 'email' &&
+        err.response.data.message
       ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
@@ -90,8 +102,10 @@ export const login =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
         err.response.data.type &&
-        err.response.data.type === 'password'
+        err.response.data.type === 'password' &&
+        err.response.data.message
       ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
@@ -104,8 +118,10 @@ export const login =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
         err.response.data.type &&
-        err.response.data.type === 'both'
+        err.response.data.type === 'both' &&
+        err.response.data.message
       ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
@@ -115,7 +131,12 @@ export const login =
             name: 'both',
           },
         });
-      } else {
+      } else if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         dispatch({
           type: AUTH_ACTIONS.LOG_IN_FAIL,
           payload: {
@@ -125,12 +146,13 @@ export const login =
           },
         });
       }
+
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-      payload: {loading: false},
-    });
+    onFinish();
   };
 
 export const register =
@@ -139,23 +161,26 @@ export const register =
     password,
     username,
     onSuccess,
+    authToken,
+    onFinish,
   }: {
     email: string;
     password: string;
     username: string;
-    onSuccess: (param: string) => void;
+    onSuccess: (param: string, dummyToken: string) => void;
+    authToken: string;
+    onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     const data = {email, password, username};
 
     try {
       const result = (
         await axios.post(`${server}/api/authentication/register`, data, {
           withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${authToken || ''};`,
+          },
         })
       ).data;
 
@@ -164,17 +189,13 @@ export const register =
         payload: {loading: false, uniqueUrl: result.uniqueParam},
       });
 
-      dispatch({
-        type: AUTH_ACTIONS.STOP_LOADING,
-      });
-
-      onSuccess(result.uniqueParam);
-
-      return;
+      onSuccess(result.uniqueParam, result.dummyCookie);
     } catch (err: any) {
       if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'email'
       ) {
@@ -189,6 +210,8 @@ export const register =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'password'
       ) {
@@ -203,6 +226,8 @@ export const register =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'username'
       ) {
@@ -214,7 +239,12 @@ export const register =
             name: 'username',
           },
         });
-      } else {
+      } else if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         dispatch({
           type: AUTH_ACTIONS.REGISTER_FAIL,
           payload: {
@@ -224,43 +254,56 @@ export const register =
           },
         });
       }
+
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
+    onFinish();
   };
 
 export const codeRegister =
-  ({code, onSuccess}: {code: string; onSuccess: () => void}) =>
+  ({
+    code,
+    onSuccess,
+    dummyToken,
+    onFinish,
+  }: {
+    code: string;
+    onSuccess: ({authToken}: {authToken: string}) => void;
+    dummyToken: string;
+    onFinish: () => void;
+  }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     try {
-      await axios.post(
-        `${server}/api/authentication/register/complete`,
-        {code},
-        {withCredentials: true},
-      );
+      const result = (
+        await axios.post(
+          `${server}/api/authentication/register/complete`,
+          {code},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `dummy-cookie=${dummyToken};`,
+            },
+          },
+        )
+      ).data;
 
       dispatch({
         type: AUTH_ACTIONS.CODE_REGISTER_SUCCESS,
-        payload: {loading: false, loggedIn: true},
+        payload: {email: result.email, name: result.name, id: result.id},
       });
 
-      dispatch({
-        type: AUTH_ACTIONS.STOP_LOADING,
-      });
-
-      onSuccess();
+      onSuccess({authToken: result.authToken});
 
       return;
     } catch (err: any) {
       if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'code'
       ) {
@@ -272,7 +315,12 @@ export const codeRegister =
             name: 'code',
           },
         });
-      } else {
+      } else if (
+        err &&
+        err.response &&
+        err.response.data &&
+        err.response.data.message
+      ) {
         dispatch({
           type: AUTH_ACTIONS.CODE_REGISTER_FAIL,
           payload: {
@@ -282,25 +330,36 @@ export const codeRegister =
           },
         });
       }
+
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
+    onFinish();
   };
 
 export const forgotPassword =
-  ({email, onSuccess}: {email: string; onSuccess: () => void}) =>
+  ({
+    email,
+    onSuccess,
+    onFinish,
+  }: {
+    email: string;
+    onSuccess: () => void;
+    onFinish: () => void;
+  }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     try {
       await axios.post(
         `${server}/api/authentication/forgot-password`,
         {email},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
+        },
       );
 
       dispatch({
@@ -315,11 +374,12 @@ export const forgotPassword =
         type: AUTH_ACTIONS.FP_FAIL,
         payload: {error: err.response.data.message, name: 'email'},
       });
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
+    onFinish();
   };
 
 export const completeForgotPassword =
@@ -329,23 +389,26 @@ export const completeForgotPassword =
     unique_url,
     onSuccess,
     onPageFail,
+    onFinish,
   }: {
     password: string;
     confirmPassword: string;
     unique_url: string;
     onSuccess: () => void;
     onPageFail: () => void;
+    onFinish: () => void;
   }) =>
   async (dispatch: any) => {
-    dispatch({
-      type: AUTH_ACTIONS.START_LOADING,
-    });
-
     try {
       await axios.post(
         `${server}/api/authentication/forgot-password/change/${unique_url}`,
         {password, confirmPassword},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
+        },
       );
 
       dispatch({
@@ -359,6 +422,8 @@ export const completeForgotPassword =
       if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'password'
       ) {
@@ -369,6 +434,8 @@ export const completeForgotPassword =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'confirmPassword'
       ) {
@@ -379,13 +446,11 @@ export const completeForgotPassword =
       } else if (
         err &&
         err.response &&
+        err.response.data &&
+        err.response.data.message &&
         err.response.data.type &&
         err.response.data.type === 'page'
       ) {
-        dispatch({
-          type: AUTH_ACTIONS.STOP_LOADING,
-        });
-
         onPageFail();
 
         return;
@@ -395,9 +460,10 @@ export const completeForgotPassword =
           payload: {error: err.response.data.message, name: 'fullError'},
         });
       }
+      if (err && err.response && err.response.data && err.response.data.err) {
+        console.log(err.response.data.err);
+      } else console.log(err);
     }
 
-    dispatch({
-      type: AUTH_ACTIONS.STOP_LOADING,
-    });
+    onFinish();
   };

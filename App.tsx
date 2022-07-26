@@ -1,26 +1,38 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
-import {StyleSheet, ScrollView} from 'react-native';
-import Register from './views/Register';
+import {NavigationContainer} from '@react-navigation/native';
 import configureStore from './src/store/configureStore';
+import RootRoute from './src/routes/RootRoute';
+import AuthComponent from './views/AuthComponent';
+import {StyleSheet} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
+import {SingletonHooksContainer} from 'react-singleton-hook';
 
 const App = () => {
   const {store} = configureStore();
 
+  useEffect(() => {
+    // SplashScreen.hide();
+  }, []);
+
   return (
     <Provider store={store}>
-      <ScrollView style={styles.sectionContainer}>
-        <Register />
-      </ScrollView>
+      <SingletonHooksContainer />
+      <AuthComponent>
+        <NavigationContainer>
+          <RootRoute />
+        </NavigationContainer>
+      </AuthComponent>
     </Provider>
   );
 };
 
-//@ts-ignore
+export default App;
+
 const styles = StyleSheet.create({
   sectionContainer: {
     backgroundColor: '#1D1D1D',
+    position: 'relative',
+    boxSizing: 'border-box',
   },
 });
-
-export default App;

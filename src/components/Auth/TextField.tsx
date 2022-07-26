@@ -1,11 +1,15 @@
 import React, {FC} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput, View, Text} from 'react-native';
 
 interface TextFieldProps {
   name: string;
   value: string;
   setField: (name: string, newValue: string) => void;
   placeholder: string;
+  customStyles?: any;
+  label?: string;
+  error?: string;
+  loading?: boolean;
 }
 
 const TextField: FC<TextFieldProps> = ({
@@ -13,22 +17,38 @@ const TextField: FC<TextFieldProps> = ({
   value,
   setField,
   placeholder,
+  customStyles = {},
+  label = '',
+  error = '',
+  loading = false,
 }) => {
   const onChangeText = (newValue: string) => {
     setField(name, newValue);
   };
-
   return (
-    <>
+    <View
+      style={{
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        marginTop: 20,
+        ...customStyles,
+      }}>
+      <View style={{flexDirection: 'row'}}>
+        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.error}>
+          {error.length && !loading ? `(${error})` : ''}
+        </Text>
+      </View>
       <TextInput
         style={styles.input}
         value={value}
         onChangeText={newValue => onChangeText(newValue)}
         placeholder={placeholder}
         placeholderTextColor={'#BEBDBD'}
+        secureTextEntry={name === 'password'}
         editable
       />
-    </>
+    </View>
   );
 };
 
@@ -41,7 +61,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#727272',
     fontSize: 20,
     height: 55,
-    marginTop: 20,
     paddingLeft: 10,
+    color: 'white',
+  },
+  label: {
+    fontSize: 12,
+    fontFamily: 'Inter',
+    color: 'white',
+    textTransform: 'uppercase',
+  },
+  error: {
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 5,
+    fontFamily: 'Inter',
+    marginLeft: 5,
   },
 });

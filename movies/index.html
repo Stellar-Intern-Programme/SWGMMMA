@@ -13,56 +13,44 @@
 </head>
 <body>
     <div class="container">
-        <div class="top-title"> <p>MOVIES</p> </div>
-        <div class="movies">
-            <div class="favorite-movies"><p>FAVORITE MOVIES</p> <div class="fav-movie-list"><img src="src/minions.jpg" alt="Minions"> 
+        <div class="top-title"> <p id="topTitle">MOVIES</p> </div>
+        <div class="movies" id="movies">
+            <div class="favorite-movies" id="favoriteMovies"><p>FAVORITE MOVIES</p> <div class="fav-movie-list"><img src="src/minions.jpg"  onclick = "openModal()" alt="Minions"> 
                 <img src="src/infinity_war.jpg" alt="Infinity War">
                  <img src="src/star_wars.jpg" alt="star wars"> <img src="src/Johnny_English.jpg" alt="Johnny English">
             </div>
-            </div><div class="search"> <input type="text" placeholder="SEARCH"> <img src="src/search.svg" alt="search"></div>
-            <div class="trending-movies"><p>TRENDING MOVIES</p> <div class="trend-movie-list"><img src="src/old_star_wars.jpg" alt="star wars"> 
-                <img src="src/tenet.jpg" alt="tenet">
-                 <img src="src/matrix.jpg" alt="matrix"> <img src="src/pet.jpg" alt="cimitirul animalelor">
+            </div>
+            <div class="search" id="divSearch" onclick="searchMenu()"> 
+            <div class="searchInput"><div class="x" id="x" onclick = "closeSearchMenu()">&times;</div><input type="text" placeholder="SEARCH" id="searchInput"></div> <img src="src/search.svg" alt="search"></div>
+            <div class="recommend-movies" id="recommendMovies"><p>MOVIES with </p> <div class="recom-movie-list"> <img src="src/amongus.png" onclick="closeSearchMenu()" alt="Johnny English"> <img src="src/profile_pic.jpg" alt="">
+            </div> </div>
+            <div class="trending-movies" id="trendingMovies"><p>TRENDING MOVIES</p> <div class="trend-movie-list" id="trendMovieList">
+            </div>
             </div>
             </div>
             <!-- <img src="src/bottom-test.png" class="bottom-test" alt=""> -->
         </div>
         
     </div>
-    <div class="pop-up-add">
-        <div class="movie-info"><div class="drag"></div> 
-            <div class="info">
+    <div class="pop-up-add" id="modalBackground" >
+        <div class="movie-info" id="modal"><div class="drag"></div> <div class="close-modal" onclick="closeModal()"> &times; </div> 
+            <div class="info" id="info">
                 <div class="info-text">
                     <p class="info-small-text">Title</p>
-                    <p class="info-big-text">Minions 2</p>
+                    <p class="info-big-text" id="title">Minions 2</p>
                     <p class="info-small-text">Rating</p>
-                    <p class="info-big-text">9.5/10</p> 
+                    <p class="info-big-text" id="rating">9.5/10</p> 
                     <p class="info-small-text">Genre</p> 
-                    <p class="info-big-text">Comedy</p> 
-                    <p class="info-small-text">Adult</p>
-                    <p class="info-small-text" style="padding: 1px 0px 10px 0px;">English</p>
+                    <p class="info-big-text" id="genre"></p> 
+                    <p class="info-small-text" id="adult"></p>
+                    <p class="info-small-text" style="padding: 1px 0px 10px 0px;" id="language">English</p>
                     <p class="trailer" onclick="openTrailer()" id="trailerBtn" >PLAY VIDEO</p>
                 </div>
-                <img src="src/minions.jpg" alt="minions">
+                <img src="src/minions.jpg" id="img" alt="minions">
             </div>
             <div class="description"> <p class="info-small-text">Description</p> 
-                <div class="description-text">
-                I count money (Nuh-nuh-nuh, nuh-nuh-nuh, no) <br>
-                I count money (Nuh-nuh-nuh, nuh-nuh-nuh, no) <br>
-                I count money (Nuh-nuh-nuh, nuh-nuh-nuh, no) <br>
-                I swerve in a Humvee (Nuh-nuh-nuh) <br>
-                I just went crazy, I did it <br>
-                I just went crazy, I did it, huh <br>
-                I just went crazy, I did it, huh <br>
-                I just went crazy, I did it <br>
-                I made a song for the Minions, uh <br>
-                How much they paid me? A million, uh <br>
-                I shop and then donate to charity (Woo, I donate it to charity) <br>
-                Take a cranky, I be smacking the ceiling, uh <br>
-                I call my Minion my children (Children) <br>
-                I call my children my Minions <br>
-                We taking over the world (The world) <br>
-                We make a whole lot of millions (Oh)
+                <div class="description-text" id="description">
+                
                 </div>
                 <p class="info-small-text" style="padding-top: 15px;">Production companies</p>
                 <div class="companies-images"><img src="src/tenet.jpg" alt=""> <img src="src/tenet.jpg" alt=""> <img src="src/tenet.jpg" alt=""></div>
@@ -70,7 +58,7 @@
             <div class="add-fav"><p>ADD TO FAVORITE</p></div> <a href="imbd.com" class="imbd-page">SEE IMBD PAGE</a>
    
         </div>
-        <div class="iframe" id="iframe"><iframe width="350px" height="170px" border-radius="20px" src="https://www.youtube.com/embed/7fX2kMaiMGI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <div class="iframe" id="iframe"></div>
     </div>
 </body>
 </html>

@@ -12,6 +12,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
 
 }
 .container{
@@ -54,6 +55,31 @@ body{
     font-size: 18px;
     padding: 0px 0px 15px 22px;
 }
+.recommend-movies{
+    display: none;
+    flex-direction: column;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    
+}
+.recommend-movies p{
+    color: white;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 0px 0px 15px 22px;
+}
+.recom-movie-list{
+    display: flex;
+    gap: 18px;
+    overflow: scroll;
+    margin-left: 22px;
+}
+.recom-movie-list img{
+    height: 201px;
+    width: 135px;
+    border-radius: 20px;
+}
+
 .fav-movie-list{
     display: flex;
     gap: 18px;
@@ -76,15 +102,27 @@ body{
     margin-left: 22px;
     margin-right: 22px;
     padding: 0px 20px 0px 20px ;
+    transition: .5s all;
 }
-.search input{
+.searchInput{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.searchInput input{
     height: 33px;
     color: white;
     background-color: #727272;
     margin: none;
     border: none;
     outline: none;
-    border-radius: 20px;   
+    border-radius: 20px; 
+}
+.x{
+    font-weight: 35px;
+    color: white;
+    display: none;
+
 }
 .trending-movies{
     display: flex;
@@ -121,18 +159,23 @@ body{
     height: 100vh;
     width: 100vw;
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0);
+    transition: .5s all;
+    z-index: -1;
 }
 .movie-info{
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     margin-top: 30vh;
     height: 70vh;
     width: 100vw;
     background-color: #1D1D1D;
-    bottom: 0;
+    bottom: -80vh;
     border-radius: 20px 20px 0px 0px;
+    transition: 1s all;
+    position: absolute;
 }
 .drag{
     width: 63px;
@@ -141,8 +184,15 @@ body{
     border-radius: 20px;
     margin-top: 12px;
 }
+.close-modal{
+    position: absolute;
+    color: white;
+    font-size: 30px;
+    right: 5%;
+    top: 1%;
+}
 .info{
-    padding: 24px 24px 0px 24px;
+    padding: 30px 24px 0px 24px;
     display: flex;
     justify-content: space-between;
     color: white;
@@ -176,8 +226,7 @@ padding-top: 10px;
 }
 .description{
    
-    padding-top: 10px;
-    padding-bottom: 20px;
+   padding: 10px;
 
 }
 .description-text{
@@ -185,7 +234,7 @@ padding-top: 10px;
     font-size: 12px;
     overflow: auto;
     color: white;
-    height: 15vh;
+    height: 10vh;
     padding: 1px 0px 1px 0px;
 }
 .companies-images{

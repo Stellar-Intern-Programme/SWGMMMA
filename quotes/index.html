@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,51 +10,145 @@
     <script src="script.js"></script>
 </head>
 
-<body class="background">
+<body class="background" id="background">
+
+
+    <div class="quotePopUp" id="quotePopUp">
+        <div class="popUpText" id="popUpText">
+            <p class="popUpQuote" id="popUpQuote">
+                All repairs tend to destroy structure, to increase the entropy and disorder of a system.
+            </p>
+            <p class="popUpAuthor" id="popUpAuthor">
+                BY JEFF HAMMERBECHER
+            </p>
+
+
+            <!-- <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
+            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" /> -->
+        </div>
+
+        <img src="resources/X.png" alt="X" class="popUpX" id="popUpX" onclick="hidePopUp()" />
+        <button class="addToFavorite" id="addToFavorite">ADD TO FAVORITE</button>
+    </div>
+
+    <div class="topSideOverlayWithBackground" id="topSideOverlayWithBackground">
+        <div class="overlayTop" id="overlayTop" onclick="hideResults()"></div>
+        <div class="topSideOverlay">
+            <div class="TitleOverlay">
+                <p>PROGRAMMING QUOTES</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="overlay" id="overlay" onclick="hideResults()"></div>
+    <div class="quoteOverlay" id="quoteOverlay" onclick="hidePopUp()"></div>
+
     <div class="Title">
         <p>PROGRAMMING QUOTES</p>
-    </div>  
+    </div>
     <div class="main">
-        <div class="bottomNav"></div>
-         <div class="searchBar">
-            <input
-                autocomplete="off"
-                id="search"
-                type="text"
-                value=""
-                placeholder="SEARCH"
-                class="input"
-              />
-              <img src="resources/lupa.png" alt="Lupa" class="Lupa" />
-         </div>
-         <div class="quoteOfTheDay">
+
+
+        <form autocomplete="off" class="searchBar" id="searchBar">
+
+            <div class="inputWidth" id="inputWidth">
+                <input id="search" type="text" value="" placeholder="SEARCH" class="input" onKeyUp="showResults()" />
+                <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" onclick="extendSearchBar()" />
+                <img src="resources/X.png" alt="X" class="X" id="X" onclick="hideResults()" />
+
+                <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon" onclick="changeAppearance()" />
+
+
+                <img src="resources/Favorites.png" alt="heart" class="heart" id="heart" />
+
+                <div class="resultBackground" id="resultBackground">
+
+                    <div id="result" class="result">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+        </form>
+
+        <div class="searchResults" id="searchResults">
+            <h1>SEARCH RESULTS</h1>
+            <div class="quoteSearchResults" id="quoteSearchResults">
+
+            </div>
+        </div>
+
+        <div class="quoteOfTheDay" id="quoteOfTheDay">
             <div class="text">
                 <p class="qotd">QUOTE OF THE DAY</p>
-                <p class="FavQuote">SEE FAVORITE QUOTE</p>
             </div>
-            <div class="theQuote">
+            <div class="theQuote" id="theQuote">
                 <div class="quotes">
                     <img src="resources/open.png" alt="Open Quote" class="openQuote" />
                     <img src="resources/close.png" alt="Close Quote" class="closeQuote" />
                 </div>
-                <p class="quote">The best minds of my genereation are thinking about how to make people click ads.</p>
-                <p class="author">BY JEFF HAMMERBACHER</p>
-                <img src="resources/Reroll.png" alt="reroll" class="reroll" />
+                <p class="quote" id="quote" onclick="openModal()">
+                    The best minds of my generationare thinking about how to make peopple click ads.
+                </p>
+                <p class="author" id="author">BY JEFF HAMMERBACHER</p>
+                <img src="resources/Reroll.png" alt="reroll" class="reroll" onclick=" reroll()" id="reroll" />
             </div>
-            
-         </div>
-         <div class="listOfQuotes">
-            <p>LIST OF QUOTES</p>
-            <div class="Quotes">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id</p>
-                
+
+        </div>
+        <div class="listOfQuotes" id="listOfQuotes">
+            <p class="listOfQuotesTitle">LIST OF QUOTES</p>
+            <div class="QuotesList">
+                <div class="quoteInTheList" id="quoteInTheList">
+                    <p class="quoteInTheListText">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+                <div class="quoteInTheList">
+                    <p class="quoteInTheListText">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
+                    </p>
+                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
+                </div>
+
+
+
+
             </div>
-         </div>
+        </div>
     </div>
 
-    
-    
-   
+
+
+
 </body>
+
 </html>

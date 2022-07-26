@@ -1,17 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;400;700;900&display=swap');
-
 body {
     box-sizing: border-box;
 }
 
-.background{
+
+/* .darkMode {
+    --fontColor: red;
+    --backgroundColor1: blue;
+    --backgroundColor2: green;
+} */
+
+.background {
     background-color: #1D1D1D;
     height: 100vh;
     width: 100vw;
     margin: 0px
 }
 
-.Title{
+.Title {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,92 +29,191 @@ body {
     border-bottom-right-radius: 20px;
 }
 
-.Title p{
+.Title p {
     color: white;
     margin: 0px;
-    padding-top:15px;
+    padding-top: 15px;
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
 }
 
-.bottomNav{
+.topSideOverlay {
     width: 100%;
-    height: 8%;
-    position:absolute;
-    bottom:0px;
-    background-color: #0C0C0C;border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    height: 77%;
 }
 
-
-.main{
+.topSideOverlayWithBackground {
+    background-color: #1D1D1D;
+    position: absolute;
+    z-index: 5;
+    height: 19.48%;
     width: 100%;
-    height: 75%;
+    display: none;
 }
 
-
-.searchBar{
+.TitleOverlay {
     display: flex;
-    flex-direction:row;
-    align-items:center;
     justify-content: center;
-    margin-top:21px;
-    position: relative;
-    width:100%;
-    margin-right:0px;
+    align-items: center;
+    /* z-index: 3; */
+    background-color: #0C0C0C;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
-.input{
+.TitleOverlay p {
+    color: white;
+    margin: 0px;
+    padding-top: 15px;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.main {
+    width: 100%;
+    height: 85%;
+    overflow-y: scroll;
+}
+
+.searchBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 21px;
+    width: 100%;
+    margin-right: 0px;
+}
+
+.input {
+    position: relative;
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: center;
     width: fit-content;
-    width: 85%;
+    width: 1%;
     height: 38px;
-    border-radius: 15px;
-    box-sizing:border-box;
+    border-radius: 21px;
     border: 0;
     outline: none;
     margin: 0px;
-    background-color:#727272;
-
-}
-
-.Lupa{
-    position:absolute;
-    right: 29px;
     background-color: #727272;
-    padding: 10px;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
+    color: white;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 35px;
 }
 
-.input::placeholder{
-    padding-left:15px;
-    color:#D9D9D9;
+.inputWidth {
+    display: flex;
+    align-items: center;
+    width: 85%;
+    position: relative;
+}
+
+.X {
+    display: none;
+    position: absolute;
+    top: 14px;
+    padding-left: 12px;
+}
+
+.Lupa {
+    position: absolute;
+    top: 0px;
+    left: 0%;
+    background-color: #727272;
+    padding: 11px;
+    border-radius: 20px;
+}
+
+.Moon {
+    position: absolute;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    background-color: #727272;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.heart {
+    position: absolute;
+    left: 90px;
+    width: 30px;
+    height: 30px;
+    background-color: #727272;
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 20px;
+}
+
+.input::placeholder {
+    color: #D9D9D9;
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
 }
 
-.quoteOfTheDay{
-    display:flex;
+.resultBackground {
+    display: none;
+    position: absolute;
+    top: -177px;
+    background-color: #727272;
+    width: 100%;
+    padding-top: 7px;
+    padding-bottom: 15px;
+    justify-content: center;
+    z-index: 4;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    max-height: 195px;
+    overflow-y: scroll;
+}
+
+.result {
+    display: flex;
     flex-direction: column;
-    align-items:center;
+    gap: 16px;
+    margin: 0px;
+    top: 0px;
+    width: 90%;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+    color: white;
 }
 
-.text{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    padding-top:12px;
-    padding-bottom:12px;
-    gap:23px;
+.result p {
+    margin: 0px;
+    background-color: rgba(29, 29, 29, 0.7);
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 20px;
+    border-radius: 30px;
 }
 
-.qotd{
+.quoteOfTheDay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.text {
+    width: 85%;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.qotd {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
@@ -116,7 +221,7 @@ body {
     margin: 0px;
 }
 
-.FavQuote{
+.FavQuote {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 12px;
@@ -125,90 +230,448 @@ body {
     margin: 0px;
 }
 
-.theQuote{
+.theQuote {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     flex-direction: column;
-    background-color:#2E2E2E;
-    width:85%;
+    background-color: #2E2E2E;
+    width: 85%;
+    min-height: 364px;
     padding-top: 18px;
-    border-radius:20px;
+    border-radius: 20px;
 }
 
-.quote{
+.quote {
+    display: flex;
+    align-items: center;
     font-family: 'Inter';
     font-weight: 900;
+    min-height: 282px;
     font-size: 28px;
     color: white;
     margin: 0px;
-    width: 69%;
+    margin-top: 23px;
+    width: 85%;
     text-align: center;
 }
 
-.author{
+.author {
     font-family: 'Inter';
     font-weight: 400;
     font-size: 14px;
     color: white;
     margin: 0px;
     padding-bottom: 33px;
-    padding-top:9px;
+    padding-top: 9px;
 }
 
-.openQuote{
+.openQuote {
     position: absolute;
-    top:17px;
+    top: 17px;
     left: 12px;
 }
 
-.closeQuote{
+.closeQuote {
     position: absolute;
-    top:17px;
+    top: 17px;
     right: 12px;
 }
 
-.reroll{
-    position:absolute;
+.reroll {
+    position: absolute;
     bottom: -15px;
     right: -15px;
-    background-color:#1A73E8;
-    border-radius:30px;
-    padding:14px;
+    background-color: #1A73E8;
+    border-radius: 30px;
+    padding: 14px;
+    transform: rotate(0);
+    transition: transform .5s;
 }
 
-.listOfQuotes p{
+.rerollLMAOXD {
+    transform: rotate(360deg)
+}
+
+.listOfQuotesTitle {
     font-family: 'Inter';
     font-weight: 900;
     font-size: 18px;
-    color:white;
+    color: white;
+    margin: 0px;
     padding-left: 33px;
-    padding-top:21px;
-    margin:0px;
+    padding-top: 21px;
 }
 
-.Quotes{
+.QuotesList {
     display: flex;
-    flex-direction: row;
     gap: 12px;
+    padding-top: 20px;
+    padding-left: 33px;
+    overflow-x: scroll;
+    padding-right: 20px;
+    margin-bottom: 20px;
 }
 
-.Quotes p{
+.QuotesList::-webkit-scrollbar {
+    display: none;
+}
+
+.quoteInTheList {
     display: flex;
+    position: relative;
     align-items: center;
-    justify-content: center;
     font-family: 'Inter';
     font-weight: 900;
     font-size: 12px;
     background-color: #2E2E2E;
-    padding: 0px;
-    margin-top: 20px;
-    margin-left: 33px;
-    width: 145px;
     height: 145px;
-    padding-left: 13px;
     border-radius: 20px;
 }
 
+.quoteInTheListText {
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 12px;
+    color: white;
+    margin: 0px;
+    text-align: left;
+    inline-size: 110px;
+    overflow-wrap: break-word;
+    padding-right: 25px;
+    padding-left: 15px;
+}
 
+.closedQuote {
+    position: absolute;
+    top: -6px;
+    right: 5px;
+}
+
+.ArrowRight {
+    position: absolute;
+    background-color: #1A73E8;
+    padding-inline: 9px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-radius: 40px;
+    bottom: 6px;
+    right: 5px;
+}
+
+.overlay {
+    position: fixed;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.quoteOverlay {
+    position: fixed;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.overlayTop {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    border: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.searchResults {
+    display: none;
+    flex-direction: column;
+    margin-top: 16px;
+}
+
+.searchResults h1 {
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+    color: white;
+    margin: 0px;
+    margin-left: 30px;
+}
+
+.quoteSearchResults {
+    display: flex;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 16px;
+}
+
+.quotesSearchResults {
+    margin: 0px;
+    display: flex;
+    position: relative;
+    background-color: #2E2E2E;
+    width: 40%;
+    height: 128px;
+    border-radius: 20px;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.quotesSearchResultsBigBoy {
+    width: 85%;
+    background-color: #2E2E2E;
+}
+
+.quoteTextSearchResults {
+    display: -webkit-box;
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 12px;
+    color: white;
+    margin: 0px;
+    text-align: left;
+    inline-size: 107px;
+    padding-left: 20px;
+    overflow: hidden;
+    -webkit-line-clamp: 9;
+    -webkit-box-orient: vertical;
+}
+
+.quoteTextSearchResultsBigBoy {
+    inline-size: 290px;
+}
+
+.quotePopUp {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0px;
+    z-index: 5;
+    background-color: #1D1D1D;
+    height: 72vh;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.popUpQuote::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* .lightMode {
+    --fontColor: blue;
+    --backgroundColor: red;
+    --backgroundColor2: gray;
+} */
+
+.popUpText {
+    position: relative;
+    width: 74.79%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    padding: 35px 0;
+    height: 100%;
+    justify-content: center;
+}
+
+.popUpQuote {
+    font-family: 'Inter';
+    font-weight: 900;
+    max-height: 48vh;
+    display: flex;
+    font-size: 28px;
+    overflow: scroll;
+    color: white;
+    text-align: center;
+    margin: 0px;
+}
+
+.popUpAuthor {
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    margin: 0px;
+    padding-top: 10px;
+}
+
+.popUpOpenQuote {
+    position: absolute;
+    top: -10px;
+    left: -30px;
+}
+
+.popUpCloseQuote {
+    position: absolute;
+    top: -10px;
+    right: -30px;
+}
+
+.popUpX {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.addToFavorite {
+    font-family: 'Inter';
+    font-weight: 900;
+    font-size: 18px;
+    color: white;
+    width: 79%;
+    height: 53px;
+    background-color: #1A73E8;
+    border: 0px;
+    border-radius: 7px;
+    margin-bottom: 35px;
+}
+
+
+/* ____________________ LIGHT MODE ______________________ */
+
+.TitleLightMode {
+    background-color: #e1cdb4;
+}
+
+.TitleLightMode p {
+    color: #2c2825;
+}
+
+.backgroundLightMode {
+    background-color: #F7ECDE;
+}
+
+.heartLightMode {
+    background-color: #83d9b1;
+}
+
+.MoonLightMode {
+    background-color: #83d9b1;
+}
+
+.LupaLightMode {
+    background-color: #83d9b1;
+}
+
+.inputLightMode {
+    background-color: #83d9b1;
+    color: white;
+}
+
+.inputLightMode::placeholder {
+    color: white;
+}
+
+.qotdLightMode {
+    color: #2c2825;
+}
+
+.theQuoteLightMode {
+    background-color: #e1cdb4;
+}
+
+.quoteLightMode {
+    color: #503c2b;
+}
+
+.authorLightMode {
+    color: #503c2b;
+}
+
+.rerollLightMode {
+    background-color: #83d9b1;
+}
+
+.listOfQuotesTitleLightMode {
+    color: #2c2825;
+}
+
+.quoteInTheListLightMode {
+    background-color: #e1cdb4;
+}
+
+.quoteInTheListTextLightMode {
+    color: #503c2b;
+}
+
+.ArrowRightLightMode {
+    background-color: #83d9b1;
+}
+
+.resultBackgroundLightMode {
+    background-color: #83d9b1;
+}
+
+.topSideOverlayWithBackgroundLightMode {
+    background-color: #F7ECDE;
+}
+
+.TitleOverlayLightMode {
+    background-color: #e1cdb4;
+}
+
+.TitleOverlayLightMode p {
+    color: #2c2825;
+}
+
+.searchResultsLightMode h1 {
+    color: #2c2825;
+}
+
+.searchResultsLightMode {
+    /* display: none;
+    flex-direction: column;
+    margin-top: 16px; */
+}
+
+.quotePopUpLightMode {
+    background-color: #e1cdb4;
+}
+
+.popUpQuoteLightMode {
+    color: #503c2b;
+}
+
+.popUpAuthorLightMode {
+    color: #503c2b;
+}
+
+.addToFavoriteLightMode {
+    color: white;
+    background-color: #83d9b1;
+}
+
+.quotesSearchResultsLightMode {
+    position: relative;
+    background-color: #e1cdb4;
+}
+
+.quoteTextSearchResultsLightMode {
+    color: #503c2b;
+}
+
+.quoteTextSearchResultsBigBoyLightMode {
+    color: #503c2b;
+}
