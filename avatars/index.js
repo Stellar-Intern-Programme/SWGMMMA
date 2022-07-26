@@ -10,7 +10,7 @@ let searchInputValue
 let total = 0
 let avatarPictures
 const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
-let searched 
+let searched
 
 window.addEventListener("load", () => {
     const userProfilePic = document.getElementById("profilePic")
@@ -20,6 +20,7 @@ window.addEventListener("load", () => {
     const searchInput = document.getElementById("query")
     searchInputValue = searchInput.value || ""
     searchInput.addEventListener('input', onSearchChange)
+
     avatarPictures?.addEventListener("scroll", ({ target: { scrollTop, scrollHeight, clientHeight } }) => {
         if (clientHeight + scrollTop >= scrollHeight - 5 && !fetchLoading) showLoading()
     })
@@ -31,7 +32,6 @@ function onSearchChange(e) {
         searchInputValue = e.target.value
         onSearch()
     }
-    searched = false
     searchInputValue = e.target.value
 }
 function showLoading() {
@@ -44,12 +44,28 @@ function showLoading() {
 
 function getAvatars(offset = 0, search = false) {
     fetchLoading = true
+    avatarPictures = document.getElementById("avatar-picture")
+    if (offset === 0) {
+        for (let i = 0; i < 10; i++) {
+            const hero = document.createElement("div")
+            hero.classList.add("SuperHero", 'skeleton')
+            avatarPictures.append(hero)
+        }
+    }
     fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100&offset=" + offset + (searchInputValue?.length ? "&nameStartsWith=" + searchInputValue : ''))
         .then(response => {
             if (!response.ok) throw Error("ERROR")
             return response.json()
         })
-        .then((res) => mapResults(res, search)).catch(e => {
+        .then((res) => {
+            if (offset === 0) {
+                avatarPictures.innerHTML = ""
+            }
+            mapResults(res, search)
+        }).catch(e => {
+            if (offset === 0) {
+                avatarPictures.innerHTML = ""
+            }
             fetchLoading = false
             console.error(e)
         })
@@ -67,11 +83,12 @@ function mapResults(res, search) {
 
 function createImages(result) {
     if (IMAGE_NOT_AVAIL.includes(result.thumbnail.path)) return
+    avatarPictures = document.getElementById("avatar-picture")
     const img = document.createElement("img")
     img.setAttribute('src', result.thumbnail.path + "." + result.thumbnail.extension)
     img.addEventListener('click', avatarSelect)
     img.setAttribute('alt', "avatar")
-    img.setAttribute('class', "SuperHero")
+    img.setAttribute('class', "SuperHero skeleton")
     img.setAttribute('avatar-name', result.name)
     avatarPictures.appendChild(img)
     loading.classList.remove('show');
@@ -87,7 +104,6 @@ function onSearch() {
     current_offset = 0
     avatarPictures.scrollTo({ top: 0, behavior: 'smooth' })
     getAvatars(current_offset, true)
-    searched = true
 }
 
 function removePopUp() {
