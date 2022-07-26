@@ -8,124 +8,86 @@ let current_offset = 0
 let fetchLoading
 let searchInputValue
 let total = 0
-
+let avatarPictures
+const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
+let searched 
 
 window.addEventListener("load", () => {
     const userProfilePic = document.getElementById("profilePic")
     userProfilePic.setAttribute('src', (localStorage.getItem('avatarPicture') === "/" || !localStorage.getItem('avatarPicture')) ? 'src/Profile Pic.svg' : localStorage.getItem('avatarPicture'))
-    console.log(localStorage.getItem('avatarPicture'))
+    avatarPictures = document.getElementById("avatar-picture")
     loading = document.querySelector('.loading')
-    searchInputValue = document.getElementById("query")
-    const avatarPictures = document.getElementById("avatar-picture")
-    avatarPictures?.addEventListener("scroll", (e) => {
-        const { scrollTop, scrollHeight, clientHeight } = document.getElementById('avatar-picture')
-        if (clientHeight + scrollTop >= scrollHeight - 5 && !fetchLoading) {
-            fetchLoading = true
-            showLoading()
-        }
-
+    const searchInput = document.getElementById("query")
+    searchInputValue = searchInput.value || ""
+    searchInput.addEventListener('input', onSearchChange)
+    avatarPictures?.addEventListener("scroll", ({ target: { scrollTop, scrollHeight, clientHeight } }) => {
+        if (clientHeight + scrollTop >= scrollHeight - 5 && !fetchLoading) showLoading()
     })
-
-    avatar()
+    getAvatars()
 })
-function showLoading() {
-    console.log(avatarArray.length , total)
-    if (avatarArray.length < total) {
-        loading.classList.add('show')
 
-        // load more data
-        setTimeout(() => {
-            current_offset = current_offset + 100
-            avatar(current_offset)
-        }
-        , 1000)
+function onSearchChange(e) {
+    if (e.target.value === '' && searchInputValue !== '') {
+        searchInputValue = e.target.value
+        onSearch()
+    }
+    searched = false
+    searchInputValue = e.target.value
+}
+function showLoading() {
+    if (avatarArray.length < total && !fetchLoading) {
+        loading.classList.add('show')
+        current_offset = current_offset + 100
+        getAvatars(current_offset)
     }
 }
 
-function avatar(offset = 0) {
-    const showAvatar = document.getElementById("avatarPicture")
-    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100&offset=" + offset + ((searchInputValue.value.length > 0 && searchInputValue.value) ? "&nameStartsWith=" + searchInputValue.value : ''))
+function getAvatars(offset = 0, search = false) {
+    fetchLoading = true
+    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100&offset=" + offset + (searchInputValue?.length ? "&nameStartsWith=" + searchInputValue : ''))
         .then(response => {
-            if (!response.ok) {
-                throw Error("ERROR")
-            }
+            if (!response.ok) throw Error("ERROR")
             return response.json()
         })
-        .then(data => {
-            total = data.data.total
-            avatarArray.push(...data.data.results)
-            data.data.results.forEach((result, key) => {
-
-                const images = document.querySelectorAll('.SuperHero')
-                if (IMAGE_NOT_AVAIL.includes(result.thumbnail.path)) return
-                const imageContainer = document.getElementById("avatar-picture")
-                const img = document.createElement("img", { onclick: "avatarSelect(this)", alt: "avatar", class: "SuperHero" })
-                img.setAttribute('src', result.thumbnail.path + "." + result.thumbnail.extension)
-                img.setAttribute('onclick', "avatarSelect(this)")
-                img.setAttribute('alt', "avatar")
-                img.setAttribute('class', "SuperHero")
-                img.setAttribute('avatar-name', result.name)
-                imageContainer.appendChild(img)
-                loading.classList.remove('show');
-
-            })
+        .then((res) => mapResults(res, search)).catch(e => {
             fetchLoading = false
-
+            console.error(e)
         })
-
 }
 
-const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
+
+function mapResults(res, search) {
+    if (search) avatarPictures.innerHTML = ""
+    total = res.data.total
+    if (search) avatarArray = res.data.results
+    else avatarArray.push(...res.data.results)
+    res.data.results.forEach(createImages)
+    fetchLoading = false
+}
+
+function createImages(result) {
+    if (IMAGE_NOT_AVAIL.includes(result.thumbnail.path)) return
+    const img = document.createElement("img")
+    img.setAttribute('src', result.thumbnail.path + "." + result.thumbnail.extension)
+    img.addEventListener('click', avatarSelect)
+    img.setAttribute('alt', "avatar")
+    img.setAttribute('class', "SuperHero")
+    img.setAttribute('avatar-name', result.name)
+    avatarPictures.appendChild(img)
+    loading.classList.remove('show');
+}
+
 function avatarSelect(e) {
     document.querySelector('.pop-up').style.display = 'block'
-    console.log(e)
-    document.querySelector('.pop-up img').src = e.getAttribute('src')
-    document.querySelector(".pop-up p").textContent = e.getAttribute('avatar-name')
-
-
+    document.querySelector('.pop-up img').src = e.target.getAttribute('src')
+    document.querySelector(".pop-up p").textContent = e.target.getAttribute('avatar-name')
 }
 
-
-function laMamaAcasa(e) {
-    const value = document.getElementById("query").value
-
-
-    fetch("https://gateway.marvel.com:443/v1/public/characters?apikey=" + PUBLIC_KEY + "&hash=" + key + "&ts=" + date + "&limit=100&offset=" + (value.length > 0 ? "&nameStartsWith=" + value : ''))
-        .then((res) => res.json())
-        .then((data) => {
-            searchResults(data)
-            console.log(data)
-        });
-}
-
-function searchResults(data) {
-    const avatarPicture = document.getElementById("avatar-picture")
-    avatarPicture.innerHTML = ""
-    total = data.data.total
-
-    for (let i = 0; i < data.data.count; i++) {
-        if (IMAGE_NOT_AVAIL.includes(data.data.results[i].thumbnail.path)) continue
-        const img = document.createElement("img")
-        img.setAttribute("src", data.data.results[i].thumbnail.path + "." + data.data.results[i].thumbnail.extension)
-        img.setAttribute("class", "SuperHero")
-        img.setAttribute('onclick', "avatarSelect(this)")
-        img.setAttribute('alt', "avatar")
-        img.setAttribute('avatar-name', data.data.results[i].name)
-        if (avatarArray.length < total) {
-            loading.classList.add('show')
-    
-            
-            setTimeout(() => {
-                current_offset = current_offset + 100
-                avatar(current_offset)
-            }
-            , 1000)
-        }
-        avatarPicture.appendChild(img)
-
-
-    }
-
+function onSearch() {
+    current_offset = 0
+    avatarPictures.scrollTo({ top: 0, behavior: 'smooth' })
+    getAvatars(current_offset, true)
+    searched = true
 }
 
 function removePopUp() {
@@ -133,18 +95,18 @@ function removePopUp() {
     document.querySelector('.pop-up img').src = '/'
 }
 
-
-
 function profilePic(f) {
     document.querySelector('.pop-up-avatar').style.display = 'block'
     console.log(f)
     document.querySelector('.pop-up-avatar img').src = f.getAttribute('src')
 
 }
+
 function profilePicRemove() {
     document.querySelector('.pop-up-avatar').style.display = 'none'
     document.querySelector('.pop-up-avatar img').src = '/'
 }
+
 function changeAvatar() {
     const userProfilePic = document.getElementById("profilePic")
     const popUpPicture = document.getElementById("pop-up-picture")
@@ -153,21 +115,12 @@ function changeAvatar() {
     userProfilePic.setAttribute('src', imgSrc)
     localStorage.setItem('avatarPicture', imgSrc)
 }
+
 function removeAvatar() {
     const profilePic = document.getElementById("profilePic")
     profilePic.setAttribute('src', "src/Profile Pic.svg")
     localStorage.removeItem('avatarPicture')
 }
-
-
-
-
-
-
-
-
-
-
 
 function md5(inputString) {
     var hc = "0123456789abcdef";
