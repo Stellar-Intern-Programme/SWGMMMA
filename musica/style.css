@@ -61,8 +61,11 @@
     line-height: 15px;
     letter-spacing: 0em;
     color: white;
-    max-width: fit-content;
-
+    max-width: 116px;
+    max-height: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .artist{
     margin: 0;
@@ -73,6 +76,7 @@
     letter-spacing: 0em;
     color:#B0B0B0 ;
     max-width: fit-content;
+    text-overflow: ellipsis;
 }
 .cover{
     height: 116px;
@@ -148,9 +152,11 @@ width: 17.5px;
     gap: 10px;    
     display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     padding-bottom: 15px;
     overflow-x: scroll;
+    overflow-y: scroll;
+    row-gap: 60px;
 }
 .backGroundPopup{
     height: 100vh;

@@ -25,6 +25,7 @@
   </div>
   <div class="searchbar" id="searchbar">
     <input
+    onkeyup="musicSearhFetch()"
     onclick="searchClick()"
       autocomplete="off"
       id="search"
@@ -37,130 +38,9 @@
     <img  src="resurse/Vectorlupa.svg" alt="Lupa" class="lupa">
   </div> 
   <div class="trending" id="trending">
-    <p class="tren">TRENDING SONGS</p>
-    <div class="gridTrending">
-        
-        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>        <div class="actualTrendingSongs">
-            <div class="imgsTrensong">
-                <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-                <p class="songname">AS IT WAS</p>
-                <p class="artist">HARRY STYLES</p>
-            </div>
-        </div>
+    <p class="tren" id="tren">TRENDING SONGS</p>
+    <div class="gridTrending" id="gridTrending">  
+       
     </div>
   </div>
 </div>
