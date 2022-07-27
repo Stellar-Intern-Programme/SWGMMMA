@@ -32,7 +32,13 @@
     max-height: 200px;
     transition: .5s max-height;
 }
-
+.buttonDragOpen{
+    animation: displayFlex  .5s;
+    height: 100%;
+    overflow: hidden;
+    max-height: 75%;
+    transition: .5s max-height;
+}
 .closeFavorite {
     max-height: 0;
     animation: displayNone .5s;
@@ -162,11 +168,20 @@ width: 17.5px;
     height: 100vh;
     width: 100vw;
     z-index: 6;
-    position: absolute;
+    position: fixed;
+    display: flex;
     background: #0000008A;
     /* background-color: #B0B0B0; */
-    display: none;
-    align-items: flex-end;
+    /* display: none; */
+    /* align-items: flex-end; */
+    opacity: 0;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.backGroundPopup.visible{
+    opacity: 1;
+    pointer-events: all;
 }
 .infoPopup{
     
@@ -178,6 +193,12 @@ width: 17.5px;
     border-radius: 20px 20px 0px 0px ;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 100vh;
+    transition: 0.5s;
+}
+
+.infoPopup.visible{
+    margin-top: 30vh;
 }
 .overButtonDrag{
     display: flex;
@@ -198,6 +219,7 @@ width: 17.5px;
     position: absolute;    
     width: 100vw;
     z-index: 0;
+    border-radius: 20px 20px 0px 0px
 }
 .coverAll{
 margin-left: 22px;    
