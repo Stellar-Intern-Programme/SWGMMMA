@@ -11,9 +11,10 @@ let total = 0
 let avatarPictures
 const key = md5(date + PRIVATE_KEY + PUBLIC_KEY)
 let searched
+let userProfilePic
 
 window.addEventListener("load", () => {
-    const userProfilePic = document.getElementById("profilePic")
+    userProfilePic = document.getElementById("profilePic")
     userProfilePic.setAttribute('src', (localStorage.getItem('avatarPicture') === "/" || !localStorage.getItem('avatarPicture')) ? 'src/Profile Pic.svg' : localStorage.getItem('avatarPicture'))
     avatarPictures = document.getElementById("avatar-picture")
     loading = document.querySelector('.loading')
@@ -95,6 +96,14 @@ function createImages(result) {
 }
 
 function avatarSelect(e) {
+    if(e.target.src !== userProfilePic.src){
+        const avatarRemove = document.getElementById("remove-avatar")
+        avatarRemove.classList.add("remove-avatar-bot")
+    }
+    if(e.target.src === userProfilePic.src){
+        const avatarRemove = document.getElementById("remove-avatar")
+        avatarRemove.classList.remove("remove-avatar-bot")
+    }
     document.querySelector('.pop-up').style.display = 'block'
     document.querySelector('.pop-up img').src = e.target.getAttribute('src')
     document.querySelector(".pop-up p").textContent = e.target.getAttribute('avatar-name')
@@ -126,8 +135,9 @@ function profilePicRemove() {
 function changeAvatar() {
     const userProfilePic = document.getElementById("profilePic")
     const popUpPicture = document.getElementById("pop-up-picture")
+    const avatarRemove = document.getElementById("remove-avatar")
+    avatarRemove.classList.remove("remove-avatar-bot")
     const imgSrc = popUpPicture.getAttribute("src")
-
     userProfilePic.setAttribute('src', imgSrc)
     localStorage.setItem('avatarPicture', imgSrc)
 }
@@ -136,6 +146,8 @@ function removeAvatar() {
     const profilePic = document.getElementById("profilePic")
     profilePic.setAttribute('src', "src/Profile Pic.svg")
     localStorage.removeItem('avatarPicture')
+    const avatarRemove = document.getElementById("remove-avatar")
+    avatarRemove.classList.add("remove-avatar-bot")
 }
 
 function md5(inputString) {
