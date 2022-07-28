@@ -1,7 +1,7 @@
 let index = 0;
-let overlay, value, divResults, searchBar, results, lupa, X, searchInput, topOverlay, inputWidth, overlayTop, quote, quoteOfTheDay, listOfQuotes, searchResults, divMare, quotePopUp, popUpQuote, popUpAuthor
+let overlay, value, divResults, searchBar, results, lupa, X, searchInput, topOverlay, inputWidth, overlayTop, quote, quoteOfTheDay, listOfQuotes, searchResults, divMare, quotePopUp, popUpQuote, popUpAuthor, arrowLeft, button
 let randomQuoteData;
-let rolls = 0;
+let rolls = 0, rollsX = 0, rollX2 = 0;
 let isLightMode
 const MAX_COUNT = 50
     // add to fave / remove from fave
@@ -11,6 +11,8 @@ const MAX_COUNT = 50
     // fix search
     // click pe alea din search
     // modalitate sa go back to homepage
+
+    let favorites = JSON.parse(localStorage.getItem("favoriteQuotes")) || []
 
 window.addEventListener("load", () => {
     overlay = document.getElementById("overlay")
@@ -31,9 +33,11 @@ window.addEventListener("load", () => {
     quotePopUp = document.getElementById("quotePopUp")
     popUpQuote = document.getElementById("popUpQuote")
     popUpAuthor = document.getElementById("popUpAuthor")
+    arrowLeft = document.getElementById("goBack")
     isLightMode = localStorage.getItem("LIGHT_MODE") === 'true'
     setColors()
     randomQuote()
+    randomQuoteList()
 });
 
 function showResults() {
@@ -79,9 +83,12 @@ function showSearchList(data, value) {
 
 function hideResults() {
     moveUp()
+
     inputWidth.style.zIndex = "auto"
     topOverlay.style.display = "flex"
-    X.style.display = "none"
+    rollsX++
+    X.style.xIndex = "10"
+    X.style.transform = `rotate(${360*rollsX}deg)`
     overlay.style.display = "none"
     lupa.style.borderBottomRightRadius = "20px";
     searchBar.style.borderBottomLeftRadius = "20px";
@@ -138,6 +145,7 @@ function fetchSearchResults(author) {
     listOfQuotes.style.display = "none"
     quoteOfTheDay.style.display = "none"
     searchResults.style.display = "flex"
+    arrowLeft.style.display = "flex"
     fetch("https://programming-quotes-api.herokuapp.com/quotes/author/" + author)
         .then((res) => res.json())
         .then((data) => {
@@ -166,7 +174,7 @@ function addQuotes(data) {
         arrowRight.setAttribute("src", "resources/ArrowRight.png")
         arrowRight.setAttribute("class", "ArrowRight")
         openQuote.setAttribute("class", "closedQuote")
-        openQuote.setAttribute("src", "resources/open.png")
+        openQuote.setAttribute("src", "resources/open.svg")
         divMic.setAttribute("class", "quotesSearchResults")
         pQuote.setAttribute("class", "quoteTextSearchResults")
 
@@ -188,20 +196,74 @@ function addQuotes(data) {
     }
 }
 
+
 function randomQuote() {
     fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
         .then((res) => res.json())
         .then((data) => {
+            if(data.en.length < 130){
             randomQuoteData = data
             const quote = document.getElementById("quote")
             const author = document.getElementById("author")
             quote.innerHTML = data.en
             author.innerHTML = "BY " + data.author.toUpperCase();
+            }
+            else{
+                randomQuote()
+            }
+            
         });
 }
 
+function randomQuoteList(){
+    for(let i =0; i<5; i++){
+        replaceQuotesInList(i)
+    }
+}
+
+function replaceQuotesInList(i){
+    const numeRandom = document.querySelectorAll(".quoteInTheListText")
+        fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
+        .then((res) => res.json())
+        .then((data) => {
+            if(data.en.length < 120){
+            numeRandom[i].innerHTML = data.en
+            }
+            else{
+                replaceQuotesInList(i)
+            }
+        });
+    }
+
+let IDK;
+
 function openModal(data = randomQuoteData) {
     quoteMoveUp()
+
+    if(button != undefined){
+        button.style.display = "none"
+        }
+
+    button = document.createElement("button")
+    button.innerText = "ADD TO FAVORITE"
+    button.setAttribute("class", "addToFavorite")
+
+    for(let i=0; i<favorites.length; i++){
+        if(data.id == favorites[i].id){   
+            IDK = i;
+            button.innerText = "REMOVE FROM FAVORITE"
+            button.style.backgroundColor = "#E81A1A"
+        }
+    }
+
+    quotePopUp.appendChild(button) 
+
+    button.onclick = () => {
+     
+        addToFavorite(data)
+
+    }   
+
     quotePopUp.style.display = "flex"
     quoteOverlay.style.display = "flex"
     searchBar.style.zIndex = "1"
@@ -279,9 +341,8 @@ function extendSearchBar() {
 }
 
 function showClearButton() {
-    const x = document.getElementById("X")
-    x.style.display = "flex"
-    x.style.zIndex = "1"
+    X.style.display = "flex"
+    X.style.zIndex = "10"
 }
 
 
@@ -296,10 +357,12 @@ function deextendSearchBar() {
         if (pos == 1) {
             clearInterval(dsb);
             searchBar.value = ""
+            X.style.display = "none"
         } else {
             pos -= 2;
             searchBar.style.width = pos + '%';
             lupa.style.left = pos - 1 + '%'
+            
         }
     }
 }
@@ -323,7 +386,12 @@ function setColors() {
     heart.classList[type]("heartLightMode")
 
     const Moon = document.querySelector(".Moon")
-    Moon.setAttribute("src", "resources/LightMode.png")
+    if(type == "add"){
+        Moon.setAttribute("src", "resources/sun.svg")
+    } 
+    else{
+        Moon.setAttribute("src", "resources/moon.svg")
+    }
     Moon.classList[type]("MoonLightMode")
 
     lupa.classList[type]("LupaLightMode")
@@ -344,10 +412,10 @@ function setColors() {
     author.classList[type]("authorLightMode")
 
     const openQuote = document.querySelector(".openQuote")
-    openQuote.setAttribute("src", "resources/openLightMode.png")
+    openQuote.classList[type]("openQuoteLightMode")
 
     const closeQuote = document.querySelector(".closeQuote")
-    closeQuote.setAttribute("src", "resources/closeLightMode.png")
+    closeQuote.classList[type]("openQuoteLightMode")
 
     const reroll = document.querySelector(".reroll")
     reroll.classList[type]("rerollLightMode")
@@ -372,8 +440,11 @@ function setColors() {
 
     const closedQuote = document.querySelectorAll(".closedQuote")
     for (let i = 0; i < closedQuote.length; i++) {
-        closedQuote[i].setAttribute("src", "resources/closeLightMode.png")
+        closedQuote[i].classList[type]("openQuoteLightMode")
     }
+
+    const popUpX = document.querySelector(".popUpX")
+    popUpX.classList[type]("popUpXLightMode")
 
     const resultBackground = document.querySelector(".resultBackground")
     resultBackground.classList[type]("resultBackgroundLightMode")
@@ -396,11 +467,157 @@ function setColors() {
     const popUpAuthor = document.querySelector(".popUpAuthor")
     popUpAuthor.classList[type]("popUpAuthorLightMode")
 
-    const addToFavorite = document.querySelector(".addToFavorite")
-    addToFavorite.classList[type]("addToFavoriteLightMode")
+    // const addToFavorite = document.querySelector(".addToFavorite")
+    // addToFavorite.classList[type]("addToFavoriteLightMode")
 
     for (let i = 0; i < divMare.children.length; i++) {
         divMare.children[i].classList[type]("quotesSearchResultsLightMode")
         divMare.children[i].lastChild.classList[type]("quoteTextSearchResultsLightMode")
     }
+
+    const result = document.querySelector(".result")
+    result.classList[type]("resultLightMode")
+
+    const arrowLeft = document.querySelector(".goBack")
+    arrowLeft.classList[type]("goBackLightMode")
+}
+
+function showFavorites() {
+    listOfQuotes.style.display = "none"
+    quoteOfTheDay.style.display = "none"
+    
+}
+
+function goBackIsNotAFunction() {
+    searchResults.style.display = "none"
+    rollX2++
+    arrowLeft.style.transform = `rotate(${72000*rollsX}deg)`
+    arrowLeft.style.display = "none"
+    listOfQuotes.style.display = "flex"
+    quoteOfTheDay.style.display = "flex"
+}
+
+function arrowLeftGoesBRRRRRRR(){
+    let lmao;
+
+    rollX2++
+    arrowLeft.style.transform = `rotate(${1440*rollsX}deg)`
+
+    let pos = 140;
+    clearInterval(lmao);
+    lmao = setInterval(frame, 5);
+
+    function frame() {
+        if (pos == 351) {
+            clearInterval(lmao);
+        } else {
+            pos += 1;
+            arrowLeft.style.left = pos + 'px';
+        }
+    }
+}
+
+function goRight(){
+    let lmao;
+
+    let pos = 140;
+    clearInterval(lmao);
+    lmao = setInterval(frame, 5);
+
+    function frame() {
+        if (pos == 281) {
+            clearInterval(lmao);
+            goDown()
+        } else {
+            pos += 1;
+            arrowLeft.style.left = pos + 'px';
+        }
+    }
+}
+
+function goDown(){
+    let lmao;
+
+    let pos = 0;
+    clearInterval(lmao);
+    lmao = setInterval(frame, 5);
+
+    function frame() {
+        if (pos == 635) {
+            clearInterval(lmao);
+            goLeft()
+        } else {
+            pos += 1;
+            arrowLeft.style.top = pos + 'px';
+        }
+    }
+}
+
+function goLeft(){
+    let lmao;
+
+    let pos = 281;
+    clearInterval(lmao);
+    lmao = setInterval(frame, 5);
+
+    function frame() {
+        if (pos == -10) {
+            clearInterval(lmao);
+            goUp()
+        } else {
+            pos -= 1;
+            arrowLeft.style.left = pos + 'px';
+        }
+    }
+}
+
+function goUp(){
+    let lmao;
+
+    let pos = 640;
+    clearInterval(lmao);
+    lmao = setInterval(frame, 5);
+
+    function frame() {
+        if (pos == 0) {
+            clearInterval(lmao);
+            goRightAgain()
+        } else {
+            pos -= 1;
+            arrowLeft.style.top = pos + 'px';
+        }
+    }
+}
+
+function goRightAgain(){
+    let lmao;
+
+    let pos = -10;
+    clearInterval(lmao);
+    lmao = setInterval(frame, 5);
+
+    function frame() {
+        if (pos == 140) {
+            clearInterval(lmao);
+            arrowLeft.style.zIndex = "0"
+        } else {
+            pos += 1;
+            arrowLeft.style.left = pos + 'px';
+        }
+    }
+}
+
+function addToFavorite(data) {
+
+    button.style.backgroundColor = "#E81A1A"
+    button.innerHTML = "REMOVE FROM FAVORITE"
+    favorites.push({ id: data.id, text: data.en, author: data.author })
+    localStorage.setItem("favoriteQuotes", JSON.stringify(favorites)) 
+    
+}
+
+function removeFromFavorite(data){
+    console.log("test")
+    // button.style.background = "#1A73E8"
+    // button.innerHTML = "ADD TO FAVORITE"
 }

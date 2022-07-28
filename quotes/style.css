@@ -122,7 +122,9 @@ body {
     display: none;
     position: absolute;
     top: 14px;
-    padding-left: 12px;
+    margin-left: 12px;
+    transform: rotate(0);
+    transition: transform .5s;
 }
 
 .Lupa {
@@ -154,6 +156,19 @@ body {
     margin-left: 10px;
     padding: 5px;
     border-radius: 20px;
+}
+.goBack{
+    display: none;
+    position: absolute;
+    left: 140px;
+    width: 30px;
+    height: 30px;
+    background-color: #727272;    
+    margin-left: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    transform: rotate(0);
+    transition: transform 5s;
 }
 
 .input::placeholder {
@@ -290,10 +305,6 @@ body {
     transition: transform .5s;
 }
 
-.rerollLMAOXD {
-    transform: rotate(360deg)
-}
-
 .listOfQuotesTitle {
     font-family: 'Inter';
     font-weight: 900;
@@ -302,6 +313,11 @@ body {
     margin: 0px;
     padding-left: 33px;
     padding-top: 21px;
+}
+
+.listOfQuotes{
+    display: flex;
+    flex-direction: column;
 }
 
 .QuotesList {
@@ -468,7 +484,7 @@ body {
     bottom: 0px;
     z-index: 5;
     background-color: #1D1D1D;
-    height: 72vh;
+    height: 73vh;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
@@ -547,7 +563,6 @@ body {
     border-radius: 7px;
     margin-bottom: 35px;
 }
-
 
 /* ____________________ LIGHT MODE ______________________ */
 
@@ -660,7 +675,7 @@ body {
 
 .addToFavoriteLightMode {
     color: white;
-    background-color: #83d9b1;
+    background-color: #52c18d;
 }
 
 .quotesSearchResultsLightMode {
@@ -674,4 +689,20 @@ body {
 
 .quoteTextSearchResultsBigBoyLightMode {
     color: #503c2b;
+}
+
+.openQuoteLightMode{
+    filter: invert(91%) sepia(10%) saturate(2373%) hue-rotate(345deg) brightness(96%) contrast(84%);
+}
+
+.popUpXLightMode{
+    filter: invert(91%) sepia(10%) saturate(2373%) hue-rotate(345deg) brightness(96%) contrast(84%);
+}
+
+.resultLightMode p {
+    background-color: rgb(33 76 46 / 49%);
+}
+
+.goBackLightMode{
+    background-color: #83d9b1;
 }
