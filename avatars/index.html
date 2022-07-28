@@ -29,8 +29,7 @@
 
         </div>
 
-        <form id="form" role="search" 
-        autocomplete="off" onsubmit="onSearch(this); return false">
+        <form id="form" role="search" autocomplete="off" onsubmit="onSearch(this); return false">
             <input type="text" id="query" name="q" placeholder="Search..." aria-label="Search through site content">
             <button>
                 <img src="src/searchbar - Copy.svg" alt="search" class="Loop">
@@ -40,7 +39,7 @@
             <p>AVAILABE AVATARS</p>
         </div>
         <div class="avatar-picture" id="avatar-picture">
-            
+
         </div>
         <div class="pop-up">
 
@@ -54,12 +53,17 @@
             <div class="set-avatar" id="set-avatar" onclick="changeAvatar()">
                 <p>SET AS AVATAR</p>
             </div>
+            <div class="remove-avatar remove-avatar-bot" id="remove-avatar" onclick="removeAvatar()">
+                <p>REMOVE AVATAR</p>
+            </div>
 
 
         </div>
         <div class="pop-up-avatar">
             <span onclick="profilePicRemove()">&times;</span>
-            <img src="src/Profile Pic.svg" id="pop-up-profile-pic" alt="error">
+            <div class="spin-top">
+                <img src="src/Profile Pic.svg" id="pop-up-profile-pic" alt="error">
+            </div>
             <div class="remove-avatar" onclick="removeAvatar()">
                 <p>REMOVE AVATAR</p>
             </div>

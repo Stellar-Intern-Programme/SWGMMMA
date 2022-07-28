@@ -107,6 +107,9 @@ button {
 .spin img {
   animation: spinImg 1s;
 }
+.spin-top img {
+  animation: spinImg 1s;
+}
 
 @keyframes popUpAvatar {
   0% {  transform: rotate(0); opacity: 0; }
@@ -127,7 +130,14 @@ button {
   align-items: center;
   animation-timing-function: linear;
 }
-
+.spin-top {
+  height: 100vh;
+  animation: popUpAvatar 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-timing-function: linear;
+}
 
 .pop-up span {
   position: absolute;
@@ -277,4 +287,7 @@ button {
   100%{
     background-color: hsl(200, 20%, 95%);
   }
+}
+.remove-avatar-bot{
+display: none;
 }
