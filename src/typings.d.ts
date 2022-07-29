@@ -1,10 +1,12 @@
-import type {Dispatch, SetStateAction} from 'react';
+declare module 'intersection-observer';
+declare module 'react-native-animated-loader';
 
 export interface TextMessage {
   text: string;
   date: string;
   index: 1 | 2;
   senderEmail: string;
+  time: string;
   media?: string;
   seen?: string;
 }
@@ -24,6 +26,7 @@ export interface AuthPropsReducer {
   };
   navigation: any;
   route: any;
+  loginSuccess: any;
   defaultState: (dispatch: any) => void;
   login: (dispatch: any) => Promise<void>;
   register: (dispatch: any) => Promise<void>;
@@ -70,7 +73,6 @@ export interface MessageContainerProps {
   nrMessagesLoadings: any;
   lastMessages: any;
   scrollRef: any;
-  globalConversationId: string;
   seeMessage: any;
   getInitialMessages: any;
   getPreviousMessages: any;
@@ -78,12 +80,12 @@ export interface MessageContainerProps {
   _total: any;
   conversationId: string;
   myEmail: string;
-  myUsername: string;
   userId: string;
   newContainer: boolean;
-  setNewContainer: Dispatch<SetStateAction<boolean>>;
   addNotReadyMessage: any;
   blocked: boolean;
+  route: any;
+  conversations: any;
 }
 
 export interface CreateMessageProps {
@@ -103,7 +105,7 @@ export interface MessSectionProps {
   totalUnseen: number;
   imageUrl: string;
   navigation?: any;
-  time: string;
+  time?: string;
 }
 
 export interface SocialRedux {
@@ -116,5 +118,10 @@ export interface SocialRedux {
   resetPeopleSearch: any;
   showFriendRequests: any;
   friendRequests: any;
-  setConversationId: Dispatch<SetStateAction<string | null>>;
+}
+
+export interface useSearchProps {
+  initialData: any;
+  search: string;
+  properties: string[];
 }

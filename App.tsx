@@ -1,6 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  createNavigationContainerRef,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import configureStore from './src/store/configureStore';
 import RootRoute from './src/routes/RootRoute';
 import AuthComponent from './views/AuthComponent';

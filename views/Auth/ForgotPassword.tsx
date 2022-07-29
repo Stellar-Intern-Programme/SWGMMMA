@@ -37,6 +37,7 @@ const ForgotPassword = ({
   | 'navigation'
   | 'route'
   | 'loading'
+  | 'loginSuccess'
 >) => {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);

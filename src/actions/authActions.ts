@@ -19,7 +19,12 @@ export const verifyLogin = (authToken: string) => async (dispatch: any) => {
 
     dispatch({
       type: AUTH_ACTIONS.LOGGED_IN,
-      payload: {name: result.username, email: result.email, id: result.userId},
+      payload: {
+        username: result.username,
+        email: result.email,
+        id: result.userId,
+        pfp: result.pfp,
+      },
     });
   } catch (err: any) {
     dispatch({
@@ -39,12 +44,22 @@ export const defaultState = () => (dispatch: any) => {
 
 export const logout =
   ({onSuccess}: {onSuccess: () => void}) =>
-  (dispatch: any) => {
+  async (dispatch: any) => {
     dispatch({
       type: AUTH_ACTIONS.LOGOUT,
     });
-
     onSuccess();
+
+    await AsyncStorage.removeItem('auth-token');
+  };
+
+export const loginSuccess =
+  ({result}: {result: any}) =>
+  (dispatch: any) => {
+    dispatch({
+      type: AUTH_ACTIONS.LOG_IN_SUCCESS,
+      payload: {result},
+    });
   };
 
 export const login =
@@ -74,12 +89,7 @@ export const login =
         })
       ).data;
 
-      dispatch({
-        type: AUTH_ACTIONS.LOG_IN_SUCCESS,
-        payload: {result},
-      });
-
-      onSuccess({authToken: result.authToken});
+      onSuccess({authToken: result.authToken, result});
 
       return;
     } catch (err: any) {
@@ -292,7 +302,12 @@ export const codeRegister =
 
       dispatch({
         type: AUTH_ACTIONS.CODE_REGISTER_SUCCESS,
-        payload: {email: result.email, name: result.name, id: result.id},
+        payload: {
+          email: result.email,
+          name: result.name,
+          id: result.id,
+          pfp: result.pfp,
+        },
       });
 
       onSuccess({authToken: result.authToken});

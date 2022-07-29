@@ -1,40 +1,67 @@
 import React, {FC} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import {connect} from 'react-redux';
+import {useNavigation} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
 
 interface HeaderProps {
   text: string;
-  image: string;
   Action?: any;
+  SecondAction?: any;
+  pfp: string;
+  backColor?: string;
 }
+
+type RootStackParamList = {
+  Profile: {id: string};
+};
 
 const Header: FC<HeaderProps> = ({
   text = '',
-  image = '/',
   Action = () => <View style={{width: 55, height: 55}}></View>,
+  pfp = 'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
+  backColor,
+  SecondAction,
 }) => {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   return (
-    <View style={styles.wrapper}>
+    <View
+      style={[
+        styles.wrapper,
+        {backgroundColor: backColor ? backColor : '#2E2E2E'},
+      ]}>
       <View style={styles.container}>
         <Action />
         <Text style={styles.text}>{text}</Text>
-        <Image
-          source={{
-            uri: image,
-          }}
-          style={styles.img}
-        />
+
+        {!SecondAction ? (
+          <Pressable
+            onPress={() => navigation.navigate('Profile', {id: 'Profile'})}>
+            <Image
+              source={{
+                uri:
+                  pfp ||
+                  'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
+              }}
+              style={styles.img}
+            />
+          </Pressable>
+        ) : (
+          <SecondAction />
+        )}
       </View>
     </View>
   );
 };
 
-export default Header;
+export default connect((state: any) => ({pfp: state.auth.pfp}), {})(Header);
 
 const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
-    height: 129,
-    backgroundColor: '#1D1D1D',
+    height: 100,
+    backgroundColor: '#2E2E2E',
   },
   container: {
     justifyContent: 'space-around',
@@ -43,7 +70,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     flexDirection: 'row',
     flexWrap: 'nowrap',
-    height: 129,
+    height: 100,
     alignItems: 'center',
   },
   text: {

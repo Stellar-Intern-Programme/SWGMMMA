@@ -37,6 +37,7 @@ const Register = ({
   | 'route'
   | 'navigation'
   | 'loading'
+  | 'loginSuccess'
 >) => {
   const {values, errors, setField, verifyValidity, setError} = useFormHandler(
     {email: '', password: '', username: ''},

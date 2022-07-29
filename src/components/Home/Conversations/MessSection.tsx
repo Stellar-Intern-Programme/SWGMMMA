@@ -3,7 +3,6 @@ import {View, StyleSheet, Image, Text, Pressable} from 'react-native';
 import {MessSectionProps} from '../../../typings';
 import RenderHtml from 'react-native-render-html';
 import parse from 'html-react-parser';
-import RenderHTML from 'react-native-render-html';
 
 const MessSection: FC<MessSectionProps> = ({
   imageUrl,
@@ -28,35 +27,37 @@ const MessSection: FC<MessSectionProps> = ({
           }}
         />
         <View style={styles.containerData}>
-          <Text style={styles.name}>{person.username}</Text>
+          <Text style={styles.name} numberOfLines={1}>
+            {person.username} ({person.email})
+          </Text>
+          {Number(totalUnseen) > 0 && (
+            <View
+              style={{
+                position: 'absolute',
+                top: -15,
+                left: -100,
+                backgroundColor: 'blue',
+                borderRadius: 5,
+                padding: 2,
+                paddingHorizontal: totalUnseen < 10 ? 4 : 2,
+              }}>
+              <Text
+                style={{
+                  position: 'relative',
+                  color: totalUnseen === 0 ? 'white' : 'white',
+                  fontWeight: totalUnseen === 0 ? '600' : '300',
+                  left: 1,
+                }}>
+                {Number(totalUnseen) > 0 ? totalUnseen : ''}
+              </Text>
+            </View>
+          )}
           {message === parse(message) ? (
-            <Text
-              style={{
-                ...styles.message,
-                ...{
-                  color: totalUnseen > 0 ? '#169CEE' : 'white',
-                  fontWeight: totalUnseen > 0 ? '600' : '300',
-                },
-              }}>
-              <Text style={{marginRight: 20}}>
-                {totalUnseen > 0 ? totalUnseen : ''}
-              </Text>
-              {message}
-            </Text>
+            <Text style={styles.message}>{message}</Text>
           ) : (
-            <Text
-              style={{
-                ...styles.message,
-                ...{
-                  color: totalUnseen > 0 ? '#169CEE' : 'white',
-                  fontWeight: totalUnseen > 0 ? '600' : '300',
-                },
-              }}>
-              <Text style={{marginRight: 20}}>
-                {totalUnseen > 0 ? totalUnseen : ''}
-              </Text>
+            <Text style={styles.message}>
               <RenderHtml
-                contentWidth={10}
+                contentWidth={220}
                 source={source}
                 tagsStyles={{
                   body: {
@@ -67,7 +68,7 @@ const MessSection: FC<MessSectionProps> = ({
             </Text>
           )}
         </View>
-        <Text style={styles.hour}>{time}</Text>
+        <Text style={styles.hour}>{time ? time : ''}</Text>
       </View>
     </Pressable>
   );
@@ -80,7 +81,6 @@ const styles = StyleSheet.create({
     width: 350,
     backgroundColor: '#414141',
     height: 84,
-    overflow: 'hidden',
     borderRadius: 12,
     marginTop: 20,
     paddingHorizontal: 20,
@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     position: 'relative',
+    overflow: 'visible',
   },
   img: {
     width: 50,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
     marginRight: 25,
   },
   containerData: {
-    justifyContent: 'center',
+    position: 'relative',
     flexDirection: 'column',
     flexWrap: 'nowrap',
   },
@@ -104,31 +105,34 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderRadius: 10,
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: '400',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     color: '#D9D9D9',
+    width: 220,
   },
   message: {
-    width: 100,
+    width: 250,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    height: 20,
+    height: 50,
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: 15,
     borderRadius: 10,
     color: 'white',
     fontWeight: '700',
+    top: 5,
   },
   hour: {
     width: 40,
     position: 'absolute',
-    bottom: 10,
+    bottom: 2,
     right: 10,
     borderRadius: 10,
     color: 'white',
+    fontWeight: '700',
   },
 });

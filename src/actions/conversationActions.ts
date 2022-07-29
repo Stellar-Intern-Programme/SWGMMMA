@@ -38,6 +38,8 @@ export const getInitialMessages =
         )
       ).data;
 
+      console.log('yay');
+
       dispatch({
         type: CONVERSATION_ACTIONS.GET_INITIAL_MESSAGES,
         payload: {
@@ -52,6 +54,7 @@ export const getInitialMessages =
       console.log(err);
     }
 
+    console.log('b');
     onGettingMessages();
   };
 
