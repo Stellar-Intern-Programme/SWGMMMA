@@ -51,7 +51,7 @@ export interface FormHandler {
   };
   setField: (name: string, newValue: string) => void;
   setError: (name: string, newValue: string) => void;
-  verifyValidity: () => void;
+  verifyValidity: () => boolean;
 }
 
 export type initialValues = {
@@ -97,17 +97,13 @@ export interface CreateMessageProps {
 }
 
 export interface MessSectionProps {
-  setSection: Dispatch<SetStateAction<Section>>;
-  myUsername: string;
-  myEmail: string;
   person?: any;
   message: string;
   conversationId: string;
-  setConversationId: Dispatch<SetStateAction<any>>;
-  setNewContainer: Dispatch<SetStateAction<boolean>>;
-  globalConversationId: string | null;
-  seenMessage: boolean;
   totalUnseen: number;
+  imageUrl: string;
+  navigation?: any;
+  time: string;
 }
 
 export interface SocialRedux {

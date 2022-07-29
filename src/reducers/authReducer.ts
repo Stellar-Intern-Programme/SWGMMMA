@@ -18,8 +18,6 @@ export enum AUTH_ACTIONS {
   DEFAULT_STATE = 'DEFAULT_STATE',
   LOGGED_IN = 'LOGGED_IN',
   NOT_LOGGED_IN = 'NOT_LOGGED_IN',
-  START_LOADING = 'START_LOADING',
-  STOP_LOADING = 'STOP_LOADING',
   LOG_IN_FAIL = 'LOG_IN_FAIL',
   LOG_IN_SUCCESS = 'LOG_IN_SUCCESS',
   REGISTER_FAIL = 'REGISTER_FAIL',
@@ -40,6 +38,14 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         username: action.payload.username,
         email: action.payload.email,
         userId: action.payload.id,
+        errors: {
+          email: '',
+          password: '',
+          confirmPassword: '',
+          username: '',
+          fullError: '',
+          code: '',
+        },
       };
     }
     case AUTH_ACTIONS.NOT_LOGGED_IN: {
@@ -49,18 +55,6 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         username: '',
         email: '',
         userId: '',
-      };
-    }
-    case AUTH_ACTIONS.START_LOADING: {
-      return {
-        ...state,
-        loading: true,
-      };
-    }
-    case AUTH_ACTIONS.STOP_LOADING: {
-      return {
-        ...state,
-        loading: false,
       };
     }
     case AUTH_ACTIONS.DEFAULT_STATE: {
@@ -73,7 +67,6 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
           fullError: '',
           code: '',
         },
-        loading: false,
       };
     }
     case AUTH_ACTIONS.LOGOUT: {
@@ -87,7 +80,6 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
     case AUTH_ACTIONS.LOG_IN_FAIL: {
       return {
         ...state,
-        loading: false,
         loggedIn: false,
         errors: {
           [action.payload.name]: action.payload.error,
@@ -97,7 +89,6 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
     case AUTH_ACTIONS.LOG_IN_SUCCESS: {
       return {
         ...state,
-        loading: false,
         loggedIn: true,
         email: action.payload.result.email,
         userId: action.payload.result.id,
@@ -107,7 +98,6 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
     case AUTH_ACTIONS.REGISTER_FAIL: {
       return {
         ...state,
-        loading: false,
         loggedIn: false,
         errors: {
           [action.payload.name]: action.payload.error,
@@ -123,7 +113,6 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
     case AUTH_ACTIONS.CODE_REGISTER_FAIL: {
       return {
         ...state,
-        loading: false,
         loggedIn: false,
         errors: {
           [action.payload.name]: action.payload.error,
@@ -133,14 +122,15 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
     case AUTH_ACTIONS.CODE_REGISTER_SUCCESS: {
       return {
         ...state,
-        loading: false,
         loggedIn: true,
+        email: action.payload.email,
+        userId: action.payload.id,
+        username: action.payload.name,
       };
     }
     case AUTH_ACTIONS.FP_FAIL: {
       return {
         ...state,
-        loading: false,
         [action.payload.name]: action.payload.error,
       };
     }

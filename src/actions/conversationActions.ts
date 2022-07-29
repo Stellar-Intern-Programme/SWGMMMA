@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {CONVERSATION_ACTIONS} from '../reducers/conversationReducer';
 import {server} from '../config/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const deleteConversationData = () => (dispatch: any) => {
   dispatch({
@@ -28,7 +29,12 @@ export const getInitialMessages =
           `${server}/api/conversation/show-conversation/${conversationId}?limit=${100}&skip=${0}&add=${
             totalUnseen || 0
           }`,
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 
@@ -64,7 +70,12 @@ export const getPreviousMessages =
       const result = (
         await axios.get(
           `${server}/api/conversation/show-conversation/${conversationId}?limit=${100}&skip=${skip}`,
-          {withCredentials: true},
+          {
+            withCredentials: true,
+            headers: {
+              Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+            },
+          },
         )
       ).data;
 
@@ -127,6 +138,9 @@ export const lastMessage = () => async (dispatch: any) => {
     const result = (
       await axios.get(`${server}/api/conversation/last-message`, {
         withCredentials: true,
+        headers: {
+          Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+        },
       })
     ).data;
 
@@ -161,12 +175,20 @@ export const seeMessage =
       await axios.post(
         `${server}/api/conversation/seen-message/${messageId}/${conversationId}`,
         {},
-        {withCredentials: true},
+        {
+          withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
+        },
       );
 
       const result = (
         await axios.get(`${server}/api/conversation/last-message`, {
           withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
         })
       ).data;
 
@@ -241,6 +263,9 @@ export const getConversations =
       const result = (
         await axios.get(`${server}/api/conversation/show-conversations`, {
           withCredentials: true,
+          headers: {
+            Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
+          },
         })
       ).data;
 
@@ -273,23 +298,13 @@ export const addConversation =
   };
 
 export const removeConversation =
-  ({
-    conversationId,
-    onSuccess,
-  }: {
-    conversationId: string;
-    onSuccess: () => void;
-  }) =>
+  ({conversationId}: {conversationId: string}) =>
   (dispatch: any) => {
     try {
       dispatch({
         type: CONVERSATION_ACTIONS.REMOVE_CONVERSATION,
         payload: {conversationId},
       });
-
-      if (onSuccess) {
-        onSuccess();
-      }
     } catch (err) {
       console.log(err);
     }

@@ -16,13 +16,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  justify-content: center;
 }
 .top {
   display: flex;
   flex-direction: row;
   background-color: #0c0c0c;
-  margin-top: -50px;
   height: 15%;
   width: 100%;
   justify-content: center;
@@ -39,9 +37,10 @@ body {
 }
 .avatar {
   display: flex;
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   margin-top: -10px;
+  border-radius: 30px;
 }
 form {
   background-color: grey;
@@ -97,7 +96,49 @@ button {
   width: 100%;
   z-index: 100;
   display: none;
+  
 }
+
+@keyframes spinImg {
+  0% { width: 0; height: 0; border-radius: 50% }
+  70% { border-radius: 20%;}
+  100% {width: 80vw; height: 80vw; border-radius: 20px; }
+}
+.spin img {
+  animation: spinImg 1s;
+}
+.spin-top img {
+  animation: spinImg 1s;
+}
+
+@keyframes popUpAvatar {
+  0% {  transform: rotate(0); opacity: 0; }
+  100% { transform: rotate(360deg); opacity: 1;}
+}
+
+@keyframes textOpacity {
+  0% { opacity: 0;}
+  100% { opacity: 0;}
+
+}
+
+.spin {
+  height: 100vh;
+  animation: popUpAvatar 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-timing-function: linear;
+}
+.spin-top {
+  height: 100vh;
+  animation: popUpAvatar 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-timing-function: linear;
+}
+
 .pop-up span {
   position: absolute;
   top: 0;
@@ -110,9 +151,6 @@ button {
 }
 .pop-up img {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 80vw;
   height: 80vw;
   border-radius: 20px;  
@@ -133,6 +171,7 @@ button {
   text-align: center;
     width: 100%;
     justify-content: center;
+    animation: textOpacity 1s;
 }
 .set-avatar{
   position: absolute;
@@ -194,4 +233,61 @@ button {
   z-index: 100;
   justify-content: center;
   border-radius: 7px;
+}
+.loading {
+	opacity: 0;
+	display: flex;
+	position: fixed;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	transition: opacity .3s ease-in;
+}
+
+.loading.show {
+	opacity: 1;
+}
+
+.ball {
+	background-color: #777;
+	border-radius: 50%;
+	margin: 5px;
+	height: 10px;
+	width: 10px;
+	animation: jump .5s ease-in infinite;
+}
+
+.ball:nth-of-type(2) {
+	animation-delay: 0.1s;
+}
+
+.ball:nth-of-type(3) {
+	animation-delay: 0.2s;
+}
+
+@keyframes jump {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	
+	50% {
+		transform: translateY(-10px);
+	}
+}
+.skeleton{
+  opacity: .7;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+
+  0%{
+    background-color: hsl(200, 20%, 70%);
+  }
+
+  100%{
+    background-color: hsl(200, 20%, 95%);
+  }
+}
+.remove-avatar-bot{
+display: none;
 }

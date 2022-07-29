@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -23,12 +23,12 @@ import Button from '../../src/components/Auth/Button';
 export type RootStackParamList = {
   ForgotPassword: {id: string};
   Register: {id: string};
+  Home: {id: string};
 };
 
 const Register = ({
   serverErrors,
   login,
-  loading,
   defaultState,
 }: Omit<
   AuthPropsReducer,
@@ -38,30 +38,36 @@ const Register = ({
   | 'forgotPassword'
   | 'navigation'
   | 'route'
+  | 'loading'
 >) => {
   const {values, errors, setField, verifyValidity, setError} = useFormHandler(
     {email: '', password: ''},
     serverErrors,
   );
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const [loading, setLoading] = useState(false);
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   useEffect(() => {
     defaultState({});
-  }, [defaultState]);
+  }, []);
 
   const onSuccess = async ({authToken}: {authToken: string}) => {
     await AsyncStorage.setItem('auth-token', authToken);
   };
 
+  const onFinish = () => {
+    setLoading(false);
+  };
+
   const loginRequest = async () => {
     setError('fullError', '');
 
-    verifyValidity();
-
-    if (errors?.email?.length > 0 || errors?.password?.length > 0) return;
+    if (verifyValidity()) return;
 
     try {
+      setLoading(true);
+
       const authToken = await AsyncStorage.getItem('auth-token');
 
       await login({
@@ -69,10 +75,11 @@ const Register = ({
         password: values.password,
         onSuccess,
         authToken,
+        onFinish,
       });
     } catch (err) {
-      loading = false;
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -84,6 +91,7 @@ const Register = ({
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.headline}>LOGIN</Text>
+      <Text style={styles.fullError}>{errors?.fullError}</Text>
       <TextField
         placeholder={'exemplu@gmail.com'}
         value={values.email}
@@ -91,6 +99,7 @@ const Register = ({
         setField={setField}
         label={'email'}
         error={errors?.email}
+        loading={loading}
       />
       <TextField
         placeholder={'********'}
@@ -99,6 +108,7 @@ const Register = ({
         setField={setField}
         label={'Password'}
         error={errors?.password}
+        loading={loading}
       />
 
       {!loading ? (
@@ -129,7 +139,6 @@ export default connect(
   (state: any) => ({
     loggedIn: state.auth.loggedIn,
     serverErrors: state.auth.errors,
-    loading: state.auth.loading,
   }),
   {login: loginConnect, defaultState: defaultStateConnect},
 )(Register);
@@ -155,6 +164,11 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '900',
     fontSize: 50,
+  },
+  fullError: {
+    fontFamily: 'Inter',
+    fontSize: 12,
+    color: 'red',
     marginBottom: 40,
   },
   signUpButton: {

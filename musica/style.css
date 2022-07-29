@@ -13,7 +13,7 @@
     margin: 0%;
     background-color:  #1D1D1D;
     flex-direction: column;
-
+    overflow-y: hidden;
 }
 .upper p{
     color: white;
@@ -26,18 +26,21 @@
 }
 
 .favorite{
+    animation: displayFlex  .5s;
     height: 100%;
     overflow: hidden;
     max-height: 200px;
-    transition: .5s height;
+    transition: .5s max-height;
 }
-
-@keyframes displayNone {
-    100% { max-height: 0px; }
+.buttonDragOpen{
+    animation: displayFlex  .5s;
+    height: 100%;
+    overflow: hidden;
+    max-height: 75%;
+    transition: .5s max-height;
 }
-
 .closeFavorite {
-    height: 0;
+    max-height: 0;
     animation: displayNone .5s;
 }
 .fav{
@@ -64,8 +67,11 @@
     line-height: 15px;
     letter-spacing: 0em;
     color: white;
-    max-width: fit-content;
-
+    max-width: 116px;
+    max-height: 15px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .artist{
     margin: 0;
@@ -76,6 +82,7 @@
     letter-spacing: 0em;
     color:#B0B0B0 ;
     max-width: fit-content;
+    text-overflow: ellipsis;
 }
 .cover{
     height: 116px;
@@ -84,7 +91,7 @@
 }
 .Placeholder {
     display: flex;
-    width: 341px;
+    width: 95%;
     height: 38px;
     border-radius: 12px;
     align-items: center;
@@ -123,7 +130,7 @@
 }
 .lupa{
 position: absolute;
-right: 35px;
+right: 8%;
 height: 17.5px;
 width: 17.5px;
 }
@@ -143,22 +150,38 @@ width: 17.5px;
     letter-spacing: 0em;
     color: white;
 }
+.trending{
+    display: flex;
+    flex-direction: column;
+}
 .gridTrending{
+    gap: 10px;    
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: repeat(10, 1fr);
     padding-bottom: 15px;
     overflow-x: scroll;
+    overflow-y: scroll;
+    row-gap: 60px;
 }
 .backGroundPopup{
     height: 100vh;
     width: 100vw;
     z-index: 6;
-    position: absolute;
+    position: fixed;
+    display: flex;
     background: #0000008A;
     /* background-color: #B0B0B0; */
-    display: none;
-    align-items: flex-end;
+    /* display: none; */
+    /* align-items: flex-end; */
+    opacity: 0;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.backGroundPopup.visible{
+    opacity: 1;
+    pointer-events: all;
 }
 .infoPopup{
     
@@ -170,6 +193,12 @@ width: 17.5px;
     border-radius: 20px 20px 0px 0px ;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 100vh;
+    transition: 0.5s;
+}
+
+.infoPopup.visible{
+    margin-top: 30vh;
 }
 .overButtonDrag{
     display: flex;
@@ -186,18 +215,25 @@ width: 17.5px;
     margin-bottom: 34px;
 }
 .fundalPopup{
+    pointer-events:none;
+    top: 47%;
     opacity: 100%;
     position: absolute;    
     width: 100vw;
     z-index: 0;
+    border-radius: 20px 20px 0px 0px
 }
 .coverAll{
-margin-left: 22px;    
+margin-left: 22px;
+overflow-y: scroll;    
 }
 .songfoto{
+    height: 174px;
+    width: 174px;
     margin-bottom: 8px;
     opacity: 100%;
     z-index: 6;
+    border-radius: 20px;
 }
 .pozamelodie{
     z-index: 2;
@@ -278,7 +314,7 @@ margin-left: 22px;
     justify-content: space-between; 
 }
 .buttonPlay{
-    z-index: 2;
+    z-index: 7;
     margin-bottom: 24px;
     width: 100%;
     display: flex;
@@ -304,6 +340,7 @@ margin-left: 22px;
     line-height: 22px;
 }
 .buttonFavoriteOver{
+    z-index: 2;
     display: flex;
     width: 100%;
     align-items: center;
@@ -324,3 +361,17 @@ margin-left: 22px;
     height: 12px;
     width: 12px;
 }
+.skeleton{
+    opacity: .7;
+    animation: skeleton-loading 1s linear infinite alternate;
+  }
+  @keyframes skeleton-loading {
+  
+    0%{
+      background-color: hsl(200, 20%, 70%);
+    }
+  
+    100%{
+      background-color: hsl(200, 20%, 95%);
+    }
+  }
