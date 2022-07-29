@@ -166,20 +166,17 @@ function modalData(element) {
     fetch(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&language=en-US`).then(res => res.json()).then(production => {
         title.innerText = production.original_title;
         const addFav = document.getElementById("addFav")
-        favoriteMoviesArray.forEach(x => {
-            console.log()
-            if (x.title == production.original_title) {
+        console.log(favoriteMoviesArray)
+        if (favoriteMoviesArray.find(e => e.id === production.id)) {
                 addFav.setAttribute("onclick", `removeFavorite(${production.id})`);
                 addFav.style.backgroundColor = "red"
-                addFav.innerText = "REMOVE FAVORITE"
-            }
+            addFav.innerText = "REMOVE FAVORITE"
+        }
             else {
                 addFav.setAttribute("onclick", `addFavorite(${production.id})`);
                 addFav.style.backgroundColor = "#1A73E8"
                 addFav.innerText = "ADD TO FAVORITE"
-            }
-
-        })
+        }
         rating.innerText = production.vote_average.toFixed(1);
         genre.innerText = production.genres[0].name
         language.innerText = production.original_language;
@@ -232,6 +229,16 @@ function addFavoriteList() {
         favMovieImg.addEventListener("click", () => { openModal(), modalData(x) })
         favMovieList.appendChild(favMovieImg)
     })
+}
+function removeFavorite(id) {
+    const addFav = document.getElementById("addFav")
+    addFav.setAttribute("onclick", `addFavorite(${id})`);
+    addFav.style.backgroundColor = "#1A73E8"
+    addFav.innerText = "ADD TO FAVORITE"
+    favoriteMoviesArray = favoriteMoviesArray.filter((favorite) => favorite.id !== id);
+    localStorage.setItem("favorite", JSON.stringify(favoriteMoviesArray));
+    addFavoriteList();
+
 }
 function searchMovie(event) {
     const value = document.getElementById("searchInput").value

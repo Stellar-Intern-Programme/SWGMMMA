@@ -303,7 +303,15 @@ padding-top: 10px;
     left: -130vw;
     transition: .5s all;
 }
+.already-added img{
+    position: absolute;
+    top: 5vh;
+    right: 5vw;
+    height: 30%;
+    display: flex;
+    transition: all .2s;
 
+}
 
 @media screen and (max-width: 700px) {
 }
