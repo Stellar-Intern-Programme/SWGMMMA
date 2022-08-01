@@ -481,7 +481,7 @@ body {
     align-items: center;
     justify-content: space-around;
     position: absolute;
-    bottom: 0px;
+    bottom: -800px;
     z-index: 5;
     background-color: #1D1D1D;
     height: 73vh;
