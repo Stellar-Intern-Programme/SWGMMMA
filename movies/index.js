@@ -4,6 +4,17 @@ fetch("https://api.themoviedb.org/3/search/movie?api_key=" + API_KEY + "&query="
     console.log(data);
 })
 let favMovieList;
+let favoriteMovies;
+let trendingMovies;
+let iframe;
+let trailerBtn;
+let modalBackground;
+let modal;
+let companiesImages;
+let favP;
+
+
+
 const arrayOfGenres = [
     { id: '28', name: 'Action' },
     { id: '12', name: 'Adventure' },
@@ -36,8 +47,6 @@ console.log(arrayOfGenres)
 let trendingMoviesArray = JSON.parse(localStorage.getItem("trendingMovies")) || [];
 let favoriteMoviesArray = JSON.parse(localStorage.getItem("favorite")) || [];
 function openTrailer() {
-    const iframe = document.getElementById("iframe")
-    const trailerBtn = document.getElementById("trailerBtn")
     iframe.style.left = "8vw"
     trailerBtn.innerText = ""
     trailerBtn.innerText = "STOP PLAYING"
@@ -50,22 +59,15 @@ function openTrailer() {
     }
 }
 function openModal() {
-    const modalBackground = document.getElementById("modalBackground")
-    const modal = document.getElementById("modal")
     modalBackground.style.zIndex = "4"
     modalBackground.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
     modal.style.bottom = "0";
 }
 function closeModal() {
-    const modalBackground = document.getElementById("modalBackground")
-    const modal = document.getElementById("modal")
     modalBackground.style.backgroundColor = "rgba(0, 0, 0, 0)";
     modalBackground.style.zIndex = "-1"
     modal.style.bottom = "-80vh";
-    const iframe = document.getElementById("iframe")
-    const trailerBtn = document.getElementById("trailerBtn")
     iframe.style.left = "-130vw";
-    const companiesImages = document.getElementById("companiesImages")
     companiesImages.innerHTML = ""
     trailerBtn.innerText = "";
     trailerBtn.innerText = "PLAY VIDEO";
@@ -73,9 +75,6 @@ function closeModal() {
 }
 
 function searchMenu() {
-    const divSearch = document.getElementById("divSearch")
-    const favoriteMovies = document.getElementById("favoriteMovies")
-    const trendingMovies = document.getElementById("trendingMovies")
     const topTitle = document.getElementById("topTitle")
     const recommendMovies = document.getElementById("recommendMovies")
     const x = document.getElementById("x");
@@ -88,9 +87,7 @@ function searchMenu() {
     x.style.display = "flex"
 }
 function closeSearchMenu() {
-    const divSearch = document.getElementById("divSearch")
-    const favoriteMovies = document.getElementById("favoriteMovies")
-    const trendingMovies = document.getElementById("trendingMovies")
+
     const topTitle = document.getElementById("topTitle")
     const recommendMovies = document.getElementById("recommendMovies")
     const searchInput = document.getElementById("searchInput").value
@@ -110,9 +107,23 @@ function closeSearchMenu() {
 
 window.addEventListener("load", (event) => {
     favMovieList = document.getElementById("favMovieList");
+    favoriteMovies = document.getElementById("favoriteMovies");
+    trendingMovies = document.getElementById("trendingMovies");
+    iframe = document.getElementById("iframe");
+    trailerBtn = document.getElementById("trailerBtn");
+    modalBackground = document.getElementById("modalBackground");
+    modal = document.getElementById("modal");
+    companiesImages = document.getElementById("companiesImages")
+    favP = document.getElementById("favP");
+
+    if (favoriteMoviesArray.length === 0) {
+        favP.style.display = "none"
+    }
+
+
+
     addFavoriteList();
     fetch("https://api.themoviedb.org/3/trending/movie/day?api_key=" + API_KEY).then(res => res.json()).then(data => {
-        const trendingMovies = document.getElementById("trendingMovies")
         const trendMovieList = document.getElementById("trendMovieList")
         document.getElementById("searchInput").addEventListener("keyup", searchMovie)
         trendingMovies.appendChild(trendMovieList)
@@ -149,18 +160,8 @@ function modalData(element) {
         movieImg.setAttribute("src", "src/noimage.png")
     })
     info.appendChild(movieImg)
-    // title.innerText = element.title;
-    // rating.innerText = element.vote_average.toFixed(1);
-    // arrayOfGenres.forEach(g => { if (Number(g.id) === element.genre_ids[0]) { console.log(g.name); genre.innerText = g.name } })
-    // language.innerText = element.original_language;
-    // description.innerText = element.overview;
-    // if (element.adult !== false) {
-    //     console.log(element.adult);
-    //     adult.innerText = "adult";
-    // }
     fetch("https://api.themoviedb.org/3/movie/" + element.id + "/videos?api_key=" + API_KEY + "&language=en-US").then(res => res.json()).then(trailerData => {
         console.log(trailerData.results[0].key);
-        const iframe = document.getElementById("iframe")
         iframe.innerHTML = `<iframe width="350px" height="170px" border-radius="20px" src="https://www.youtube.com/embed/${trailerData.results[0].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
     })
     fetch(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&language=en-US`).then(res => res.json()).then(production => {
@@ -190,7 +191,6 @@ function modalData(element) {
         production.production_companies.forEach(
             x => {
                 const compImg = document.createElement("img")
-                const companiesImages = document.getElementById("companiesImages")
                 compImg.setAttribute("src", "https://image.tmdb.org/t/p/w500/" + x.logo_path)
                 companiesImages.appendChild(compImg)
                 compImg.addEventListener("error", () => {
@@ -217,6 +217,7 @@ function addFavorite(id) {
         addFav.setAttribute("onclick", `removeFavorite(${id})`);
         addFav.style.backgroundColor = "red"
         addFav.innerText = "REMOVE FAVORITE"
+        favP.style.display = "flex"
 
     })
 }
@@ -238,6 +239,12 @@ function removeFavorite(id) {
     favoriteMoviesArray = favoriteMoviesArray.filter((favorite) => favorite.id !== id);
     localStorage.setItem("favorite", JSON.stringify(favoriteMoviesArray));
     addFavoriteList();
+    if (favoriteMoviesArray.length === 0) {
+        const nothingImg = document.createElement("img")
+        nothingImg.setAttribute("src", "src/nothing-here.png")
+        favMovieList.appendChild(nothingImg)
+    }
+
 
 }
 function searchMovie(event) {
