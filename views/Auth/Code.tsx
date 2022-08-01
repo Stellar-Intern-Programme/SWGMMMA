@@ -24,7 +24,12 @@ const Code = ({
   route,
 }: Omit<
   AuthPropsReducer,
-  'completeForgotPassword' | 'login' | 'register' | 'forgotPassword' | 'loading'
+  | 'completeForgotPassword'
+  | 'login'
+  | 'register'
+  | 'forgotPassword'
+  | 'loading'
+  | 'loginSuccess'
 >) => {
   const [startLoad, setStartLoad] = useState(false);
 
@@ -113,6 +118,7 @@ const Code = ({
         value={values.code}
         name={'code'}
         setField={setField}
+        keyboardType={'numeric'}
         label={'Code'}
         error={errors?.code || errors?.fullError || ''}
       />

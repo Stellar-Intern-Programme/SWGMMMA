@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
 import {View, StyleSheet, Image, Text, Pressable} from 'react-native';
 import {MessSectionProps} from '../../../typings';
-import RenderHtml from 'react-native-render-html';
-import parse from 'html-react-parser';
-import RenderHTML from 'react-native-render-html';
 
 const MessSection: FC<MessSectionProps> = ({
   imageUrl,
@@ -13,13 +10,18 @@ const MessSection: FC<MessSectionProps> = ({
   conversationId,
   navigation,
   time,
+  scrollRef,
+  media,
 }) => {
-  const source = {
-    html: message,
-  };
   return (
     <Pressable
-      onPress={() => navigation.navigate('Conversation', {conversationId})}>
+      onPress={() =>
+        navigation.navigate('Conversation', {
+          conversationId,
+          pfpOther: person.profile.avatar,
+          scrollRef,
+        })
+      }>
       <View style={styles.container}>
         <Image
           style={styles.img}
@@ -28,46 +30,56 @@ const MessSection: FC<MessSectionProps> = ({
           }}
         />
         <View style={styles.containerData}>
-          <Text style={styles.name}>{person.username}</Text>
-          {message === parse(message) ? (
-            <Text
+          <Text style={styles.name} numberOfLines={1}>
+            {person.username} ({person.email})
+          </Text>
+          {Number(totalUnseen) > 0 && (
+            <View
               style={{
-                ...styles.message,
-                ...{
-                  color: totalUnseen > 0 ? '#169CEE' : 'white',
-                  fontWeight: totalUnseen > 0 ? '600' : '300',
-                },
+                position: 'absolute',
+                top: -15,
+                left: -100,
+                backgroundColor: 'rgb(50, 50, 50)',
+                borderRadius: 5,
+                padding: 2,
+                paddingHorizontal: totalUnseen < 10 ? 4 : 2,
               }}>
-              <Text style={{marginRight: 20}}>
-                {totalUnseen > 0 ? totalUnseen : ''}
+              <Text
+                style={{
+                  position: 'relative',
+                  color: totalUnseen === 0 ? 'white' : 'white',
+                  fontWeight: totalUnseen === 0 ? '600' : '300',
+                  left: 1,
+                }}>
+                {Number(totalUnseen) > 0 ? totalUnseen : ''}
               </Text>
+            </View>
+          )}
+          {!media ? (
+            <Text style={styles.message} numberOfLines={2}>
               {message}
             </Text>
-          ) : (
-            <Text
+          ) : Boolean(message.length) ? (
+            <View
               style={{
-                ...styles.message,
-                ...{
-                  color: totalUnseen > 0 ? '#169CEE' : 'white',
-                  fontWeight: totalUnseen > 0 ? '600' : '300',
-                },
+                flexDirection: 'row',
+                flexWrap: 'nowrap',
+                alignItems: 'center',
+                height: 50,
               }}>
-              <Text style={{marginRight: 20}}>
-                {totalUnseen > 0 ? totalUnseen : ''}
-              </Text>
-              <RenderHtml
-                contentWidth={10}
-                source={source}
-                tagsStyles={{
-                  body: {
-                    color: totalUnseen > 0 ? '#169CEE' : 'white',
-                  },
+              <Image
+                style={{width: 20, height: 20, marginTop: -19}}
+                source={{
+                  uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1659303653/IFrameApplication/image-941_1_oyjlod.png',
                 }}
               />
-            </Text>
+              <Text style={styles.imageText}>Image</Text>
+            </View>
+          ) : (
+            <View style={{height: 50}} />
           )}
         </View>
-        <Text style={styles.hour}>{time}</Text>
+        <Text style={styles.hour}>{time ? time : ''}</Text>
       </View>
     </Pressable>
   );
@@ -80,7 +92,6 @@ const styles = StyleSheet.create({
     width: 350,
     backgroundColor: '#414141',
     height: 84,
-    overflow: 'hidden',
     borderRadius: 12,
     marginTop: 20,
     paddingHorizontal: 20,
@@ -88,6 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'nowrap',
     position: 'relative',
+    overflow: 'visible',
   },
   img: {
     width: 50,
@@ -96,7 +108,7 @@ const styles = StyleSheet.create({
     marginRight: 25,
   },
   containerData: {
-    justifyContent: 'center',
+    position: 'relative',
     flexDirection: 'column',
     flexWrap: 'nowrap',
   },
@@ -104,31 +116,43 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     borderRadius: 10,
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: 15,
     fontWeight: '400',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     color: '#D9D9D9',
+    width: 220,
   },
   message: {
-    width: 100,
+    width: 235,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    height: 20,
+    height: 50,
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: 13,
     borderRadius: 10,
     color: 'white',
     fontWeight: '700',
+    top: 5,
+  },
+  imageText: {
+    fontFamily: 'Inter',
+    fontSize: 13,
+    color: 'white',
+    fontWeight: '700',
+    marginLeft: 10,
+    height: 50,
+    top: 5,
   },
   hour: {
     width: 40,
     position: 'absolute',
-    bottom: 10,
-    right: 10,
+    bottom: 2,
+    right: 0,
     borderRadius: 10,
     color: 'white',
+    fontWeight: '700',
   },
 });

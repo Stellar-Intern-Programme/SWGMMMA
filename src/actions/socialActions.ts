@@ -45,7 +45,15 @@ export const defaultState = () => async (dispatch: any) => {
 };
 
 export const addFriend =
-  ({email, onSuccess}: {email: string; onSuccess: () => void}) =>
+  ({
+    email,
+    onSuccess,
+    onFinish,
+  }: {
+    email: string;
+    onSuccess: () => void;
+    onFinish: () => void;
+  }) =>
   async () => {
     try {
       await axios.post(
@@ -63,7 +71,10 @@ export const addFriend =
       updateFriends();
     } catch (err) {
       console.log(err);
+      onFinish();
     }
+
+    onFinish();
   };
 
 export const removeFriend =
@@ -71,10 +82,12 @@ export const removeFriend =
     email,
     remFrCallback,
     onRemoveFriend,
+    onFinish,
   }: {
     onRemoveFriend: any;
     email: string;
     remFrCallback: ({conversationId}: {conversationId: string}) => void;
+    onFinish: any;
   }) =>
   async (dispatch: any) => {
     try {
@@ -101,7 +114,10 @@ export const removeFriend =
       remFrCallback({conversationId: result.conversationId});
     } catch (err) {
       console.log(err);
+      onFinish();
     }
+
+    onFinish();
   };
 
 export const showFriendRequests = () => async (dispatch: any) => {
@@ -137,10 +153,12 @@ export const acceptFriendRequest =
     email,
     onSuccess,
     acceptedRequestCallback,
+    onFinish,
   }: {
     email: string;
     onSuccess: () => void;
     acceptedRequestCallback: any;
+    onFinish: () => void;
   }) =>
   async () => {
     try {
@@ -163,11 +181,22 @@ export const acceptFriendRequest =
       acceptedRequestCallback({conversation: result.conversation});
     } catch (err) {
       console.log(err);
+      onFinish();
     }
+
+    onFinish();
   };
 
 export const rejectFriendRequest =
-  ({email, onSuccess}: {email: string; onSuccess: () => void}) =>
+  ({
+    email,
+    onSuccess,
+    onFinish,
+  }: {
+    email: string;
+    onSuccess: () => void;
+    onFinish: () => void;
+  }) =>
   async () => {
     try {
       await axios.post(
@@ -184,7 +213,10 @@ export const rejectFriendRequest =
       onSuccess();
     } catch (err) {
       console.log(err);
+      onFinish();
     }
+
+    onFinish();
   };
 
 export const showPeopleSearch =
@@ -236,10 +268,12 @@ export const blockFriend =
     email,
     onSuccess,
     friendId,
+    onFinish,
   }: {
     email: string;
     onSuccess: any;
     friendId: string;
+    onFinish: any;
   }) =>
   async (dispatch: any) => {
     try {
@@ -263,8 +297,10 @@ export const blockFriend =
 
       onSuccess({conversationId: result.id, convStatus: result.convStatus});
     } catch (err) {
+      onFinish();
       console.log(err);
     }
+    onFinish();
   };
 
 export const unblockFriend =
@@ -272,10 +308,12 @@ export const unblockFriend =
     email,
     onSuccess,
     friendId,
+    onFinish,
   }: {
     email: string;
     onSuccess: any;
     friendId: string;
+    onFinish: any;
   }) =>
   async (dispatch: any) => {
     try {
@@ -299,6 +337,9 @@ export const unblockFriend =
 
       onSuccess({conversationId: result.id, convStatus: result.convStatus});
     } catch (err) {
+      onFinish();
       console.log(err);
     }
+
+    onFinish();
   };

@@ -15,14 +15,12 @@
     <div class="container">
         <div class="top-title"> <p id="topTitle">MOVIES</p> </div>
         <div class="movies" id="movies">
-            <div class="favorite-movies" id="favoriteMovies"><p>FAVORITE MOVIES</p> <div class="fav-movie-list"><img src="src/minions.jpg"  onclick = "openModal()" alt="Minions"> 
-                <img src="src/infinity_war.jpg" alt="Infinity War">
-                 <img src="src/star_wars.jpg" alt="star wars"> <img src="src/Johnny_English.jpg" alt="Johnny English">
+            <div class="favorite-movies" id="favoriteMovies"><p id="favP">FAVORITE MOVIES</p> <div class="fav-movie-list" id="favMovieList"><img src="src/nothing-here.png" alt="">
             </div>
             </div>
-            <div class="search" id="divSearch" onclick="searchMenu()"> 
-            <div class="searchInput"><div class="x" id="x" onclick = "closeSearchMenu()">&times;</div><input type="text" placeholder="SEARCH" id="searchInput"></div> <img src="src/search.svg" alt="search"></div>
-            <div class="recommend-movies" id="recommendMovies"><p>MOVIES with </p> <div class="recom-movie-list"> <img src="src/amongus.png" onclick="closeSearchMenu()" alt="Johnny English"> <img src="src/profile_pic.jpg" alt="">
+            <div class="x" id="x" onclick = "closeSearchMenu()">&times;</div><div class="search" id="divSearch" onclick="searchMenu()"> 
+            <div class="searchInput"> <input type="text" autocomplete="off" placeholder="SEARCH" id="searchInput"></div> <img src="src/search.svg" alt="search"></div>
+            <div class="recommend-movies" id="recommendMovies"> <p id="moviesWith">SEARCH MOVIES </p><div class="recom-movie-list" id="recomMovieList"> 
             </div> </div>
             <div class="trending-movies" id="trendingMovies"><p>TRENDING MOVIES</p> <div class="trend-movie-list" id="trendMovieList">
             </div>
@@ -39,25 +37,26 @@
                     <p class="info-small-text">Title</p>
                     <p class="info-big-text" id="title">Minions 2</p>
                     <p class="info-small-text">Rating</p>
-                    <p class="info-big-text" id="rating">9.5/10</p> 
+                    <p class="info-big-text" id="rating"></p> 
                     <p class="info-small-text">Genre</p> 
                     <p class="info-big-text" id="genre"></p> 
                     <p class="info-small-text" id="adult"></p>
                     <p class="info-small-text" style="padding: 1px 0px 10px 0px;" id="language">English</p>
                     <p class="trailer" onclick="openTrailer()" id="trailerBtn" >PLAY VIDEO</p>
                 </div>
-                <img src="src/minions.jpg" id="img" alt="minions">
+                <img src="" id="img" alt="minions">
             </div>
             <div class="description"> <p class="info-small-text">Description</p> 
                 <div class="description-text" id="description">
                 
                 </div>
                 <p class="info-small-text" style="padding-top: 15px;">Production companies</p>
-                <div class="companies-images"><img src="src/tenet.jpg" alt=""> <img src="src/tenet.jpg" alt=""> <img src="src/tenet.jpg" alt=""></div>
+                <div class="companies-images" id="companiesImages"></div>
             </div>
-            <div class="add-fav"><p>ADD TO FAVORITE</p></div> <a href="imbd.com" class="imbd-page">SEE IMBD PAGE</a>
+            <div class="add-fav" id="addFav"><p>ADD TO FAVORITE</p></div> <a id="imdb" href="imbd.com" class="imbd-page">SEE IMBD PAGE</a>
    
         </div>
+        <!-- <div class="already-added" id="allreadyAdded"><img src="src/already_in_the_list.png" alt="Already added"></div> -->
         <div class="iframe" id="iframe"></div>
     </div>
 </body>

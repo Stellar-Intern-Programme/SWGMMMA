@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   loggedIn: false,
   loading: false,
   username: '',
+  pfp: '',
   email: '',
   userId: '',
   errors: {
@@ -38,6 +39,7 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         username: action.payload.username,
         email: action.payload.email,
         userId: action.payload.id,
+        pfp: action.payload.pfp,
         errors: {
           email: '',
           password: '',
@@ -55,6 +57,7 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         username: '',
         email: '',
         userId: '',
+        pfp: 'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
       };
     }
     case AUTH_ACTIONS.DEFAULT_STATE: {
@@ -75,6 +78,7 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         username: '',
         email: '',
         userId: '',
+        pfp: 'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
       };
     }
     case AUTH_ACTIONS.LOG_IN_FAIL: {
@@ -93,6 +97,7 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         email: action.payload.result.email,
         userId: action.payload.result.id,
         username: action.payload.result.name,
+        pfp: action.payload.result.pfp,
       };
     }
     case AUTH_ACTIONS.REGISTER_FAIL: {
@@ -126,6 +131,7 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
         email: action.payload.email,
         userId: action.payload.id,
         username: action.payload.name,
+        pfp: action.payload.pfp,
       };
     }
     case AUTH_ACTIONS.FP_FAIL: {

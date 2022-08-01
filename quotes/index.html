@@ -21,14 +21,10 @@
             <p class="popUpAuthor" id="popUpAuthor">
                 BY JEFF HAMMERBECHER
             </p>
-
-
-            <!-- <img src="resources/open.png" alt="open" class="popUpOpenQuote" id="open" />
-            <img src="resources/close.png" alt="close" class="popUpCloseQuote" id="close" /> -->
         </div>
 
         <img src="resources/X.png" alt="X" class="popUpX" id="popUpX" onclick="hidePopUp()" />
-        <button class="addToFavorite" id="addToFavorite">ADD TO FAVORITE</button>
+        <!-- <button class="addToFavorite" id="addToFavorite" onclick="addToFavorite()">ADD TO FAVORITE</button> -->
     </div>
 
     <div class="topSideOverlayWithBackground" id="topSideOverlayWithBackground">
@@ -57,10 +53,12 @@
                 <img src="resources/lupa.png" alt="Lupa" class="Lupa" id="Lupa" onclick="extendSearchBar()" />
                 <img src="resources/X.png" alt="X" class="X" id="X" onclick="hideResults()" />
 
-                <img src="resources/DarkMode.png" alt="Moon" class="Moon" id="Moon" onclick="changeAppearance()" />
+                <img src="resources/moon.svg" alt="Moon" class="Moon" id="Moon" onclick="changeAppearance()" />
 
 
-                <img src="resources/Favorites.png" alt="heart" class="heart" id="heart" />
+                <img src="resources/heart.svg" alt="heart" class="heart" id="heart" onclick="showFavorites()" />
+
+                <img src="resources/arrowLeft.svg" alt="back" class="goBack" id="goBack" onclick="goBackIsNotAFunction()" />
 
                 <div class="resultBackground" id="resultBackground">
 
@@ -89,7 +87,7 @@
             </div>
             <div class="theQuote" id="theQuote">
                 <div class="quotes">
-                    <img src="resources/open.png" alt="Open Quote" class="openQuote" />
+                    <img src="resources/open.svg" alt="Open Quote" class="openQuote" />
                     <img src="resources/close.png" alt="Close Quote" class="closeQuote" />
                 </div>
                 <p class="quote" id="quote" onclick="openModal()">
@@ -107,35 +105,35 @@
                     <p class="quoteInTheListText">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
                     </p>
-                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/open.svg" alt="closeQuote" class="closedQuote">
                     <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
                 </div>
                 <div class="quoteInTheList">
                     <p class="quoteInTheListText">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
                     </p>
-                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/open.svg" alt="closeQuote" class="closedQuote">
                     <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
                 </div>
                 <div class="quoteInTheList">
                     <p class="quoteInTheListText">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
                     </p>
-                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/open.svg" alt="closeQuote" class="closedQuote">
                     <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
                 </div>
                 <div class="quoteInTheList">
                     <p class="quoteInTheListText">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
                     </p>
-                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/open.svg" alt="closeQuote" class="closedQuote">
                     <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
                 </div>
                 <div class="quoteInTheList">
                     <p class="quoteInTheListText">
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut eros mauris, accumsan et eros a, iaculis feugiat ligula. Integer id
                     </p>
-                    <img src="resources/open.png" alt="closeQuote" class="closedQuote">
+                    <img src="resources/open.svg" alt="closeQuote" class="closedQuote">
                     <img src="resources/ArrowRight.png" alt="ArrowRight" class="ArrowRight">
                 </div>
 
@@ -146,7 +144,9 @@
         </div>
     </div>
 
+    <div class="favorites">
 
+        </div>
 
 
 </body>

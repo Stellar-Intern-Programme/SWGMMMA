@@ -15,6 +15,7 @@ import useFormHandler from '../../src/hooks/useFormHandler';
 import {
   login as loginConnect,
   defaultState as defaultStateConnect,
+  loginSuccess as loginSuccessConnect,
 } from '../../src/actions/authActions';
 import {AuthPropsReducer} from '../../src/typings';
 import TextField from '../../src/components/Auth/TextField';
@@ -30,6 +31,7 @@ const Register = ({
   serverErrors,
   login,
   defaultState,
+  loginSuccess,
 }: Omit<
   AuthPropsReducer,
   | 'completeForgotPassword'
@@ -52,8 +54,15 @@ const Register = ({
     defaultState({});
   }, []);
 
-  const onSuccess = async ({authToken}: {authToken: string}) => {
+  const onSuccess = async ({
+    authToken,
+    result,
+  }: {
+    authToken: string;
+    result: any;
+  }) => {
     await AsyncStorage.setItem('auth-token', authToken);
+    loginSuccess({result});
   };
 
   const onFinish = () => {
@@ -84,7 +93,6 @@ const Register = ({
   };
 
   const goToAnotherScreen = (name: 'Register' | 'ForgotPassword') => {
-    console.log(name);
     navigation.navigate(name, {id: name});
   };
 
@@ -140,7 +148,11 @@ export default connect(
     loggedIn: state.auth.loggedIn,
     serverErrors: state.auth.errors,
   }),
-  {login: loginConnect, defaultState: defaultStateConnect},
+  {
+    login: loginConnect,
+    defaultState: defaultStateConnect,
+    loginSuccess: loginSuccessConnect,
+  },
 )(Register);
 
 const screenHeight = Dimensions.get('window').height;

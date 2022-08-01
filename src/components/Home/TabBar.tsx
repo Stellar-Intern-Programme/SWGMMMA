@@ -2,6 +2,11 @@ import React from 'react';
 import {View, Image, StyleSheet, Pressable} from 'react-native';
 
 const TabBar = ({navigation}: {navigation: any}) => {
+  const route =
+    navigation
+      .getState()
+      .history[navigation.getState().history.length - 1].key.split('-')[0] !==
+    'Movies';
   return (
     <View style={styles.wrapper}>
       <View style={styles.container}>
@@ -21,7 +26,7 @@ const TabBar = ({navigation}: {navigation: any}) => {
             style={styles.logo}
           />
         </Pressable>
-        <Pressable onPress={() => navigation.navigate('Home')}>
+        <Pressable onPress={() => navigation.navigate('Conversations')}>
           <Image
             source={{
               uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1657790641/IFrameApplication/Group_kzu8co.png',

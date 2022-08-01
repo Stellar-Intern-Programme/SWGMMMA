@@ -37,6 +37,7 @@ const ForgotPassword = ({
   | 'navigation'
   | 'route'
   | 'loading'
+  | 'loginSuccess'
 >) => {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -63,7 +64,6 @@ const ForgotPassword = ({
 
   const forgotPassRequest = async () => {
     setError('fullName', '');
-    console.log('pass');
     if (verifyValidity()) return;
 
     try {
