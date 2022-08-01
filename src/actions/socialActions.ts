@@ -15,8 +15,6 @@ export const updateFriends = () => async (dispatch: any) => {
     type: SOCIAL_ACTIONS.START_LOADING,
   });
 
-  console.log('asudgi');
-
   try {
     const result = (
       await axios.get(`${server}/api/social/show-friends`, {

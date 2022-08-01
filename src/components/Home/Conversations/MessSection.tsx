@@ -1,8 +1,6 @@
 import React, {FC} from 'react';
 import {View, StyleSheet, Image, Text, Pressable} from 'react-native';
 import {MessSectionProps} from '../../../typings';
-import RenderHtml from 'react-native-render-html';
-import parse from 'html-react-parser';
 
 const MessSection: FC<MessSectionProps> = ({
   imageUrl,
@@ -12,13 +10,18 @@ const MessSection: FC<MessSectionProps> = ({
   conversationId,
   navigation,
   time,
+  scrollRef,
+  media,
 }) => {
-  const source = {
-    html: message,
-  };
   return (
     <Pressable
-      onPress={() => navigation.navigate('Conversation', {conversationId})}>
+      onPress={() =>
+        navigation.navigate('Conversation', {
+          conversationId,
+          pfpOther: person.profile.avatar,
+          scrollRef,
+        })
+      }>
       <View style={styles.container}>
         <Image
           style={styles.img}
@@ -36,7 +39,7 @@ const MessSection: FC<MessSectionProps> = ({
                 position: 'absolute',
                 top: -15,
                 left: -100,
-                backgroundColor: 'blue',
+                backgroundColor: 'rgb(50, 50, 50)',
                 borderRadius: 5,
                 padding: 2,
                 paddingHorizontal: totalUnseen < 10 ? 4 : 2,
@@ -52,20 +55,28 @@ const MessSection: FC<MessSectionProps> = ({
               </Text>
             </View>
           )}
-          {message === parse(message) ? (
-            <Text style={styles.message}>{message}</Text>
-          ) : (
-            <Text style={styles.message}>
-              <RenderHtml
-                contentWidth={220}
-                source={source}
-                tagsStyles={{
-                  body: {
-                    color: totalUnseen > 0 ? '#169CEE' : 'white',
-                  },
+          {!media ? (
+            <Text style={styles.message} numberOfLines={2}>
+              {message}
+            </Text>
+          ) : Boolean(message.length) ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'nowrap',
+                alignItems: 'center',
+                height: 50,
+              }}>
+              <Image
+                style={{width: 20, height: 20, marginTop: -19}}
+                source={{
+                  uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1659303653/IFrameApplication/image-941_1_oyjlod.png',
                 }}
               />
-            </Text>
+              <Text style={styles.imageText}>Image</Text>
+            </View>
+          ) : (
+            <View style={{height: 50}} />
           )}
         </View>
         <Text style={styles.hour}>{time ? time : ''}</Text>
@@ -114,23 +125,32 @@ const styles = StyleSheet.create({
     width: 220,
   },
   message: {
-    width: 250,
+    width: 235,
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     height: 50,
     fontFamily: 'Inter',
-    fontSize: 15,
+    fontSize: 13,
     borderRadius: 10,
     color: 'white',
     fontWeight: '700',
+    top: 5,
+  },
+  imageText: {
+    fontFamily: 'Inter',
+    fontSize: 13,
+    color: 'white',
+    fontWeight: '700',
+    marginLeft: 10,
+    height: 50,
     top: 5,
   },
   hour: {
     width: 40,
     position: 'absolute',
     bottom: 2,
-    right: 10,
+    right: 0,
     borderRadius: 10,
     color: 'white',
     fontWeight: '700',

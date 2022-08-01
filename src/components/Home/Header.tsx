@@ -1,5 +1,12 @@
 import React, {FC} from 'react';
-import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+} from 'react-native';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -10,6 +17,7 @@ interface HeaderProps {
   SecondAction?: any;
   pfp: string;
   backColor?: string;
+  convPfp?: string;
 }
 
 type RootStackParamList = {
@@ -22,6 +30,7 @@ const Header: FC<HeaderProps> = ({
   pfp = 'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
   backColor,
   SecondAction,
+  convPfp,
 }) => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -33,20 +42,31 @@ const Header: FC<HeaderProps> = ({
       ]}>
       <View style={styles.container}>
         <Action />
-        <Text style={styles.text}>{text}</Text>
+        <Text style={styles.text} numberOfLines={1}>
+          {text}
+        </Text>
 
         {!SecondAction ? (
-          <Pressable
-            onPress={() => navigation.navigate('Profile', {id: 'Profile'})}>
+          !convPfp ? (
+            <Pressable
+              onPress={() => navigation.navigate('Profile', {id: 'Profile'})}>
+              <Image
+                source={{
+                  uri:
+                    pfp ||
+                    'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
+                }}
+                style={styles.img}
+              />
+            </Pressable>
+          ) : (
             <Image
               source={{
-                uri:
-                  pfp ||
-                  'https://res.cloudinary.com/multimediarog/image/upload/v1658320601/IFrameApplication/ezgif.com-gif-maker_qbz0uj.png',
+                uri: convPfp,
               }}
               style={styles.img}
             />
-          </Pressable>
+          )
         ) : (
           <SecondAction />
         )}
@@ -64,7 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#2E2E2E',
   },
   container: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    paddingHorizontal: 30,
     backgroundColor: '#0C0C0C',
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,

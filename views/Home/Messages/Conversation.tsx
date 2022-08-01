@@ -5,10 +5,10 @@ import axios from 'axios';
 import {useSocket} from '../../../src/hooks/useSocket';
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
 import SkeletonConversation from '../../../src/components/Home/Skeletons/SkeletonConversation';
-import {IOScrollView, InView} from 'react-native-intersection-observer';
-
+import {format} from 'date-fns';
+import {formatDate, dateDiffers} from '../../../src/utils/formatDate';
 import Message from '../../../src/components/Home/Conversations/Conversation/Message';
-// import CreateMessage from './CreateMessage';
+import {IOScrollView, InView} from 'react-native-intersection-observer';
 import {
   getInitialMessages as getInitialMessagesConnect,
   getPreviousMessages as getPreviousMessagesConnect,
@@ -17,7 +17,6 @@ import {
   seeMessage as seeMessageConnect,
   addNotReadyMessage as addNotReadyMessageConnect,
 } from '../../../src/actions/conversationActions';
-import useIntersectionObserver from '../../../src/hooks/useIntersectionObserver';
 import Header from '../../../src/components/Home/Header';
 import BackArrow from '../../../src/components/Home/BackArrow';
 import CreateMessageContainer from '../../../src/components/Home/Conversations/Conversation/CreateMessageContainer';
@@ -38,13 +37,12 @@ const Conversation: FC<MessageContainerProps> = ({
   conversations,
 }) => {
   const conversationId = route.params.conversationId;
+  const pfpOther = route.params.pfpOther;
+  const scrollRef = route.params.scrollRef;
   const socket = useSocket();
+  const scrollViewRef = useRef<any>(null);
 
   const [isTemp, setIsTemp] = useState(false);
-
-  console.log(isTemp);
-
-  const {ref, visible} = useIntersectionObserver();
 
   const blocked = useMemo(
     () =>
@@ -73,7 +71,7 @@ const Conversation: FC<MessageContainerProps> = ({
   const altRef = useRef();
   const alreadyUnseenRef = useRef<any>(null);
   const altInView = false;
-  const inView = false;
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
     if (
@@ -149,6 +147,10 @@ const Conversation: FC<MessageContainerProps> = ({
 
   const [activate, setActivate] = useState(false);
 
+  // useEffect(() => {
+  //   console.log(scrollViewRef.current?.topScroll);
+  // }, [scrollViewRef]);
+
   useEffect(() => {
     if (
       !inView ||
@@ -211,11 +213,16 @@ const Conversation: FC<MessageContainerProps> = ({
             .people.filter((p: any) => p.email !== myEmail)[0].username
         }
         backColor={'#1D1D1D'}
+        convPfp={pfpOther}
       />
-      <ScrollView contentContainerStyle={styles.messagesContainer}>
-        <InView onChange={(inView: boolean) => setIsTemp(inView)}>
-          <Text ref={ref}>adsaiushd</Text>
-        </InView>
+      <ScrollView
+        contentContainerStyle={styles.messagesContainer}
+        ref={scrollRef}
+        onContentSizeChange={() => {
+          if (!initialLoading) {
+            (scrollRef?.current as any)?.scrollToEnd({animated: false});
+          }
+        }}>
         {messages && messages.length > 0 && !initialLoading ? (
           <>
             {messages.map((message: TextMessage, key: number) => {
@@ -230,16 +237,42 @@ const Conversation: FC<MessageContainerProps> = ({
                 }
               });
 
+              const rawDate = new Date();
               return (
-                <Message
-                  key={key}
-                  index={myEmail === message.senderEmail ? 2 : 1}
-                  text={message.text}
-                  date={message.date}
-                  senderEmail={message.senderEmail}
-                  media={message.media ? message.media : ''}
-                  time={message?.time || '00:00'}
-                />
+                <View key={key + 10}>
+                  {messages[key - 1] &&
+                    dateDiffers(messages[key - 1].date, message.date) && (
+                      <View key={key + 1} style={styles.dateFlex}>
+                        <View key={key + 2} style={styles.dateLine} />
+                        <Text key={key + 3} style={styles.dateText}>
+                          {format(rawDate, 'dd-MM-yyyy') === message.date
+                            ? 'Today'
+                            : formatDate(message.date)}
+                        </Text>
+                        <View key={key + 4} style={styles.dateLine} />
+                      </View>
+                    )}
+                  {key === 0 && (
+                    <View key={key + 1} style={styles.dateFlex}>
+                      <View key={key + 2} style={styles.dateLine} />
+                      <Text key={key + 3} style={styles.dateText}>
+                        {format(new Date(), 'dd-MM-yyyy') !== message.date
+                          ? formatDate(message.date)
+                          : 'Today'}
+                      </Text>
+                      <View key={key + 4} style={styles.dateLine} />
+                    </View>
+                  )}
+                  <Message
+                    key={key}
+                    index={myEmail === message.senderEmail ? 2 : 1}
+                    text={message.text}
+                    date={message.date}
+                    senderEmail={message.senderEmail}
+                    media={message.media ? message.media : ''}
+                    time={message?.time || '00:00'}
+                  />
+                </View>
               );
             })}
           </>
@@ -260,7 +293,16 @@ const Conversation: FC<MessageContainerProps> = ({
           </>
         )}
       </ScrollView>
-      <CreateMessageContainer />
+      <CreateMessageContainer
+        blocked={blocked}
+        conversationId={conversationId}
+        userId={userId}
+        myEmail={myEmail}
+        nrMessages={nrMessages}
+        nrMessagesLoadings={nrMessagesLoadings}
+        addNotReadyMessage={addNotReadyMessage}
+        scrollRef={scrollRef}
+      />
     </View>
   );
 };
@@ -293,7 +335,24 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     paddingHorizontal: 20,
     marginTop: 10,
-    justifyContent: 'flex-start',
-    // boxShadow: '0px 0px 20px ',
+  },
+  dateFlex: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dateLine: {
+    width: 50,
+    marginHorizontal: 10,
+    backgroundColor: 'rgb(150, 150, 150)',
+    height: 2,
+    borderRadius: 5,
+  },
+  dateText: {
+    color: 'rgb(150, 150, 150)',
+    fontFamily: 'Inter',
+    fontSize: 14,
+    fontWeight: '500',
   },
 });

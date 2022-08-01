@@ -38,8 +38,6 @@ export const getInitialMessages =
         )
       ).data;
 
-      console.log('yay');
-
       dispatch({
         type: CONVERSATION_ACTIONS.GET_INITIAL_MESSAGES,
         payload: {
@@ -54,7 +52,6 @@ export const getInitialMessages =
       console.log(err);
     }
 
-    console.log('b');
     onGettingMessages();
   };
 
@@ -117,7 +114,6 @@ export const receiveMessage =
   }) =>
   async (dispatch: any) => {
     try {
-      console.log(message);
       dispatch({
         type: CONVERSATION_ACTIONS.RECEIVE_NEW_MESSAGE,
         payload: {id: conversationId, newMessage: message, userId, email},

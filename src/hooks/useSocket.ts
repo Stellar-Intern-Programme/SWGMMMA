@@ -84,7 +84,6 @@ export const useSocketInit = () => {
     );
 
     socket.on('add-conversation', ({conversation}: {conversation: string}) => {
-      console.log(conversation);
       addConversation({conversation});
     });
 
@@ -113,6 +112,7 @@ export const useSocketInit = () => {
     userId,
     files,
     id,
+    time,
   }: {
     id: number;
     text: string;
@@ -120,6 +120,7 @@ export const useSocketInit = () => {
     conversationId: string;
     userId: string;
     files: string[];
+    time: string;
   }) => {
     socket.emit('send-message', {
       text,
@@ -128,6 +129,7 @@ export const useSocketInit = () => {
       userId,
       files,
       id,
+      time,
     });
   };
 

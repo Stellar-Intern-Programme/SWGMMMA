@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 import {TextMessage} from '../../../../typings';
 
 const Message: FC<TextMessage> = ({text, date, index, media, time}) => {
@@ -14,10 +14,25 @@ const Message: FC<TextMessage> = ({text, date, index, media, time}) => {
       <View
         style={[
           styles.container,
-          {backgroundColor: index === 1 ? '#1A73E8' : '#727272'},
+          {
+            backgroundColor: !media
+              ? index === 1
+                ? '#1A73E8'
+                : '#727272'
+              : 'transparent',
+          },
         ]}>
         <Text style={styles.time}>{time}</Text>
-        <Text style={styles.text}>{text}</Text>
+        {!media ? (
+          <Text style={styles.text}>{text}</Text>
+        ) : (
+          <Image
+            source={{
+              uri: media,
+            }}
+            style={{width: 250, height: 300, marginTop: 5}}
+          />
+        )}
       </View>
     </View>
   );
@@ -36,6 +51,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 20,
     paddingBottom: 10,
+    minWidth: 60,
   },
   time: {
     position: 'absolute',

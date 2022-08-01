@@ -9,8 +9,8 @@ interface Props {
   email: string;
   userId: string;
   search: string;
+  scrollRef: any;
 }
-
 const MapConversations: FC<Props> = ({
   conversations,
   lastMessages,
@@ -19,6 +19,7 @@ const MapConversations: FC<Props> = ({
   email,
   userId,
   search,
+  scrollRef,
 }) => {
   return (
     <>
@@ -34,6 +35,7 @@ const MapConversations: FC<Props> = ({
             return (
               <MessSection
                 key={key}
+                scrollRef={scrollRef}
                 person={
                   conversation.people
                     ? conversation.people.filter(
@@ -47,6 +49,7 @@ const MapConversations: FC<Props> = ({
                     ? lastMessages[conversation._id].message
                     : ''
                 }
+                media={lastMessages[conversation._id]?.media !== '' || false}
                 totalUnseen={
                   lastMessages[conversation._id]
                     ? lastMessages[conversation._id].totalUnseen

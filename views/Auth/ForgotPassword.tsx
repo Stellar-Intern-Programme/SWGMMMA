@@ -64,7 +64,6 @@ const ForgotPassword = ({
 
   const forgotPassRequest = async () => {
     setError('fullName', '');
-    console.log('pass');
     if (verifyValidity()) return;
 
     try {

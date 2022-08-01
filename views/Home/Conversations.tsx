@@ -70,6 +70,8 @@ const Conversations = ({
   const [search, setSearch] = useState('');
   const [_conversations, setConversations] = useState<any>(null);
 
+  const scrollRef = useRef(null);
+
   const newestConversations = conversations;
 
   useEffect(() => {
@@ -88,11 +90,12 @@ const Conversations = ({
         mcRef.current?.scrollTop >
           mcRef.current?.scrollHeight - mcRef.current?.clientHeight - 35)
     ) {
-      setTimeout(() => scrollRef.current?.scrollIntoView(), 0);
+      setTimeout(
+        () => (scrollRef.current as any)?.scrollToEnd({animated: false}),
+        0,
+      );
     }
   };
-
-  const scrollRef = useRef<any>(null);
 
   const socket = useSocket();
 
@@ -219,6 +222,7 @@ const Conversations = ({
           email={email}
           userId={userId}
           search={search}
+          scrollRef={scrollRef}
         />
       </View>
 

@@ -96,6 +96,7 @@ export interface CreateMessageProps {
   scrollRef: any;
   nrMessages: any;
   blocked: boolean;
+  nrMessagesLoadings: any;
 }
 
 export interface MessSectionProps {
@@ -106,6 +107,8 @@ export interface MessSectionProps {
   imageUrl: string;
   navigation?: any;
   time?: string;
+  scrollRef: any;
+  media: boolean;
 }
 
 export interface SocialRedux {
