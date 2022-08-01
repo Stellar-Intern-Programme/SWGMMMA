@@ -29,7 +29,7 @@
     animation: displayFlex  .5s;
     height: 100%;
     overflow: hidden;
-    max-height: 200px;
+    max-height: 209px;
     transition: .5s max-height;
 }
 .buttonDragOpen{
@@ -331,6 +331,12 @@ overflow-y: scroll;
     align-items: center;
     justify-content: center;
     width:79% ;
+    color: white;
+    font-family: Inter;
+    font-weight: 900;
+}
+.buttonFavoriteRed{
+    background-color: red;
 }
 .buttonFavorite p{
     color: white;
@@ -375,3 +381,13 @@ overflow-y: scroll;
       background-color: hsl(200, 20%, 95%);
     }
   }
+
+  .actualFavSongs{
+    display: flex ;
+    gap: 10px;
+    overflow-x:auto;
+    
+  }
+.actualFavSongs::-webkit-scrollbar{
+    display: none;
+}
