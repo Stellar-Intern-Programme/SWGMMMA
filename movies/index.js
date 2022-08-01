@@ -251,7 +251,7 @@ function searchMovie(event) {
     const value = document.getElementById("searchInput").value
     const moviesWith = document.getElementById("moviesWith")
     moviesWith.innerText = ""
-    moviesWith.innerText = "MOVIES WITH " + value;
+    moviesWith.innerText = "MOVIES WITH " + value.toUpperCase();
     // const recommendMovies = document.getElementById("recommendMovies")
     // const recommendP = document.createElement("p")
     // recommendMovies.appendChild(recommendP)
