@@ -45,9 +45,11 @@ body{
     overflow: auto;
 }
 .favorite-movies{
+    height: fit-content;
     display: flex;
     flex-direction: column;
     padding-bottom: 25px;
+    transition: all .5s;
 }
 .favorite-movies p{
     color: white;
@@ -60,7 +62,24 @@ body{
     flex-direction: column;
     padding-top: 25px;
     padding-bottom: 25px;
-    
+}
+.close{
+    height: 0;
+    animation: close .5s;
+    opacity: 0%;
+}
+.open{
+    height: fit-content;
+    animation: open .5s;
+    opacity: 100%;
+}
+@keyframes close {
+    0% { height: 33%; }
+    100% { height: 0%;}
+}
+@keyframes open {
+     0% { height: 0%;}
+    100% { height: 33%; }
 }
 .recommend-movies p{
     color: white;
@@ -108,6 +127,7 @@ body{
     display: flex;
     align-items: center;
     gap: 10px;
+    position: relative;
 }
 .searchInput input{
     height: 33px;
@@ -120,14 +140,20 @@ body{
 }
 .x{
     font-weight: 35px;
+    height: 35px;
     color: white;
     display: none;
+    position: absolute;
+    top: 15vh;
+    right: 5vw;
+    cursor: pointer;
 
 }
 .trending-movies{
     display: flex;
     flex-direction: column;
     padding-bottom: 25px;
+    transition: all .5s;
 }
 .trending-movies p{
     padding-top: 25px ;
@@ -241,12 +267,14 @@ padding-top: 10px;
     display: flex;
     width: 80vw;
     height: fit-content;
-    justify-content: space-between;
+    gap: 20px;
     padding: 10px 0px 10px 0px;
+    overflow-x: auto;
 }
 .companies-images img{
     width: 80px;
-    height: 27px;
+    max-height: 90px;
+
 }
 .add-fav{
     display: flex;
@@ -275,7 +303,15 @@ padding-top: 10px;
     left: -130vw;
     transition: .5s all;
 }
+.already-added img{
+    position: absolute;
+    top: 5vh;
+    right: 5vw;
+    height: 30%;
+    display: flex;
+    transition: all .2s;
 
+}
 
 @media screen and (max-width: 700px) {
 }

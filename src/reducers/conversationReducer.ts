@@ -73,6 +73,7 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
         totalUnseen,
         seenByOther: false,
         time: action.payload.newMessage.time,
+        media: action.payload.newMessage.media,
       };
 
       return {
@@ -117,6 +118,7 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
           totalUnseen: number;
           seenByOther: boolean;
           time: string;
+          media: string;
         }) =>
           (obj[mess.id] = {
             message: mess.message,
@@ -124,6 +126,7 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
             totalUnseen: mess.totalUnseen,
             seenByOther: mess.seenByOther,
             time: mess.time,
+            media: mess.media,
           }),
       );
 

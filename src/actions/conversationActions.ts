@@ -114,7 +114,6 @@ export const receiveMessage =
   }) =>
   async (dispatch: any) => {
     try {
-      console.log(message);
       dispatch({
         type: CONVERSATION_ACTIONS.RECEIVE_NEW_MESSAGE,
         payload: {id: conversationId, newMessage: message, userId, email},

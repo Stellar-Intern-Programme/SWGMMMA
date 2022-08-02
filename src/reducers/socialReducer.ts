@@ -10,7 +10,6 @@ export enum SOCIAL_ACTIONS {
   DEFAULT_STATE = 'DEFAULT_STATE',
   START_LOADING = 'START_LOADING',
   STOP_LOADING = 'STOP_LOADING',
-  UPDATE_FRIENDS = 'UPDATE_FRIENDS',
   SHOW_PEOPLE_SEARCH = 'SHOW_PEOPLE_SEARCH',
   RESET_PEOPLE_SEARCH = 'RESET_PEOPLE_SEARCH',
   PEOPLE_SEARCH_START_LOADING = 'PEOPLE_SEARCH_START_LOADING',
@@ -70,12 +69,6 @@ const reducer: any = (state = INITIAL_VALUES, action: any) => {
       return {
         ...state,
         psLoading: false,
-      };
-    }
-    case SOCIAL_ACTIONS.UPDATE_FRIENDS: {
-      return {
-        ...state,
-        friends: action.payload.friend,
       };
     }
     case SOCIAL_ACTIONS.SHOW_PEOPLE_SEARCH: {

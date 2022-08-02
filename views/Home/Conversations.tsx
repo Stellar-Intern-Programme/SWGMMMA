@@ -1,5 +1,12 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {View, StyleSheet, ScrollView, Pressable, Image} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Pressable,
+  Image,
+  Text,
+} from 'react-native';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import Header from '../../src/components/Home/Header';
@@ -16,8 +23,9 @@ import {
 } from '../../src/actions/conversationActions';
 import {logout} from '../../src/actions/authActions';
 import {deleteSocialData} from '../../src/actions/socialActions';
-import SkeletonMessSection from '../../src/components/Home/SkeletonMessSection';
-import MessSection from '../../src/components/Home/Conversations/MessSection';
+import SkeletonMessSection from '../../src/components/Home/Skeletons/SkeletonMessSection';
+import MapConversations from '../../src/components/Home/Conversations/MapConversations';
+import ConversationSearch from '../../src/components/Home/Search';
 
 const Conversations = ({
   loggedIn,
@@ -58,10 +66,11 @@ const Conversations = ({
   lastMessage: any;
   navigation: any;
 }) => {
-  console.log(navigation);
   const [loading, setLoading] = useState(false);
-
+  const [search, setSearch] = useState('');
   const [_conversations, setConversations] = useState<any>(null);
+
+  const scrollRef = useRef(null);
 
   const newestConversations = conversations;
 
@@ -81,11 +90,12 @@ const Conversations = ({
         mcRef.current?.scrollTop >
           mcRef.current?.scrollHeight - mcRef.current?.clientHeight - 35)
     ) {
-      setTimeout(() => scrollRef.current?.scrollIntoView(), 0);
+      setTimeout(
+        () => (scrollRef.current as any)?.scrollToEnd({animated: false}),
+        0,
+      );
     }
   };
-
-  const scrollRef = useRef<any>(null);
 
   const socket = useSocket();
 
@@ -199,49 +209,21 @@ const Conversations = ({
   };
   return (
     <ScrollView>
-      <Header
-        text={'Conversations'}
-        image={
-          'https://res.cloudinary.com/multimediarog/image/upload/v1657790641/IFrameApplication/Group_kzu8co.png'
-        }
-        Action={Action}
-      />
+      <Header text={'Conversations'} Action={Action} />
+
+      <ConversationSearch search={search} setSearch={setSearch} />
 
       <View style={styles.section_container}>
-        {_conversations &&
-          !loading &&
-          _conversations.map((conversation: any, key: number) => {
-            return (
-              <MessSection
-                key={key}
-                person={
-                  conversation.people
-                    ? conversation.people.filter(
-                        (chatter: any) => chatter.email !== email,
-                      )[0]
-                    : ''
-                }
-                message={
-                  lastMessages[conversation._id] &&
-                  lastMessages[conversation._id].message
-                    ? lastMessages[conversation._id].message
-                    : ''
-                }
-                totalUnseen={
-                  lastMessages[conversation._id]
-                    ? lastMessages[conversation._id].totalUnseen
-                    : 0
-                }
-                conversationId={conversation._id}
-                imageUrl={
-                  conversation.people.filter((p: any) => p._id !== userId)[0]
-                    .profile.avatar
-                }
-                time={lastMessages[conversation._id]?.time}
-                navigation={navigation}
-              />
-            );
-          })}
+        <MapConversations
+          conversations={_conversations}
+          lastMessages={lastMessages}
+          loading={loading}
+          navigation={navigation}
+          email={email}
+          userId={userId}
+          search={search}
+          scrollRef={scrollRef}
+        />
       </View>
 
       {loading && (
@@ -256,6 +238,12 @@ const Conversations = ({
           <SkeletonMessSection />
           <SkeletonMessSection />
           <SkeletonMessSection />
+        </View>
+      )}
+
+      {_conversations && _conversations.length === 0 && !loading && (
+        <View style={{alignItems: 'center', marginTop: 50}}>
+          <Text style={styles.notFound}>No results found</Text>
         </View>
       )}
     </ScrollView>
@@ -289,8 +277,16 @@ export default connect(
 
 const styles = StyleSheet.create({
   section_container: {
+    position: 'relative',
     flexDirection: 'column',
     flexWrap: 'nowrap',
     alignItems: 'center',
+  },
+  notFound: {
+    fontFamily: 'Inter',
+    fontWeight: '900',
+    fontSize: 36,
+    textTransform: 'uppercase',
+    color: 'rgb(150, 150, 150)',
   },
 });

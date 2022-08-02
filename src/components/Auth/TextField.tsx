@@ -10,6 +10,7 @@ interface TextFieldProps {
   label?: string;
   error?: string;
   loading?: boolean;
+  keyboardType?: 'numeric';
 }
 
 const TextField: FC<TextFieldProps> = ({
@@ -21,6 +22,7 @@ const TextField: FC<TextFieldProps> = ({
   label = '',
   error = '',
   loading = false,
+  keyboardType,
 }) => {
   const onChangeText = (newValue: string) => {
     setField(name, newValue);
@@ -47,6 +49,7 @@ const TextField: FC<TextFieldProps> = ({
         placeholderTextColor={'#BEBDBD'}
         secureTextEntry={name === 'password'}
         editable
+        keyboardType={keyboardType ? keyboardType : 'default'}
       />
     </View>
   );

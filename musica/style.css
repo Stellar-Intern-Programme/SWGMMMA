@@ -29,7 +29,7 @@
     animation: displayFlex  .5s;
     height: 100%;
     overflow: hidden;
-    max-height: 200px;
+    max-height: 209px;
     transition: .5s max-height;
 }
 .buttonDragOpen{
@@ -91,7 +91,7 @@
 }
 .Placeholder {
     display: flex;
-    width: 341px;
+    width: 95%;
     height: 38px;
     border-radius: 12px;
     align-items: center;
@@ -130,7 +130,7 @@
 }
 .lupa{
 position: absolute;
-right: 35px;
+right: 8%;
 height: 17.5px;
 width: 17.5px;
 }
@@ -158,7 +158,7 @@ width: 17.5px;
     gap: 10px;    
     display: grid;
     grid-template-rows: 1fr 1fr;
-    grid-template-columns: repeat(8, 1fr);
+    grid-template-columns: repeat(10, 1fr);
     padding-bottom: 15px;
     overflow-x: scroll;
     overflow-y: scroll;
@@ -215,6 +215,8 @@ width: 17.5px;
     margin-bottom: 34px;
 }
 .fundalPopup{
+    pointer-events:none;
+    top: 47%;
     opacity: 100%;
     position: absolute;    
     width: 100vw;
@@ -222,12 +224,16 @@ width: 17.5px;
     border-radius: 20px 20px 0px 0px
 }
 .coverAll{
-margin-left: 22px;    
+margin-left: 22px;
+overflow-y: scroll;    
 }
 .songfoto{
+    height: 174px;
+    width: 174px;
     margin-bottom: 8px;
     opacity: 100%;
     z-index: 6;
+    border-radius: 20px;
 }
 .pozamelodie{
     z-index: 2;
@@ -308,7 +314,7 @@ margin-left: 22px;
     justify-content: space-between; 
 }
 .buttonPlay{
-    z-index: 2;
+    z-index: 7;
     margin-bottom: 24px;
     width: 100%;
     display: flex;
@@ -325,6 +331,12 @@ margin-left: 22px;
     align-items: center;
     justify-content: center;
     width:79% ;
+    color: white;
+    font-family: Inter;
+    font-weight: 900;
+}
+.buttonFavoriteRed{
+    background-color: red;
 }
 .buttonFavorite p{
     color: white;
@@ -334,6 +346,7 @@ margin-left: 22px;
     line-height: 22px;
 }
 .buttonFavoriteOver{
+    z-index: 2;
     display: flex;
     width: 100%;
     align-items: center;
@@ -353,4 +366,28 @@ margin-left: 22px;
     left: 10px;
     height: 12px;
     width: 12px;
+}
+.skeleton{
+    opacity: .7;
+    animation: skeleton-loading 1s linear infinite alternate;
+  }
+  @keyframes skeleton-loading {
+  
+    0%{
+      background-color: hsl(200, 20%, 70%);
+    }
+  
+    100%{
+      background-color: hsl(200, 20%, 95%);
+    }
+  }
+
+  .actualFavSongs{
+    display: flex ;
+    gap: 10px;
+    overflow-x:auto;
+    
+  }
+.actualFavSongs::-webkit-scrollbar{
+    display: none;
 }
