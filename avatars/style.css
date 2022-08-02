@@ -83,7 +83,7 @@ button {
   font-size: 18px;
 }
 .avatar-picture {
-  height: calc(100% - 100px)
+  height: calc(100% - 100px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
