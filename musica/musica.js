@@ -15,11 +15,20 @@ window.addEventListener("load" ,()=>{
     musica= document.getElementById("musica")
     musicFetch()
     loopDubios(arrayOfFavMusic,"actualFavSongs", true)
+    if(arrayOfFavMusic.length===0){
+        creeazaPoza()
+    }
 })
 
 
 
-
+function creeazaPoza(){
+    const actual =document.getElementById("actualFavSongs")
+    const poza = document.createElement("img")
+    poza.src="resurse/nothing-here.png"
+    poza.classList.add("cover")
+    actual.appendChild(poza)
+}
 function searchDeletes(){
     favorite.classList="favorite closeFavorite"
     musica.innerText="SEARCH RESULTS"
@@ -107,6 +116,9 @@ function saveToArray(title,artist,src,album){
     localStorage.setItem("favorite",JSON.stringify(arrayOfFavMusic))
     listFav(arrayOfFavMusic)
     changeButton();
+    if(arrayOfFavMusic.length===0){
+        creeazaPoza()
+    }
 }
 function listFav(data){
     loopDubios(data,"actualFavSongs", true)
