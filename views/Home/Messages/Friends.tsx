@@ -64,6 +64,7 @@ const Friends: FC<
                       },
                       key: number,
                     ) => {
+                      console.log(person);
                       return (
                         <Friend
                           key={key + 10}

@@ -3,12 +3,17 @@ import {TextMessage, MessageContainerProps} from '../../../src/typings';
 import {connect} from 'react-redux';
 import axios from 'axios';
 import {useSocket} from '../../../src/hooks/useSocket';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import SkeletonConversation from '../../../src/components/Home/Skeletons/SkeletonConversation';
 import {format} from 'date-fns';
 import {formatDate, dateDiffers} from '../../../src/utils/formatDate';
 import Message from '../../../src/components/Home/Conversations/Conversation/Message';
-import {IOScrollView, InView} from 'react-native-intersection-observer';
 import {
   getInitialMessages as getInitialMessagesConnect,
   getPreviousMessages as getPreviousMessagesConnect,
@@ -40,9 +45,6 @@ const Conversation: FC<MessageContainerProps> = ({
   const pfpOther = route.params.pfpOther;
   const scrollRef = route.params.scrollRef;
   const socket = useSocket();
-  const scrollViewRef = useRef<any>(null);
-
-  const [isTemp, setIsTemp] = useState(false);
 
   const blocked = useMemo(
     () =>
@@ -67,15 +69,8 @@ const Conversation: FC<MessageContainerProps> = ({
   const [initialLoading, setInitialLoading] = useState(false);
   const [newContainer, setNewContainer] = useState(true);
 
-  // const ref = useRef();
-  const altRef = useRef();
-  const alreadyUnseenRef = useRef<any>(null);
-  const altInView = false;
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
+  const onScrollContainer = () => {
     if (
-      altInView &&
       messages[messages.length - 1] &&
       (!messages[messages.length - 1].seen.includes(userId) ||
         !messages[0].seen.includes(userId))
@@ -89,7 +84,7 @@ const Conversation: FC<MessageContainerProps> = ({
         messageSeenByOther: socket!.messageSeenByOther,
       });
     }
-  }, [altInView, conversationId, seeMessage, messages]);
+  };
 
   const [renderFirstTime, setRenderFirstTime] = useState(false);
 
@@ -147,13 +142,8 @@ const Conversation: FC<MessageContainerProps> = ({
 
   const [activate, setActivate] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(scrollViewRef.current?.topScroll);
-  // }, [scrollViewRef]);
-
-  useEffect(() => {
+  const getMoreMessagesToConv = (e: any) => {
     if (
-      !inView ||
       total <= messages.length ||
       skip > total ||
       loading ||
@@ -165,43 +155,27 @@ const Conversation: FC<MessageContainerProps> = ({
       return;
     }
 
-    const source = axios.CancelToken.source();
+    const _skip = skip + 100;
+    setActivate(true);
+    setLoading(true);
+    setSkip((lSkip: number) => lSkip + 100);
+    setBeforeInitialFullHeight(e.contentSize.height);
+    setBeforeLayoutHeight(e.layoutMeasurement.height);
 
-    const getMoreMessages = async () => {
-      const _skip = skip + 100;
-      setActivate(true);
-      setLoading(true);
-      setSkip((lSkip: number) => lSkip + 100);
+    const onFinish = () => {
+      setLoading(false);
 
-      const onFinish = () => {
-        setLoading(false);
-
-        setTimeout(() => {
-          scrollContainer.current?.scrollIntoView();
-        }, 0);
-
-        setTimeout(() => {
-          setActivate(false);
-        }, 2000);
-      };
-
-      getPreviousMessages({conversationId, skip: _skip, onFinish});
+      setTimeout(() => {
+        setActivate(false);
+      }, 2000);
     };
 
-    getMoreMessages();
+    getPreviousMessages({conversationId, skip: _skip, onFinish});
+  };
 
-    return () => {
-      source.cancel();
-    };
-  }, [
-    inView,
-    activate,
-    loading,
-    _total,
-    initialLoading,
-    renderFirstTime,
-    getPreviousMessages,
-  ]);
+  const [scrolled, setScrolled] = useState(false);
+  const [beforeInitialFullHeight, setBeforeInitialFullHeight] = useState(0);
+  const [beforeLayoutHeight, setBeforeLayoutHeight] = useState(0);
 
   return (
     <View style={{flex: 1}}>
@@ -218,13 +192,40 @@ const Conversation: FC<MessageContainerProps> = ({
       <ScrollView
         contentContainerStyle={styles.messagesContainer}
         ref={scrollRef}
-        onContentSizeChange={() => {
-          if (!initialLoading) {
-            (scrollRef?.current as any)?.scrollToEnd({animated: false});
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          if (lastMessages[conversationId]?.totalUnseen === 0 && !activate) {
+            scrollRef.current?.scrollTo({y: contentHeight, animated: false});
+            setTimeout(() => {
+              setScrolled(true);
+            }, 0);
+          }
+          if (activate) {
+            scrollRef.current?.scrollTo({
+              y: contentHeight - beforeLayoutHeight - beforeInitialFullHeight,
+              animated: false,
+            });
+          }
+        }}
+        style={{opacity: scrolled ? 1 : 0}}
+        onScroll={event => {
+          if (
+            event.nativeEvent.contentOffset.y +
+              event.nativeEvent.layoutMeasurement.height >=
+            event.nativeEvent.contentSize.height - 30
+          ) {
+            onScrollContainer();
+          }
+          if (event.nativeEvent.contentOffset.y <= 30) {
+            getMoreMessagesToConv(event.nativeEvent);
           }
         }}>
         {messages && messages.length > 0 && !initialLoading ? (
           <>
+            {loading && (
+              <View style={{alignItems: 'center', marginBottom: 10}}>
+                <ActivityIndicator size={40} color={'rgb(200, 200, 200)'} />
+              </View>
+            )}
             {messages.map((message: TextMessage, key: number) => {
               if (key === messages.length - 1 && !renderFirstTime) {
                 setTimeout(() => setRenderFirstTime(true), 0);
@@ -239,7 +240,25 @@ const Conversation: FC<MessageContainerProps> = ({
 
               const rawDate = new Date();
               return (
-                <View key={key + 10}>
+                <View
+                  key={key + 10}
+                  onLayout={event => {
+                    if (
+                      lastMessages[conversationId]?.totalUnseen > 0 &&
+                      key ===
+                        messages.length -
+                          lastMessages[conversationId]?.totalUnseen
+                    ) {
+                      scrollRef.current?.scrollTo({
+                        y: event.nativeEvent.layout.y,
+                        animated: false,
+                      });
+
+                      setTimeout(() => {
+                        setScrolled(true);
+                      }, 0);
+                    }
+                  }}>
                   {messages[key - 1] &&
                     dateDiffers(messages[key - 1].date, message.date) && (
                       <View key={key + 1} style={styles.dateFlex}>
@@ -330,11 +349,12 @@ export default connect(
 
 const styles = StyleSheet.create({
   messagesContainer: {
-    width: '100%',
     flexDirection: 'column',
     flexWrap: 'nowrap',
     paddingHorizontal: 20,
-    marginTop: 10,
+    paddingTop: 10,
+    justifyContent: 'flex-end',
+    flexGrow: 1,
   },
   dateFlex: {
     flexDirection: 'row',

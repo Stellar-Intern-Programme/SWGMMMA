@@ -41,12 +41,13 @@ const AddFriends: FC<
       <ScrollView contentContainerStyle={{alignItems: 'center'}}>
         {peopleSearch && peopleSearch.length > 0 && !psLoading && search !== ''
           ? peopleSearch.map((p: any, key: number) => {
+              console.log(p);
               return (
                 <SearchItem
                   key={key}
                   email={p.email}
                   onSuccess={onSuccess}
-                  pfp={p.profile.avatar}
+                  pfp={p.pfp}
                 />
               );
             })
