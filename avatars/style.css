@@ -21,24 +21,28 @@ body {
   display: flex;
   flex-direction: row;
   background-color: #0c0c0c;
-  height: 15%;
+  height: 100px;
   width: 100%;
-  justify-content: center;
-  border-radius: 0px 0px 20px 20px;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0px 0px 15px 15px;
 }
 
 .titel {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   display: flex;
   color: white;
   font-size: 18px;
-  margin-right: 115px;
-  gap: 40px;
+  align-items: center;
+  justify-content: space-around;
+  margin-right: 10px;
+  margin-top: 10px;
+  width: 100%;
 }
 .avatar {
   display: flex;
-  width: 60px;
-  height: 60px;
+  width: 55px;
+  height: 55px;
   margin-top: -10px;
   border-radius: 30px;
 }
@@ -79,7 +83,7 @@ button {
   font-size: 18px;
 }
 .avatar-picture {
-  max-height: 65vh;
+  height: calc(100% - 100px)
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
