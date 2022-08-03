@@ -50,7 +50,9 @@ const Requests: FC<
             {!loading ? (
               <>
                 {_friendRequests
-                  .filter((fr: any) => fr.email.startsWith(search))
+                  .filter((fr: any) =>
+                    fr.email.toLowerCase().startsWith(search.toLowerCase()),
+                  )
                   .map(
                     (
                       person: {email: string; username: string; pfp: string},

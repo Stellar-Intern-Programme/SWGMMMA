@@ -223,7 +223,7 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
                 }}
                 style={{width: 25, height: 25}}
               />
-              <Text style={styles.textOpt}>Gallery</Text>
+              <Text style={styles.textOpt}>Gallery (MAX 5 MB Per File)</Text>
             </View>
           </Pressable>
           <Pressable onPress={openCamera}>

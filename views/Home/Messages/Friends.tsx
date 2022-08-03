@@ -52,7 +52,9 @@ const Friends: FC<
             {!loading ? (
               <>
                 {_friends
-                  .filter((f: any) => f.email.startsWith(search))
+                  .filter((f: any) =>
+                    f.email.toLowerCase().startsWith(search.toLowerCase()),
+                  )
                   .map(
                     (
                       person: {
@@ -64,7 +66,6 @@ const Friends: FC<
                       },
                       key: number,
                     ) => {
-                      console.log(person);
                       return (
                         <Friend
                           key={key + 10}

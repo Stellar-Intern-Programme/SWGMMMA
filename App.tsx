@@ -16,18 +16,39 @@ const App = () => {
   const {store} = configureStore();
 
   useEffect(() => {
-    // SplashScreen.hide();
+    const timer = setTimeout(() => {
+      SplashScreen.hide();
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
 
   LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
   ]);
 
+  const config = {
+    screens: {
+      ForgotPasswordComplete: {
+        path: 'forgotPasswordComplete/:unique_url?',
+        parse: {
+          unique_url: (unique_url: String) => `${unique_url}`,
+        },
+      },
+    },
+  };
+  const linking = {
+    prefixes: ['messaging-app://home'],
+    config,
+  };
+
   return (
     <Provider store={store}>
       <SingletonHooksContainer />
       <AuthComponent>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <RootRoute />
         </NavigationContainer>
       </AuthComponent>
