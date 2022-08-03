@@ -44,7 +44,9 @@ const Requests: FC<
       <Header Action={BackArrow} text={'Requests'} SecondAction={Friend} />
       <Search setSearch={setSearch} search={search} />
 
-      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView
+        contentContainerStyle={{alignItems: 'center'}}
+        keyboardShouldPersistTaps="handled">
         {_friendRequests && _friendRequests.length > 0 && (
           <>
             {!loading ? (

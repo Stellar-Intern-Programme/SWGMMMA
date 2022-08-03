@@ -9,6 +9,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import SkeletonConversation from '../../../src/components/Home/Skeletons/SkeletonConversation';
 import {format} from 'date-fns';
@@ -177,6 +178,8 @@ const Conversation: FC<MessageContainerProps> = ({
   const [beforeInitialFullHeight, setBeforeInitialFullHeight] = useState(0);
   const [beforeLayoutHeight, setBeforeLayoutHeight] = useState(0);
 
+  const rawDate = new Date();
+
   return (
     <View style={{flex: 1}}>
       <Header
@@ -231,14 +234,6 @@ const Conversation: FC<MessageContainerProps> = ({
                 setTimeout(() => setRenderFirstTime(true), 0);
               }
 
-              let lastIndex = -1;
-              messages.forEach((m: any, lKey: number) => {
-                if (m.senderEmail !== myEmail) {
-                  lastIndex = lKey;
-                }
-              });
-
-              const rawDate = new Date();
               return (
                 <View
                   key={key + 10}
@@ -294,11 +289,26 @@ const Conversation: FC<MessageContainerProps> = ({
                 </View>
               );
             })}
+            {messages &&
+              messages[messages.length - 1] &&
+              messages[messages.length - 1].senderEmail === myEmail && (
+                <View style={styles.statusMessage}>
+                  <Image
+                    source={{
+                      uri: !lastMessages[conversationId].seenByOther
+                        ? 'https://res.cloudinary.com/multimediarog/image/upload/v1659528556/IFrameApplication/send-4009_inlm2y.png'
+                        : 'https://res.cloudinary.com/multimediarog/image/upload/v1659528482/IFrameApplication/check-mark-3279_ytkt2k.png',
+                    }}
+                    style={{height: 15, width: 15}}
+                  />
+                  <Text style={styles.statusText}>Sent</Text>
+                </View>
+              )}
           </>
         ) : (
           <>
             {initialLoading && (
-              <View>
+              <View style={{marginBottom: 20}}>
                 <SkeletonConversation />
                 <SkeletonConversation />
                 <SkeletonConversation />
@@ -375,5 +385,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontSize: 14,
     fontWeight: '500',
+  },
+  statusMessage: {
+    marginBottom: 10,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    marginTop: -25,
+  },
+  statusText: {
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'Inter',
+    fontWeight: '400',
+    marginLeft: 6,
   },
 });

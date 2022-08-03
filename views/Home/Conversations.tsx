@@ -170,6 +170,7 @@ const Conversations = ({
     lastMessage();
 
     const initialConversations = async () => {
+      console.log('yes');
       setLoading(true);
       const onFinish = () => {
         setLoading(false);

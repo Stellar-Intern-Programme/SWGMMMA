@@ -66,7 +66,7 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
       if (
         result?.assets[0]?.base64 &&
         result?.assets[0]?.fileSize &&
-        result?.assets[0]?.fileSize / 100000 <= 5
+        result?.assets[0]?.fileSize / 100000 <= 200
       ) {
         await sendMessage_([
           `data:image/jpeg;base64,${result?.assets[0].base64}`,
@@ -89,7 +89,7 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
       if (
         result?.assets[0]?.base64 &&
         result?.assets[0]?.fileSize &&
-        result?.assets[0]?.fileSize / 100000 <= 5
+        result?.assets[0]?.fileSize / 100000 <= 21
       ) {
         await sendMessage_(
           result?.assets?.map((asset: any) => {
@@ -223,7 +223,7 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
                 }}
                 style={{width: 25, height: 25}}
               />
-              <Text style={styles.textOpt}>Gallery (MAX 5 MB Per File)</Text>
+              <Text style={styles.textOpt}>Gallery (MAX 20MB Per File)</Text>
             </View>
           </Pressable>
           <Pressable onPress={openCamera}>
@@ -317,12 +317,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1D1D1D',
     borderRadius: 20,
     paddingHorizontal: 40,
-    paddingTop: 25,
+    justifyContent: 'center',
   },
   textOpt: {
     fontFamily: 'Inter',
     fontWeight: '400',
-    fontSize: 18,
+    fontSize: 14,
     textTransform: 'uppercase',
     marginLeft: 20,
     color: 'white',
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   cancel: {
     fontFamily: 'Inter',
     fontWeight: '400',
-    fontSize: 16,
+    fontSize: 14,
     textTransform: 'uppercase',
     alignSelf: 'flex-end',
     color: 'white',
