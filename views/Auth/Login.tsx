@@ -97,7 +97,9 @@ const Register = ({
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled">
       <Text style={styles.headline}>LOGIN</Text>
       <Text style={styles.fullError}>{errors?.fullError}</Text>
       <TextField
