@@ -20,6 +20,7 @@ const MessSection: FC<MessSectionProps> = ({
           conversationId,
           pfpOther: person.profile.avatar,
           scrollRef,
+          usernameOther: person.username,
         })
       }>
       <View style={styles.container}>
@@ -154,5 +155,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     color: 'white',
     fontWeight: '700',
+    marginRight: 5,
   },
 });

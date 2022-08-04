@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef, useMemo, FC} from 'react';
 import {TextMessage, MessageContainerProps} from '../../../src/typings';
 import {connect} from 'react-redux';
-import axios from 'axios';
+import FullPhoto from '../../../src/components/Home/Conversations/Conversation/FullPhoto';
 import {useSocket} from '../../../src/hooks/useSocket';
 import {
   View,
@@ -41,10 +41,12 @@ const Conversation: FC<MessageContainerProps> = ({
   seeMessage,
   lastMessages,
   conversations,
+  myUsername,
 }) => {
   const conversationId = route.params.conversationId;
   const pfpOther = route.params.pfpOther;
   const scrollRef = route.params.scrollRef;
+  const usernameOther = route.params.usernameOther;
   const socket = useSocket();
 
   const blocked = useMemo(
@@ -65,6 +67,8 @@ const Conversation: FC<MessageContainerProps> = ({
   );
 
   const [skip, setSkip] = useState(0);
+  const [image, setImage] = useState(null);
+  const [senderMailFP, setSenderMailFP] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
@@ -89,14 +93,8 @@ const Conversation: FC<MessageContainerProps> = ({
 
   const [renderFirstTime, setRenderFirstTime] = useState(false);
 
-  const scrollContainer = useRef<any>(null);
-
   useEffect(() => {
     const getConversation = async () => {
-      setTimeout(() => {
-        // scrollRef.current?.scrollIntoView();
-      }, 0);
-
       const onSuccess = () => {
         if (lastMessages[conversationId].totalUnseen > 0) {
           setTimeout(() => {
@@ -174,14 +172,25 @@ const Conversation: FC<MessageContainerProps> = ({
     getPreviousMessages({conversationId, skip: _skip, onFinish});
   };
 
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(true);
   const [beforeInitialFullHeight, setBeforeInitialFullHeight] = useState(0);
   const [beforeLayoutHeight, setBeforeLayoutHeight] = useState(0);
+  const [disableLayout, setDisableLayout] = useState(false);
 
   const rawDate = new Date();
 
   return (
     <View style={{flex: 1}}>
+      {image && senderMailFP && (
+        <FullPhoto
+          image={image}
+          setImage={setImage}
+          senderName={usernameOther}
+          myUsername={myUsername}
+          senderMail={senderMailFP}
+          myMail={myEmail}
+        />
+      )}
       <Header
         Action={BackArrow}
         text={
@@ -196,7 +205,10 @@ const Conversation: FC<MessageContainerProps> = ({
         contentContainerStyle={styles.messagesContainer}
         ref={scrollRef}
         onContentSizeChange={(contentWidth, contentHeight) => {
-          if (lastMessages[conversationId]?.totalUnseen === 0 && !activate) {
+          if (
+            (lastMessages[conversationId]?.totalUnseen || 0) === 0 &&
+            !activate
+          ) {
             scrollRef.current?.scrollTo({y: contentHeight, animated: false});
             setTimeout(() => {
               setScrolled(true);
@@ -216,10 +228,16 @@ const Conversation: FC<MessageContainerProps> = ({
               event.nativeEvent.layoutMeasurement.height >=
             event.nativeEvent.contentSize.height - 30
           ) {
+            setDisableLayout(true);
             onScrollContainer();
           }
           if (event.nativeEvent.contentOffset.y <= 30) {
             getMoreMessagesToConv(event.nativeEvent);
+          }
+        }}
+        onLayout={() => {
+          if (!disableLayout) {
+            onScrollContainer();
           }
         }}>
         {messages && messages.length > 0 && !initialLoading ? (
@@ -285,6 +303,8 @@ const Conversation: FC<MessageContainerProps> = ({
                     senderEmail={message.senderEmail}
                     media={message.media ? message.media : ''}
                     time={message?.time || '00:00'}
+                    setImage={setImage}
+                    setSenderEmailFP={setSenderMailFP}
                   />
                 </View>
               );
@@ -346,6 +366,7 @@ export default connect(
     conversations: state.conversation.conversations,
     userId: state.auth.userId,
     myEmail: state.auth.email,
+    myUsername: state.auth.username,
   }),
   {
     getInitialMessages: getInitialMessagesConnect,
