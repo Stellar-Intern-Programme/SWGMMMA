@@ -7,7 +7,7 @@ let authToken
 document.addEventListener("message",niggers=>{
     authToken=niggers.data
     window.ReactNativeWebView.postMessage("susy")
-    document.getElementById('musica').textContent = authToken
+    document.getElementById('aaaa').textContent = authToken
 })
 console.log(authToken)
 window.addEventListener("load" ,()=>{
