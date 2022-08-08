@@ -5,9 +5,9 @@ let favorite, musica
 let pozaFundalPop
 let authToken
 document.addEventListener("message",niggers=>{
-    authToken=niggers.data
+    authToken=JSON.parse(niggers.data).message
     window.ReactNativeWebView.postMessage("susy")
-    document.getElementById('musica').textContent = niggers.data
+    document.getElementById('musica').textContent = JSON.parse(niggers.data).message
 })
 console.log(authToken)
 window.addEventListener("load" ,()=>{
