@@ -3,6 +3,7 @@ let trendingData;
 let trenName
 let favorite, musica
 let pozaFundalPop
+let parent
 
 
 window.addEventListener("load" ,()=>{
@@ -21,14 +22,8 @@ window.addEventListener("load" ,()=>{
     if(arrayOfFavMusic.length===0){
         creeazaPoza()
     }
-    window.ReactNativeWebView?.postMessage("PULAGDAGDA")
+    parent = window.ReactNativeWebView
 })
-
-document.addEventListener("message", (e)=>{
-    console.log("AICI", e)
-    window.ReactNativeWebView?.postMessage("salut")
-})
-
 
 
 function creeazaPoza(){
@@ -245,7 +240,7 @@ function generatePopUpElem(e){
             info: ''
         }
     
-        window.ReactNativeWebView?.postMessage(JSON.stringify(song), "*")
+        parent?.postMessage(JSON.stringify(song), "*")
     
       
         saveToArray(_name,_artist,e.target.src,_album)
