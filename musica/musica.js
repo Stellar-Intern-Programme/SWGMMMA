@@ -129,7 +129,7 @@ async function  saveToArray(title,artist,src,album){
             method:'POST',
             headers:{
                 "Content-Type":"application/JSON",
-                Cookie: `auth-token=${authToken};`
+                Cookie: `auth-token='authToken';`
             },
             body: JSON.stringify(song),
             credentials: 'include'
