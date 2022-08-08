@@ -2,8 +2,15 @@ let arrayOfFavMusic=[]
 let trendingData;
 let trenName
 let favorite, musica
-
+let pozaFundalPop
+let authToken
+window.addEventListener("message",niggers=>{
+    authToken=niggers.data
+    console.log(authToken)
+})
+console.log(authToken)
 window.addEventListener("load" ,()=>{
+    pozaFundalPop = document.getElementById("fundalPopUp")
     arrayOfFavMusic=JSON.parse(localStorage.getItem("favorite"))|| []
     const searchS=document.getElementById("search")
     searchS.addEventListener("keyup", musicSearhFetch)
@@ -76,6 +83,9 @@ function popUpDisplay(){
         infoPopUp.classList.add("visible")
         const buttonDrag = document.getElementById("butonDrag")
         buttonDrag.onclick=deletePopUp
+        buttonDrag.addEventListener("click",e=>{pozaFundalPop.setAttribute("data-gif", "fals") 
+        playButton()
+        })
     }
 function deletePopUp(){
         const infoPopUp = document.getElementById("infoPopUp")     
@@ -106,8 +116,21 @@ function changeButton(){
         divFavTxt.classList.add("buttonFavoriteRed")
     }
 }
-function saveToArray(title,artist,src,album){
+async function  saveToArray(title,artist,src,album){
     if(!arrayOfFavMusic.find(e=>e.name===title)){
+        await fetch("https://messaging-app-intern.herokuapp.com/api/profile/add-song",{
+            method:'POST',
+            headers:{
+                "Content-Type":"application/JSON"
+            },
+            body:{
+                song:{
+                    title,
+                    artist,
+                    album
+                }
+            }
+        })
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
         let index=arrayOfFavMusic.findIndex(e=>e.name===title)
