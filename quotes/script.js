@@ -420,7 +420,7 @@ function setColors() {
         Moon.setAttribute("src", "resources/sun.svg")
     } 
     else{
-        Moon.setAttribute("src", "resources/moon.png")
+        Moon.setAttribute("src", "https://res.cloudinary.com/multimediarog/image/upload/v1659946689/IFrameApplication/moon_gy2meg.svg")
     }
     Moon.classList[type]("MoonLightMode")
 
