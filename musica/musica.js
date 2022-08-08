@@ -124,14 +124,14 @@ async function  saveToArray(title,artist,src,album){
                 "Content-Type":"application/JSON",
                 Cookie: `auth-token=${authToken};`
             },
-            body:{
+            body:
+                JSON.stringify(
                 song:{
                     title,
                     artist,
                     album,
                     info: ''
-                }
-            },
+                }),
             credentials: 'include'
         })
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
