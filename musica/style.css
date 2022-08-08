@@ -196,6 +196,7 @@ width: 17.5px;
     align-items: flex-start;
     margin-top: 100vh;
     transition: 0.5s;
+    position: relative;
 }
 
 .infoPopup.visible{
@@ -217,7 +218,7 @@ width: 17.5px;
 }
 .fundalPopup{
     pointer-events:none;
-    top: 47%;
+    top: 24%;
     opacity: 100%;
     position: absolute;    
     width: 100vw;

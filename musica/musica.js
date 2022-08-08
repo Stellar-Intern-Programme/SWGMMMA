@@ -4,7 +4,7 @@ let trenName
 let favorite, musica
 let pozaFundalPop
 let authToken
-window.addEventListener("message",niggers=>{
+document.addEventListener("message",niggers=>{
     authToken=niggers.data
     window.ReactNativeWebView.postMessage("susy")
     document.getElementById('musica').textContent = niggers.data
