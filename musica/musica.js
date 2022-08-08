@@ -7,6 +7,9 @@ let authToken
 window.addEventListener("message",niggers=>{
     authToken=niggers.data
     console.log(authToken)
+    if(window.ReactNativeWebView){
+        window.ReactNativeWebView.postMessage("susy")
+    }
 })
 console.log(authToken)
 window.addEventListener("load" ,()=>{
