@@ -21,6 +21,12 @@ window.addEventListener("load" ,()=>{
     if(arrayOfFavMusic.length===0){
         creeazaPoza()
     }
+    window.ReactNativeWebView?.postMessage("PULAGDAGDA")
+})
+
+document.addEventListener("message", (e)=>{
+    console.log("AICI", e)
+    window.ReactNativeWebView?.postMessage("salut")
 })
 
 
