@@ -83,7 +83,9 @@ const Register = ({
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled">
       <BackArrow />
       <Text style={styles.headline}>REGISTER</Text>
       <TextField

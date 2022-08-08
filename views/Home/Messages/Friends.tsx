@@ -1,5 +1,6 @@
 import React, {FC, useState, useEffect} from 'react';
 import {View, ScrollView, Text, StyleSheet} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 import Header from '../../../src/components/Home/Header';
 import BackArrow from '../../../src/components/Home/BackArrow';
 import {SocialRedux} from '../../../src/typings';
@@ -23,6 +24,7 @@ const Friends: FC<
     | 'friendRequests'
   >
 > = ({resetPeopleSearch, friends, updateFriends, loading}) => {
+  const isFocused = useIsFocused();
   const [search, setSearch] = useState('');
   const allFriends = friends;
   const [_friends, setFriends] = useState<any>(allFriends);
@@ -32,8 +34,10 @@ const Friends: FC<
   }, [search]);
 
   useEffect(() => {
-    updateFriends();
-  }, []);
+    if (isFocused) {
+      updateFriends();
+    }
+  }, [isFocused, updateFriends]);
 
   useEffect(() => {
     if (allFriends) {
@@ -46,13 +50,17 @@ const Friends: FC<
       <Header text={'Friends'} Action={BackArrow} SecondAction={AddFriend} />
       <Search search={search} setSearch={setSearch} />
 
-      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView
+        contentContainerStyle={{alignItems: 'center'}}
+        keyboardShouldPersistTaps="handled">
         {_friends && parseInt(_friends.length) > 0 && (
           <>
             {!loading ? (
               <>
                 {_friends
-                  .filter((f: any) => f.email.startsWith(search))
+                  .filter((f: any) =>
+                    f.email.toLowerCase().startsWith(search.toLowerCase()),
+                  )
                   .map(
                     (
                       person: {

@@ -9,6 +9,8 @@ export interface TextMessage {
   time: string;
   media?: string;
   seen?: string;
+  setImage: any;
+  setSenderEmailFP: any;
 }
 
 export type Section = 'Messages' | 'Social' | 'None';
@@ -73,6 +75,7 @@ export interface MessageContainerProps {
   nrMessagesLoadings: any;
   lastMessages: any;
   scrollRef: any;
+  myUsername: string;
   seeMessage: any;
   getInitialMessages: any;
   getPreviousMessages: any;

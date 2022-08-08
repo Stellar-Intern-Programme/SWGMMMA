@@ -7,13 +7,14 @@
     width:100%;
     border-radius: 0px 0px 20px 20px;
     align-items: center;
+    position: fixed;
+    z-index: 3;
 }
 .body{
     display: flex;
     margin: 0%;
     background-color:  #1D1D1D;
     flex-direction: column;
-    overflow-y: hidden;
 }
 .upper p{
     color: white;
@@ -29,7 +30,7 @@
     animation: displayFlex  .5s;
     height: 100%;
     overflow: hidden;
-    max-height: 200px;
+    max-height: 209px;
     transition: .5s max-height;
 }
 .buttonDragOpen{
@@ -85,8 +86,8 @@
     text-overflow: ellipsis;
 }
 .cover{
-    height: 116px;
-    width: 116px;
+    display: flex;
+    width: 135px;
     border-radius: 20px;
 }
 .Placeholder {
@@ -224,8 +225,8 @@ width: 17.5px;
     border-radius: 20px 20px 0px 0px
 }
 .coverAll{
-margin-left: 22px;
-overflow-y: scroll;    
+    margin-top:130px ;
+margin-left: 22px;    
 }
 .songfoto{
     height: 174px;
@@ -331,6 +332,12 @@ overflow-y: scroll;
     align-items: center;
     justify-content: center;
     width:79% ;
+    color: white;
+    font-family: Inter;
+    font-weight: 900;
+}
+.buttonFavoriteRed{
+    background-color: red;
 }
 .buttonFavorite p{
     color: white;
@@ -375,3 +382,13 @@ overflow-y: scroll;
       background-color: hsl(200, 20%, 95%);
     }
   }
+
+  .actualFavSongs{
+    display: flex ;
+    gap: 10px;
+    overflow-x:auto;
+    
+  }
+.actualFavSongs::-webkit-scrollbar{
+    display: none;
+}

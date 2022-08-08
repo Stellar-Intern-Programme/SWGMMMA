@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>MUSICA</title>
     <script src="musica.js"></script>
         <link rel="stylesheet" href="style.css">
@@ -15,11 +16,9 @@
   <div class="coverAll">
   <div class="favorite" id="favorite">
     <p class="fav">FAVORITE SONGS</p>
-    <div class="actualFavSongs">
+    <div class="actualFavSongs" id="actualFavSongs">
         <div class="imgsfavsong">
-            <img src="resurse/500x500-000000-80-0-0 1pozatest.png" alt="cover" class="cover">
-            <p class="songname">AS IT WAS</p>
-            <p class="artist">HARRY STYLES</p>
+            <img src="resurse/nothing-here.png" alt="cover" class="cover">
         </div>
     </div>
   </div>
@@ -64,11 +63,10 @@
             <p class="AlbumName" id="albumname">RANDOM ACCESS MEMORIES</p>
         </div>
         <div class="buttonPlay" id="buttonPlay" onclick="playButton()">
-            <img src="resurse/VectorPLAY.svg" alt="" onclick="playButton()">
+            <img src="resurse/VectorPLAY.svg" alt="" >
         </div>
-        <div class="buttonFavoriteOver">
-            <div class="buttonFavorite">
-                <p>Add to Favorites</p>
+        <div class="buttonFavoriteOver" >
+            <div class="buttonFavorite" id="divFavTxt">
             </div>
             <p>See dezeer page</p>
         </div>

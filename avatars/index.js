@@ -86,7 +86,7 @@ function createImages(result) {
     if (IMAGE_NOT_AVAIL.includes(result.thumbnail.path)) return
     avatarPictures = document.getElementById("avatar-picture")
     const img = document.createElement("img")
-    img.setAttribute('src', result.thumbnail.path + "." + result.thumbnail.extension)
+    img.setAttribute('src', 'https' + result.thumbnail.path.split('http').join('')+ "." + result.thumbnail.extension)
     img.addEventListener('click', avatarSelect)
     img.setAttribute('alt', "avatar")
     img.setAttribute('class', "SuperHero skeleton")

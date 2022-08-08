@@ -121,6 +121,7 @@ const Friend: FC<Item> = ({
     }
   };
 
+  console.log(pfp);
   return (
     <View style={styles.container}>
       <Image
