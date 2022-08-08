@@ -3,6 +3,7 @@ let overlay, value, divResults, searchBar, results, lupa, X, searchInput, topOve
 let randomQuoteData;
 let rolls = 0, rollsX = 0, rollX2 = 0;
 let isLightMode
+let numeFoarteRandom
 const MAX_COUNT = 50
     // add to fave / remove from fave
     // change images
@@ -38,6 +39,7 @@ window.addEventListener("load", () => {
     setColors()
     randomQuote()
     randomQuoteList()
+    console.log(favorites)
 });
 
 function showResults() {
@@ -151,21 +153,38 @@ function fetchSearchResults(author) {
         .then((data) => {
             addQuotes(data)
         });
+        numeFoarteRandom = "search"
 }
 
 function addQuotes(data) {
+
+    let thelask
+    const quotesListTitle = document.getElementById("quotesListTitle")
+    console.log(numeFoarteRandom)
+    
+    if(numeFoarteRandom === "search"){
+        thelask = data
+        quotesListTitle.innerText = "SEARCH RESULTS"
+    }
+    else{
+        thelask = favorites
+        quotesListTitle.innerText = "FAVORITE QUOTES"
+    }
+
     let test = 1;
+
+    searchResults.style.display = "flex"
 
     divMare.innerHTML = ""
     divMare.style.display = "flex"
     divMare.style.marginLeft = "0px"
 
-    if (data.length === 1) {
+    if (thelask.length === 1) {
         divMare.style.display = "block"
         divMare.style.marginLeft = "30px"
     }
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < thelask.length; i++){
         const divMic = document.createElement("div")
         const pQuote = document.createElement("p")
         const openQuote = document.createElement("img")
@@ -178,21 +197,22 @@ function addQuotes(data) {
         divMic.setAttribute("class", "quotesSearchResults")
         pQuote.setAttribute("class", "quoteTextSearchResults")
 
-        if (data[i].en.length > 140 && (i + 1) % 2 == test) {
+        if (thelask[i].en.length > 140 && (i + 1) % 2 == test) {
             if (test === 0) test = 1
             else test = 0
             divMic.classList.add("quotesSearchResultsBigBoy")
             pQuote.classList.add("quoteTextSearchResultsBigBoy")
         }
 
-        pQuote.innerText = data[i].en;
+        pQuote.innerText = thelask[i].en;
+        
 
         divMic.appendChild(arrowRight)
         divMic.appendChild(openQuote)
         divMic.appendChild(pQuote)
         divMare.appendChild(divMic)
         setColors()
-        divMic.onclick = () => openModal(data[i])
+        divMic.onclick = () => openModal(thelask[i])
     }
 }
 
@@ -223,9 +243,15 @@ function randomQuoteList(){
 
 function replaceQuotesInList(i){
     const numeRandom = document.querySelectorAll(".quoteInTheListText")
+    const listaJos = document.querySelector(".quoteInTheListText")
         fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
         .then((res) => res.json())
         .then((data) => {
+
+            listaJos.onclick = () => {
+            openModal(data[i])
+            }
+
             if(data.en.length < 120){
             numeRandom[i].innerHTML = data.en
             }
@@ -233,11 +259,13 @@ function replaceQuotesInList(i){
                 replaceQuotesInList(i)
             }
         });
+        
     }
 
 let IDK;
 
 function openModal(data = randomQuoteData) {
+
     quoteMoveUp()
 
     if(button != undefined){
@@ -249,8 +277,8 @@ function openModal(data = randomQuoteData) {
     button.setAttribute("class", "addToFavorite")
 
     for(let i=0; i<favorites.length; i++){
+       
         if(data.id == favorites[i].id){   
-            IDK = i;
             button.innerText = "REMOVE FROM FAVORITE"
             button.style.backgroundColor = "#E81A1A"
         }
@@ -259,10 +287,12 @@ function openModal(data = randomQuoteData) {
     quotePopUp.appendChild(button) 
 
     button.onclick = () => {
-     
-        addToFavorite(data)
 
-    }   
+        addToFavorite(data, button)
+
+    }
+
+    button.setAttribute("data-favorite", "true")
 
     quotePopUp.style.display = "flex"
     quoteOverlay.style.display = "flex"
@@ -390,7 +420,7 @@ function setColors() {
         Moon.setAttribute("src", "resources/sun.svg")
     } 
     else{
-        Moon.setAttribute("src", "resources/moon.svg")
+        Moon.setAttribute("src", "https://res.cloudinary.com/multimediarog/image/upload/v1659946689/IFrameApplication/moon_gy2meg.svg")
     }
     Moon.classList[type]("MoonLightMode")
 
@@ -485,7 +515,9 @@ function setColors() {
 function showFavorites() {
     listOfQuotes.style.display = "none"
     quoteOfTheDay.style.display = "none"
-    
+    arrowLeft.style.display = "flex"
+    numeFoarteRandom = "favorite"
+    addQuotes()
 }
 
 function goBackIsNotAFunction() {
@@ -607,17 +639,34 @@ function goRightAgain(){
     }
 }
 
-function addToFavorite(data) {
-
-    button.style.backgroundColor = "#E81A1A"
-    button.innerHTML = "REMOVE FROM FAVORITE"
-    favorites.push({ id: data.id, text: data.en, author: data.author })
-    localStorage.setItem("favoriteQuotes", JSON.stringify(favorites)) 
-    
+function addToFavorite(data, button) {
+ 
+        if(!favorites.find(e => e.id === data.id)){
+            button.style.backgroundColor = "#E81A1A"
+            button.innerHTML = "REMOVE FROM FAVORITE"
+            favorites.push({ id: data.id, en: data.en, author: data.author })
+            localStorage.setItem("favoriteQuotes", JSON.stringify(favorites))   
+        }
+        else{
+            removeFromFavorite(data)
+        }   
 }
 
 function removeFromFavorite(data){
-    console.log("test")
-    // button.style.background = "#1A73E8"
-    // button.innerHTML = "ADD TO FAVORITE"
+
+    console.log("removeFromFavorite")
+    button.style.background = "#1A73E8"
+    button.innerHTML = "ADD TO FAVORITE"
+
+    const pozitia = favorites.findIndex(e => e.id === data.id)
+    if(pozitia > -1){
+        favorites.splice(pozitia, 1)
+    }
+    localStorage.setItem("favoriteQuotes", JSON.stringify(favorites))
+
+    if(numeFoarteRandom == "favorite"){
+      addQuotes(data)  
+    }
+    
+
 }

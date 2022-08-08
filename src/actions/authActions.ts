@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import {AUTH_ACTIONS} from '../reducers/authReducer';
+import {CONVERSATION_ACTIONS} from '../reducers/conversationReducer';
+import {SOCIAL_ACTIONS} from '../reducers/socialReducer';
 import {server} from '../config/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -48,6 +50,15 @@ export const logout =
     dispatch({
       type: AUTH_ACTIONS.LOGOUT,
     });
+
+    dispatch({
+      type: CONVERSATION_ACTIONS.DELETE_DATA,
+    });
+
+    dispatch({
+      type: SOCIAL_ACTIONS.DELETE_DATA,
+    });
+
     onSuccess();
 
     await AsyncStorage.removeItem('auth-token');

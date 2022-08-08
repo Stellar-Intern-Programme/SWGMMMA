@@ -8,7 +8,9 @@ import {
   Pressable,
   ActivityIndicator,
   Text,
+  PermissionsAndroid,
 } from 'react-native';
+import ExternalStoragePermission from '../../../../permissions/ExternalStorage';
 import {Shadow} from 'react-native-shadow-2';
 import {format} from 'date-fns';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -55,18 +57,30 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
     return uniqueId;
   };
 
+  const openCameraVerification = async () => {
+    const permissionExternalStorage = await PermissionsAndroid.check(
+      'android.permission.WRITE_EXTERNAL_STORAGE',
+    );
+    // @ts-ignore
+    if (permissionExternalStorage != PermissionsAndroid.RESULTS.GRANTED) {
+      await ExternalStoragePermission(openCamera);
+    } else await openCamera();
+  };
+
   const openCamera = async () => {
     try {
       const result: any = await launchCamera({
         mediaType: 'photo',
         includeBase64: true,
+        saveToPhotos: true,
       });
 
       setImageSelect(false);
       if (
+        result?.assets[0] &&
         result?.assets[0]?.base64 &&
         result?.assets[0]?.fileSize &&
-        result?.assets[0]?.fileSize / 100000 <= 5
+        result?.assets[0]?.fileSize / 1000000 <= 180
       ) {
         await sendMessage_([
           `data:image/jpeg;base64,${result?.assets[0].base64}`,
@@ -87,15 +101,22 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
 
       setImageSelect(false);
       if (
+        result?.assets[0] &&
         result?.assets[0]?.base64 &&
-        result?.assets[0]?.fileSize &&
-        result?.assets[0]?.fileSize / 100000 <= 5
+        result?.assets[0]?.fileSize
       ) {
-        await sendMessage_(
-          result?.assets?.map((asset: any) => {
-            return `data:image/jpeg;base64,${asset.base64}`;
-          }),
-        );
+        let size = 0;
+        result.assets.forEach((asset: any) => {
+          size += asset.fileSize;
+        });
+
+        if (size / 1000000 <= 200) {
+          await sendMessage_(
+            result?.assets?.map((asset: any) => {
+              return `data:image/jpeg;base64,${asset.base64}`;
+            }),
+          );
+        }
       }
     } catch (err) {
       console.log(err);
@@ -223,10 +244,10 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
                 }}
                 style={{width: 25, height: 25}}
               />
-              <Text style={styles.textOpt}>Gallery</Text>
+              <Text style={styles.textOpt}>Gallery (MAX 200MB)</Text>
             </View>
           </Pressable>
-          <Pressable onPress={openCamera}>
+          <Pressable onPress={openCameraVerification}>
             <View
               style={{
                 flexDirection: 'row',
@@ -317,12 +338,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#1D1D1D',
     borderRadius: 20,
     paddingHorizontal: 40,
-    paddingTop: 25,
+    justifyContent: 'center',
   },
   textOpt: {
     fontFamily: 'Inter',
     fontWeight: '400',
-    fontSize: 18,
+    fontSize: 14,
     textTransform: 'uppercase',
     marginLeft: 20,
     color: 'white',
@@ -330,7 +351,7 @@ const styles = StyleSheet.create({
   cancel: {
     fontFamily: 'Inter',
     fontWeight: '400',
-    fontSize: 16,
+    fontSize: 14,
     textTransform: 'uppercase',
     alignSelf: 'flex-end',
     color: 'white',

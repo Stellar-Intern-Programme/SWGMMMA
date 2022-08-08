@@ -23,7 +23,6 @@ const AuthComponent: ({
     };
 
     checkLogin();
-
     // eslint-disable-next-line
   }, []);
 

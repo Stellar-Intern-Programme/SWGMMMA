@@ -257,8 +257,8 @@ const reducer = (state: any = INITIAL_STATE, action: any) => {
     }
     case CONVERSATION_ACTIONS.ADD_CONVERSATION: {
       const newConversations = [
-        ...state.conversations,
         action.payload.conversation,
+        ...state.conversations,
       ];
 
       return {

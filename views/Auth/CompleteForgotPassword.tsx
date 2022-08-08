@@ -76,7 +76,9 @@ const CompleteForgotPassword = ({
   const sendBack = () => {};
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled">
       <BackArrow />
       <Text style={styles.headline_no_bottom}>Change</Text>
       <Text style={styles.headline}>Password</Text>

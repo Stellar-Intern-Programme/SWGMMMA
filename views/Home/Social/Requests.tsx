@@ -44,13 +44,17 @@ const Requests: FC<
       <Header Action={BackArrow} text={'Requests'} SecondAction={Friend} />
       <Search setSearch={setSearch} search={search} />
 
-      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView
+        contentContainerStyle={{alignItems: 'center'}}
+        keyboardShouldPersistTaps="handled">
         {_friendRequests && _friendRequests.length > 0 && (
           <>
             {!loading ? (
               <>
                 {_friendRequests
-                  .filter((fr: any) => fr.email.startsWith(search))
+                  .filter((fr: any) =>
+                    fr.email.toLowerCase().startsWith(search.toLowerCase()),
+                  )
                   .map(
                     (
                       person: {email: string; username: string; pfp: string},

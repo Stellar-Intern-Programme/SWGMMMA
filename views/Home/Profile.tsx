@@ -17,6 +17,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {connect} from 'react-redux';
 import {logout as logoutUserConnect} from '../../src/actions/authActions';
+import {useSocket} from '../../src/hooks/useSocket';
 
 const Profile = ({
   pfp,
@@ -29,6 +30,8 @@ const Profile = ({
   email: string;
   logoutUser: ({onSuccess}: {onSuccess: () => void}) => void;
 }) => {
+  const socket = useSocket();
+
   const [movies, setMovies] = useState([]);
   const [songs, setSongs] = useState([]);
   const [quote, setQuote] = useState({author: '', text: ''});
@@ -91,6 +94,7 @@ const Profile = ({
       );
       const onSuccess = () => {
         setLogoutLoading(false);
+        socket?.unsubscribe();
       };
       logoutUser({onSuccess});
     } catch (err) {

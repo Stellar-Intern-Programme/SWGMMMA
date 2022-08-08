@@ -80,7 +80,9 @@ const ForgotPassword = ({
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      keyboardShouldPersistTaps="handled">
       <BackArrow />
       <Text style={styles.headline_no_bottom}>Forgot</Text>
       <Text style={styles.headline}>Password</Text>
