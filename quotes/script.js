@@ -1,5 +1,5 @@
 let index = 0;
-let overlay, value, divResults, searchBar, results, lupa, X, searchInput, topOverlay, inputWidth, overlayTop, quote, quoteOfTheDay, listOfQuotes, searchResults, divMare, quotePopUp, popUpQuote, popUpAuthor, arrowLeft, button
+let overlay, value, divResults, searchBar, results, lupa, X, searchInput, topOverlay, inputWidth, overlayTop, quote, quoteOfTheDay, listOfQuotes, searchResults, divMare, quotePopUp, popUpQuote, popUpAuthor, arrowLeft, button, listaJos
 let randomQuoteData;
 let rolls = 0, rollsX = 0, rollX2 = 0;
 let isLightMode
@@ -16,6 +16,7 @@ const MAX_COUNT = 50
     let favorites = JSON.parse(localStorage.getItem("favoriteQuotes")) || []
 
 window.addEventListener("load", () => {
+    let loading = true
     overlay = document.getElementById("overlay")
     searchInput = document.getElementById("search")
     divResults = document.getElementById("resultBackground")
@@ -35,11 +36,13 @@ window.addEventListener("load", () => {
     popUpQuote = document.getElementById("popUpQuote")
     popUpAuthor = document.getElementById("popUpAuthor")
     arrowLeft = document.getElementById("goBack")
+    listaJos = document.querySelectorAll(".quoteInTheListText")
     isLightMode = localStorage.getItem("LIGHT_MODE") === 'true'
     setColors()
     randomQuote()
     randomQuoteList()
     console.log(favorites)
+
 });
 
 function showResults() {
@@ -222,6 +225,8 @@ function randomQuote() {
         .then((res) => res.json())
         .then((data) => {
             if(data.en.length < 130){
+            const LINII2 = document.querySelector(".LINII2")
+            LINII2.style.display = "none"
             randomQuoteData = data
             const quote = document.getElementById("quote")
             const author = document.getElementById("author")
@@ -235,29 +240,41 @@ function randomQuote() {
         });
 }
 
+let i
+
 function randomQuoteList(){
-    for(let i =0; i<5; i++){
+    for(i = 0; i<5; i++){
         replaceQuotesInList(i)
     }
+
+    // listaJos[i].onclick = () => {
+    //     openModal(data)
+    // }
+    
 }
 
+
+
 function replaceQuotesInList(i){
+    const quoteInTheList = document.querySelectorAll(".quoteInTheList")
     const numeRandom = document.querySelectorAll(".quoteInTheListText")
-    const listaJos = document.querySelector(".quoteInTheListText")
+    const linii = document.querySelectorAll(".LINII")
         fetch("https://programming-quotes-api.herokuapp.com/quotes/random")
         .then((res) => res.json())
         .then((data) => {
-
-            listaJos.onclick = () => {
-            openModal(data[i])
-            }
-
             if(data.en.length < 120){
-            numeRandom[i].innerHTML = data.en
+                quoteInTheList[i].style.alignItems = "center"
+                quoteInTheList[i].style.flexDirection = "row"
+                linii[i].style.display = "none"
+                numeRandom[i].innerHTML = data.en
+                listaJos[i].onclick = () => {
+                   openModal(data)
+                }
             }
             else{
                 replaceQuotesInList(i)
             }
+
         });
         
     }
