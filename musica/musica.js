@@ -3,13 +3,8 @@ let trendingData;
 let trenName
 let favorite, musica
 let pozaFundalPop
-let authToken
-document.addEventListener("message",niggers=>{
-    authToken=niggers.data
-    window.ReactNativeWebView.postMessage("susy")
-    document.getElementById('aaaa').textContent = authToken
-})
-console.log(authToken)
+
+
 window.addEventListener("load" ,()=>{
     pozaFundalPop = document.getElementById("fundalPopUp")
     arrayOfFavMusic=JSON.parse(localStorage.getItem("favorite"))|| []
@@ -119,21 +114,15 @@ function changeButton(){
 }
 async function  saveToArray(title,artist,src,album){
     if(!arrayOfFavMusic.find(e=>e.name===title)){
-         const song={
-            title,
-            artist,
-            album,
-            info: ''
-        }
-        await fetch("https://messaging-app-intern.herokuapp.com/api/profile/add-song",{
-            method:'POST',
-            headers:{
-                "Content-Type":"application/JSON",
-                Cookie: `auth-token=${authToken};`
-            },
-            body: JSON.stringify(song),
-            credentials: 'include'
-        })
+    const song={
+        title,
+        artist,
+        album,
+        info: ''
+    }
+
+    window.parent.postMessage(JSON.stringify(song))
+
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
         let index=arrayOfFavMusic.findIndex(e=>e.name===title)
