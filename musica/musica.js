@@ -27,7 +27,8 @@ window.addEventListener("load" ,()=>{
 })
 
 window.addEventListener("message", e => {
-    localStorage.setItem('favorite', JSON.parse(e.data))
+    localStorage.setItem('favorite', JSON.stringify(e.data))
+    parent?.postMessage?.(JSON.stringify(e.data))
 })
 
 function creeazaPoza(){
