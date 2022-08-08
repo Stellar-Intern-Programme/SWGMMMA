@@ -6,10 +6,6 @@ let pozaFundalPop
 let authToken
 window.addEventListener("message",niggers=>{
     authToken=niggers.data
-    console.log(authToken)
-    if(window.ReactNativeWebView){
-        
-    }
 })
 console.log(authToken)
 window.addEventListener("load" ,()=>{
@@ -125,15 +121,18 @@ async function  saveToArray(title,artist,src,album){
         await fetch("https://messaging-app-intern.herokuapp.com/api/profile/add-song",{
             method:'POST',
             headers:{
-                "Content-Type":"application/JSON"
+                "Content-Type":"application/JSON",
+                Cookie: `auth-token=${authToken};`
             },
             body:{
                 song:{
                     title,
                     artist,
-                    album
+                    album,
+                    info: ''
                 }
-            }
+            },
+            credentials: 'include'
         })
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
