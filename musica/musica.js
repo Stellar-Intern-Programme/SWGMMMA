@@ -115,7 +115,14 @@ function changeButton(){
 }
 async function  saveToArray(title,artist,src,album){
     if(!arrayOfFavMusic.find(e=>e.name===title)){
-   
+        const song={
+            title: _name,
+            artist: _artist,
+            album: _album,
+            info: ''
+        }
+    
+        parent?.postMessage(JSON.stringify(song), "*")
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
         let index=arrayOfFavMusic.findIndex(e=>e.name===title)
@@ -233,16 +240,6 @@ function generatePopUpElem(e){
         divFavTxt.innerText="Add to Favorite"
     }
     divFavTxt.onclick =()=>{
-        const song={
-            title: _name,
-            artist: _artist,
-            album: _album,
-            info: ''
-        }
-    
-        parent?.postMessage(JSON.stringify(song), "*")
-    
-      
         saveToArray(_name,_artist,e.target.src,_album)
     }
 
