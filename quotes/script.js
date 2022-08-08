@@ -420,7 +420,7 @@ function setColors() {
         Moon.setAttribute("src", "resources/sun.svg")
     } 
     else{
-        Moon.setAttribute("src", "resources/moon.svg")
+        Moon.setAttribute("src", "resources/moon.png")
     }
     Moon.classList[type]("MoonLightMode")
 
