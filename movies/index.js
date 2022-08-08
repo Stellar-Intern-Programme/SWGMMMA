@@ -11,7 +11,7 @@ let trailerBtn;
 let modalBackground;
 let modal;
 let companiesImages;
-let favP;
+let nothing;
 
 
 
@@ -114,11 +114,12 @@ window.addEventListener("load", (event) => {
     modalBackground = document.getElementById("modalBackground");
     modal = document.getElementById("modal");
     companiesImages = document.getElementById("companiesImages")
-    favP = document.getElementById("favP");
+    nothing = document.getElementById("nothing");
 
     if (favoriteMoviesArray.length === 0) {
-        favP.style.display = "none"
+        nothing.style.display = "flex"
     }
+    else { nothing.style.display = "none" }
 
 
 
@@ -131,6 +132,9 @@ window.addEventListener("load", (event) => {
             const divMovieImg = document.createElement("div");
             const movieImg = document.createElement("img");
             divMovieImg.appendChild(movieImg);
+            if (favoriteMoviesArray.length === 0) {
+                nothing.style.display = "flex"
+            }
             if (element.poster_path === null) {
                 movieImg.setAttribute("src", "https://th.bing.com/th/id/OIP.6Hec0K-YQL1hL-sfqyPHBwAAAA?pid=ImgDet&rs=1")
             }
@@ -208,6 +212,9 @@ function modalData(element) {
 }
 
 function addFavorite(id) {
+    if (favoriteMoviesArray.length === 0) {
+        nothing.style.display = "flex"
+    }
     fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=en-US`).then(res => res.json()).then(favData => {
         console.log(favData)
         favoriteMoviesArray.push({ title: favData.original_title, id: favData.id, poster_path: favData.poster_path, original_language: favData.original_language, vote_average: favData.vote_average, adult: favData.adult, production_companies: favData.production_companies, overview: favData.overview, imdb: favData.imdb_id, genre: favData.genres[0].name });
@@ -223,6 +230,11 @@ function addFavorite(id) {
 }
 function addFavoriteList() {
     favMovieList.innerHTML = ""
+    if (favoriteMoviesArray.length === 0) {
+        nothing.style.display = "flex"
+    }
+    else { nothing.style.display = "none" }
+
     console.log(favoriteMoviesArray)
     favoriteMoviesArray.forEach(x => {
         const favMovieImg = document.createElement("img")
@@ -240,9 +252,7 @@ function removeFavorite(id) {
     localStorage.setItem("favorite", JSON.stringify(favoriteMoviesArray));
     addFavoriteList();
     if (favoriteMoviesArray.length === 0) {
-        const nothingImg = document.createElement("img")
-        nothingImg.setAttribute("src", "src/nothing-here.png")
-        favMovieList.appendChild(nothingImg)
+        nothing.style.display = "flex";
     }
 
 
