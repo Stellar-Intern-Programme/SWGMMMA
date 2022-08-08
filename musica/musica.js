@@ -25,9 +25,9 @@ window.addEventListener("load" ,()=>{
     parent = window.ReactNativeWebView
 })
 
-window.addEventListener("message", e => {
-    localStorage.setItem('favorite', JSON.stringify(e.data))
-    parent?.postMessage?.(JSON.stringify(e.data))
+document.addEventListener("message", e => {
+    localStorage.setItem('favorite', JSON.stringify
+    (JSON.parse(e.data).message))
 })
 
 function creeazaPoza(){
