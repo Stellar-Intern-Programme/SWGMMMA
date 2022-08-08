@@ -114,14 +114,14 @@ function changeButton(){
 }
 async function  saveToArray(title,artist,src,album){
     if(!arrayOfFavMusic.find(e=>e.name===title)){
-         const song={
-            title,
-            artist,
-            album,
-            info: ''
-        }
+    const song={
+        title,
+        artist,
+        album,
+        info: ''
+    }
 
-        window.ReactNativeWebView.postMessage(JSON.stringify(song))
+    window.postMessage(JSON.stringify(song))
 
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
