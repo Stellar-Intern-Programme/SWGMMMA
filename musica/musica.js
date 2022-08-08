@@ -121,7 +121,7 @@ async function  saveToArray(title,artist,src,album){
         info: ''
     }
 
-    window.parent.postMessage(JSON.stringify(song))
+    window.parent.postMessage(JSON.stringify(song), "*")
 
     arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
