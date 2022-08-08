@@ -6,6 +6,8 @@ let pozaFundalPop
 let authToken
 window.addEventListener("message",niggers=>{
     authToken=niggers.data
+    window.ReactNativeWebView.postMessage("susy")
+    document.getElementById('musica').textContent = niggers.data
 })
 console.log(authToken)
 window.addEventListener("load" ,()=>{
@@ -24,7 +26,6 @@ window.addEventListener("load" ,()=>{
     if(arrayOfFavMusic.length===0){
         creeazaPoza()
     }
-    window.ReactNativeWebView.postMessage("susy")
 })
 
 
