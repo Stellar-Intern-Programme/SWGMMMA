@@ -26,6 +26,9 @@ window.addEventListener("load" ,()=>{
     parent?.postMessage?.(JSON.stringify(localStorage.getItem("favorite")))
 })
 
+window.addEventListener("message", e => {
+    localStorage.seetItem('favorite', JSON.parse(e.data))
+})
 
 function creeazaPoza(){
     const actual =document.getElementById("actualFavSongs")
@@ -115,17 +118,17 @@ function changeButton(){
     }
 }
 async function  saveToArray(title,artist,src,album){
+    const song={
+        title,
+        artist,
+        album,
+        image: src
+    }
     if(!arrayOfFavMusic.find(e=>e.name===title)){
-        const song={
-            title,
-            artist,
-            album,
-            info: ''
-        }
-    
         parent?.postMessage?.(JSON.stringify(song))
-    arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
+        arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
+        parent?.postMessage?.(JSON.stringify(song))
         let index=arrayOfFavMusic.findIndex(e=>e.name===title)
         arrayOfFavMusic.splice(index,1)
     }
