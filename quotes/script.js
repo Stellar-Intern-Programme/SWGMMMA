@@ -243,7 +243,7 @@ function randomQuote() {
 let i
 
 function randomQuoteList(){
-    for(i = 0; i<5; i++){
+    for(i = 0; i<11; i++){
         replaceQuotesInList(i)
     }
 
