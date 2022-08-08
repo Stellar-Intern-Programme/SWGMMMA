@@ -167,19 +167,10 @@ const Conversations = ({
 
     if (!loggedIn || !Boolean(email.length) || !Boolean(userId)) return;
 
-    socket!.eventListeners({
-      receiveMessage: receiveMessageProp,
-      seenMessageByOther: seenMessageByOtherProp,
-      email,
-      userId,
-      removeConversation: removeConversationProp,
-      addConversation: addConversationProp,
-      conversationStatus: statusConversationProps,
-    });
-
     lastMessage();
 
     const initialConversations = async () => {
+      console.log('yes');
       setLoading(true);
       const onFinish = () => {
         setLoading(false);
@@ -194,6 +185,19 @@ const Conversations = ({
       source.cancel();
     };
   }, [loggedIn]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket!.eventListeners({
+      receiveMessage: receiveMessageProp,
+      seenMessageByOther: seenMessageByOtherProp,
+      email,
+      userId,
+      removeConversation: removeConversationProp,
+      addConversation: addConversationProp,
+      conversationStatus: statusConversationProps,
+    });
+  }, [socket]);
 
   const Action = () => {
     return (

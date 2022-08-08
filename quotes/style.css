@@ -253,7 +253,7 @@ body {
     flex-direction: column;
     background-color: #2E2E2E;
     width: 85%;
-    min-height: 364px;
+    height: 364px;
     padding-top: 18px;
     border-radius: 20px;
 }
@@ -263,7 +263,7 @@ body {
     align-items: center;
     font-family: 'Inter';
     font-weight: 900;
-    min-height: 282px;
+    /* min-height: 282px; */
     font-size: 28px;
     color: white;
     margin: 0px;
@@ -343,7 +343,10 @@ body {
     font-size: 12px;
     background-color: #2E2E2E;
     height: 145px;
+    width: 384px;
     border-radius: 20px;
+    flex-direction: column;
+    align-items: start;
 }
 
 .quoteInTheListText {
@@ -481,7 +484,7 @@ body {
     align-items: center;
     justify-content: space-around;
     position: absolute;
-    bottom: 0px;
+    bottom: -800px;
     z-index: 5;
     background-color: #1D1D1D;
     height: 73vh;
@@ -705,4 +708,42 @@ body {
 
 .goBackLightMode{
     background-color: #83d9b1;
+}
+
+/* =====================================GATA LIGHT MODE======================================== */
+
+.linie{
+    height: 6%;
+    background-color: #727272;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 17px;
+    border-radius: 5px;
+    animation: pulseazaLMAO 1s linear infinite alternate;
+
+}
+
+.LINII{
+    height: 100%;
+}
+
+.LINII2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.linie2{
+    height: 15px;
+    background-color: #727272;
+    margin-top: 25px;
+    border-radius: 5px; 
+    animation: pulseazaLMAO 1s linear infinite alternate;
+}
+
+@keyframes pulseazaLMAO {
+    0%{background-color: #727272}
+    100%{background-color: #bdbdbd}
+    
 }

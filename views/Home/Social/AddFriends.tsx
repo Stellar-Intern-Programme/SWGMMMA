@@ -38,7 +38,9 @@ const AddFriends: FC<
     <View>
       <Header Action={BackArrow} text={'Add Friends'} SecondAction={Request} />
       <Search setSearch={setSearch} search={search} />
-      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+      <ScrollView
+        contentContainerStyle={{alignItems: 'center'}}
+        keyboardShouldPersistTaps="handled">
         {peopleSearch && peopleSearch.length > 0 && !psLoading && search !== ''
           ? peopleSearch.map((p: any, key: number) => {
               return (
@@ -46,7 +48,7 @@ const AddFriends: FC<
                   key={key}
                   email={p.email}
                   onSuccess={onSuccess}
-                  pfp={p.profile.avatar}
+                  pfp={p.pfp}
                 />
               );
             })

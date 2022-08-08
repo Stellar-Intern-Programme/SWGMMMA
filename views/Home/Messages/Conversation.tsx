@@ -1,14 +1,20 @@
 import React, {useState, useEffect, useRef, useMemo, FC} from 'react';
 import {TextMessage, MessageContainerProps} from '../../../src/typings';
 import {connect} from 'react-redux';
-import axios from 'axios';
+import FullPhoto from '../../../src/components/Home/Conversations/Conversation/FullPhoto';
 import {useSocket} from '../../../src/hooks/useSocket';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import SkeletonConversation from '../../../src/components/Home/Skeletons/SkeletonConversation';
 import {format} from 'date-fns';
 import {formatDate, dateDiffers} from '../../../src/utils/formatDate';
 import Message from '../../../src/components/Home/Conversations/Conversation/Message';
-import {IOScrollView, InView} from 'react-native-intersection-observer';
 import {
   getInitialMessages as getInitialMessagesConnect,
   getPreviousMessages as getPreviousMessagesConnect,
@@ -35,14 +41,13 @@ const Conversation: FC<MessageContainerProps> = ({
   seeMessage,
   lastMessages,
   conversations,
+  myUsername,
 }) => {
   const conversationId = route.params.conversationId;
   const pfpOther = route.params.pfpOther;
   const scrollRef = route.params.scrollRef;
+  const usernameOther = route.params.usernameOther;
   const socket = useSocket();
-  const scrollViewRef = useRef<any>(null);
-
-  const [isTemp, setIsTemp] = useState(false);
 
   const blocked = useMemo(
     () =>
@@ -62,20 +67,15 @@ const Conversation: FC<MessageContainerProps> = ({
   );
 
   const [skip, setSkip] = useState(0);
+  const [image, setImage] = useState(null);
+  const [senderMailFP, setSenderMailFP] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
   const [newContainer, setNewContainer] = useState(true);
 
-  // const ref = useRef();
-  const altRef = useRef();
-  const alreadyUnseenRef = useRef<any>(null);
-  const altInView = false;
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
+  const onScrollContainer = () => {
     if (
-      altInView &&
       messages[messages.length - 1] &&
       (!messages[messages.length - 1].seen.includes(userId) ||
         !messages[0].seen.includes(userId))
@@ -89,18 +89,12 @@ const Conversation: FC<MessageContainerProps> = ({
         messageSeenByOther: socket!.messageSeenByOther,
       });
     }
-  }, [altInView, conversationId, seeMessage, messages]);
+  };
 
   const [renderFirstTime, setRenderFirstTime] = useState(false);
 
-  const scrollContainer = useRef<any>(null);
-
   useEffect(() => {
     const getConversation = async () => {
-      setTimeout(() => {
-        // scrollRef.current?.scrollIntoView();
-      }, 0);
-
       const onSuccess = () => {
         if (lastMessages[conversationId].totalUnseen > 0) {
           setTimeout(() => {
@@ -147,13 +141,8 @@ const Conversation: FC<MessageContainerProps> = ({
 
   const [activate, setActivate] = useState(false);
 
-  // useEffect(() => {
-  //   console.log(scrollViewRef.current?.topScroll);
-  // }, [scrollViewRef]);
-
-  useEffect(() => {
+  const getMoreMessagesToConv = (e: any) => {
     if (
-      !inView ||
       total <= messages.length ||
       skip > total ||
       loading ||
@@ -165,46 +154,43 @@ const Conversation: FC<MessageContainerProps> = ({
       return;
     }
 
-    const source = axios.CancelToken.source();
+    const _skip = skip + 100;
+    setActivate(true);
+    setLoading(true);
+    setSkip((lSkip: number) => lSkip + 100);
+    setBeforeInitialFullHeight(e.contentSize.height);
+    setBeforeLayoutHeight(e.layoutMeasurement.height);
 
-    const getMoreMessages = async () => {
-      const _skip = skip + 100;
-      setActivate(true);
-      setLoading(true);
-      setSkip((lSkip: number) => lSkip + 100);
+    const onFinish = () => {
+      setLoading(false);
 
-      const onFinish = () => {
-        setLoading(false);
-
-        setTimeout(() => {
-          scrollContainer.current?.scrollIntoView();
-        }, 0);
-
-        setTimeout(() => {
-          setActivate(false);
-        }, 2000);
-      };
-
-      getPreviousMessages({conversationId, skip: _skip, onFinish});
+      setTimeout(() => {
+        setActivate(false);
+      }, 2000);
     };
 
-    getMoreMessages();
+    getPreviousMessages({conversationId, skip: _skip, onFinish});
+  };
 
-    return () => {
-      source.cancel();
-    };
-  }, [
-    inView,
-    activate,
-    loading,
-    _total,
-    initialLoading,
-    renderFirstTime,
-    getPreviousMessages,
-  ]);
+  const [scrolled, setScrolled] = useState(true);
+  const [beforeInitialFullHeight, setBeforeInitialFullHeight] = useState(0);
+  const [beforeLayoutHeight, setBeforeLayoutHeight] = useState(0);
+  const [disableLayout, setDisableLayout] = useState(false);
+
+  const rawDate = new Date();
 
   return (
     <View style={{flex: 1}}>
+      {image && senderMailFP && (
+        <FullPhoto
+          image={image}
+          setImage={setImage}
+          senderName={usernameOther}
+          myUsername={myUsername}
+          senderMail={senderMailFP}
+          myMail={myEmail}
+        />
+      )}
       <Header
         Action={BackArrow}
         text={
@@ -218,28 +204,74 @@ const Conversation: FC<MessageContainerProps> = ({
       <ScrollView
         contentContainerStyle={styles.messagesContainer}
         ref={scrollRef}
-        onContentSizeChange={() => {
-          if (!initialLoading) {
-            (scrollRef?.current as any)?.scrollToEnd({animated: false});
+        onContentSizeChange={(contentWidth, contentHeight) => {
+          if (
+            (lastMessages[conversationId]?.totalUnseen || 0) === 0 &&
+            !activate
+          ) {
+            scrollRef.current?.scrollTo({y: contentHeight, animated: false});
+            setTimeout(() => {
+              setScrolled(true);
+            }, 0);
+          }
+          if (activate) {
+            scrollRef.current?.scrollTo({
+              y: contentHeight - beforeLayoutHeight - beforeInitialFullHeight,
+              animated: false,
+            });
+          }
+        }}
+        style={{opacity: scrolled ? 1 : 0}}
+        onScroll={event => {
+          if (
+            event.nativeEvent.contentOffset.y +
+              event.nativeEvent.layoutMeasurement.height >=
+            event.nativeEvent.contentSize.height - 30
+          ) {
+            setDisableLayout(true);
+            onScrollContainer();
+          }
+          if (event.nativeEvent.contentOffset.y <= 30) {
+            getMoreMessagesToConv(event.nativeEvent);
+          }
+        }}
+        onLayout={() => {
+          if (!disableLayout) {
+            onScrollContainer();
           }
         }}>
         {messages && messages.length > 0 && !initialLoading ? (
           <>
+            {loading && (
+              <View style={{alignItems: 'center', marginBottom: 10}}>
+                <ActivityIndicator size={40} color={'rgb(200, 200, 200)'} />
+              </View>
+            )}
             {messages.map((message: TextMessage, key: number) => {
               if (key === messages.length - 1 && !renderFirstTime) {
                 setTimeout(() => setRenderFirstTime(true), 0);
               }
 
-              let lastIndex = -1;
-              messages.forEach((m: any, lKey: number) => {
-                if (m.senderEmail !== myEmail) {
-                  lastIndex = lKey;
-                }
-              });
-
-              const rawDate = new Date();
               return (
-                <View key={key + 10}>
+                <View
+                  key={key + 10}
+                  onLayout={event => {
+                    if (
+                      lastMessages[conversationId]?.totalUnseen > 0 &&
+                      key ===
+                        messages.length -
+                          lastMessages[conversationId]?.totalUnseen
+                    ) {
+                      scrollRef.current?.scrollTo({
+                        y: event.nativeEvent.layout.y,
+                        animated: false,
+                      });
+
+                      setTimeout(() => {
+                        setScrolled(true);
+                      }, 0);
+                    }
+                  }}>
                   {messages[key - 1] &&
                     dateDiffers(messages[key - 1].date, message.date) && (
                       <View key={key + 1} style={styles.dateFlex}>
@@ -271,15 +303,32 @@ const Conversation: FC<MessageContainerProps> = ({
                     senderEmail={message.senderEmail}
                     media={message.media ? message.media : ''}
                     time={message?.time || '00:00'}
+                    setImage={setImage}
+                    setSenderEmailFP={setSenderMailFP}
                   />
                 </View>
               );
             })}
+            {messages &&
+              messages[messages.length - 1] &&
+              messages[messages.length - 1].senderEmail === myEmail && (
+                <View style={styles.statusMessage}>
+                  <Image
+                    source={{
+                      uri: !lastMessages[conversationId].seenByOther
+                        ? 'https://res.cloudinary.com/multimediarog/image/upload/v1659528556/IFrameApplication/send-4009_inlm2y.png'
+                        : 'https://res.cloudinary.com/multimediarog/image/upload/v1659528482/IFrameApplication/check-mark-3279_ytkt2k.png',
+                    }}
+                    style={{height: 15, width: 15}}
+                  />
+                  <Text style={styles.statusText}>Sent</Text>
+                </View>
+              )}
           </>
         ) : (
           <>
             {initialLoading && (
-              <View>
+              <View style={{marginBottom: 20}}>
                 <SkeletonConversation />
                 <SkeletonConversation />
                 <SkeletonConversation />
@@ -317,6 +366,7 @@ export default connect(
     conversations: state.conversation.conversations,
     userId: state.auth.userId,
     myEmail: state.auth.email,
+    myUsername: state.auth.username,
   }),
   {
     getInitialMessages: getInitialMessagesConnect,
@@ -330,17 +380,19 @@ export default connect(
 
 const styles = StyleSheet.create({
   messagesContainer: {
-    width: '100%',
     flexDirection: 'column',
     flexWrap: 'nowrap',
     paddingHorizontal: 20,
-    marginTop: 10,
+    paddingTop: 10,
+    justifyContent: 'flex-end',
+    flexGrow: 1,
   },
   dateFlex: {
     flexDirection: 'row',
     flexWrap: 'nowrap',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 20,
   },
   dateLine: {
     width: 50,
@@ -354,5 +406,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Inter',
     fontSize: 14,
     fontWeight: '500',
+  },
+  statusMessage: {
+    marginBottom: 10,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    marginTop: -25,
+  },
+  statusText: {
+    color: 'white',
+    fontSize: 14,
+    fontFamily: 'Inter',
+    fontWeight: '400',
+    marginLeft: 6,
   },
 });

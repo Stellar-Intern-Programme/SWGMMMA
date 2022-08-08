@@ -28,8 +28,11 @@ const MapConversations: FC<Props> = ({
         conversations
           .filter((item: any) =>
             item.people
-              .filter((p: any) => p.email !== email)[0]
-              .email.startsWith(search),
+              .filter(
+                (p: any) => p.email.toLowerCase() !== email.toLowerCase(),
+              )[0]
+              .email.toLowerCase()
+              .startsWith(search.toLowerCase()),
           )
           .map((conversation: any, key: number) => {
             return (

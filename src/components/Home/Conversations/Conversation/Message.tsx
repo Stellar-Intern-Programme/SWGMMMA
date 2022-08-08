@@ -1,8 +1,17 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {TextMessage} from '../../../../typings';
 
-const Message: FC<TextMessage> = ({text, date, index, media, time}) => {
+const Message: FC<TextMessage> = ({
+  text,
+  date,
+  index,
+  media,
+  time,
+  setImage,
+  setSenderEmailFP,
+  senderEmail,
+}) => {
   return (
     <View
       style={[
@@ -26,12 +35,19 @@ const Message: FC<TextMessage> = ({text, date, index, media, time}) => {
         {!media ? (
           <Text style={styles.text}>{text}</Text>
         ) : (
-          <Image
-            source={{
-              uri: media,
+          <Pressable
+            onPress={() => {
+              setImage(media);
+              setSenderEmailFP(senderEmail);
             }}
-            style={{width: 250, height: 300, marginTop: 5}}
-          />
+            style={{marginTop: 5, backgroundColor: 'black'}}>
+            <Image
+              source={{
+                uri: media,
+              }}
+              style={{width: 250, height: 300, resizeMode: 'contain'}}
+            />
+          </Pressable>
         )}
       </View>
     </View>
