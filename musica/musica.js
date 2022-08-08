@@ -23,6 +23,7 @@ window.addEventListener("load" ,()=>{
         creeazaPoza()
     }
     parent = window.ReactNativeWebView
+    parent?.postMessage?.(JSON.stringify(localStorage.getItem("favorite")))
 })
 
 
