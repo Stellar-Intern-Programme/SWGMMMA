@@ -8,7 +8,6 @@ let parent
 
 window.addEventListener("load" ,()=>{
     pozaFundalPop = document.getElementById("fundalPopUp")
-    arrayOfFavMusic=JSON.parse(localStorage.getItem("favorite"))|| []
     const searchS=document.getElementById("search")
     searchS.addEventListener("keyup", musicSearhFetch)
     searchS.addEventListener("click", searchClick)
@@ -27,6 +26,7 @@ window.addEventListener("load" ,()=>{
 
 document.addEventListener("message", e => {
     localStorage.setItem('favorite', JSON.stringify(e.data))
+    arrayOfFavMusic=e.data|| []
 })
 
 function creeazaPoza(){
