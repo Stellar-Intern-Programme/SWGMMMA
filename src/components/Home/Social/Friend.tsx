@@ -128,6 +128,7 @@ const Friend: FC<Item> = ({
         source={{
           uri: pfp,
         }}
+        fadeDuration={0}
         style={styles.img}
       />
 
@@ -149,6 +150,7 @@ const Friend: FC<Item> = ({
                 source={{
                   uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1658699589/IFrameApplication/Group_25_tyaluk.png',
                 }}
+                fadeDuration={0}
                 style={styles.button}
               />
             </Pressable>
@@ -158,6 +160,7 @@ const Friend: FC<Item> = ({
                 source={{
                   uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1658700669/IFrameApplication/user_c44bvf.png',
                 }}
+                fadeDuration={0}
                 style={styles.button}
               />
             </Pressable>
@@ -167,6 +170,7 @@ const Friend: FC<Item> = ({
               source={{
                 uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1658699588/IFrameApplication/Group_24_udgvim.png',
               }}
+              fadeDuration={0}
               style={styles.button}
             />
           </Pressable>

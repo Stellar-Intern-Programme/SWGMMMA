@@ -44,6 +44,7 @@ const SearchItem: FC<Item> = ({email, onSuccess, addFriend, pfp}) => {
         source={{
           uri: pfp,
         }}
+        fadeDuration={0}
         style={styles.img}
       />
 
@@ -60,6 +61,7 @@ const SearchItem: FC<Item> = ({email, onSuccess, addFriend, pfp}) => {
             source={{
               uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1658709253/MessagingApp/green-add-button-12023_cnddb8.png',
             }}
+            fadeDuration={0}
             style={styles.button}
           />
         </Pressable>

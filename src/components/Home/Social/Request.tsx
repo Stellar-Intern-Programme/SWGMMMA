@@ -97,6 +97,7 @@ const Request: FC<Props> = ({
         source={{
           uri: pfp,
         }}
+        fadeDuration={0}
         style={styles.img}
       />
 
@@ -117,6 +118,7 @@ const Request: FC<Props> = ({
               source={{
                 uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1658710595/MessagingApp/check-symbol-4794_tgxsq8.png',
               }}
+              fadeDuration={0}
               style={styles.button}
             />
           </Pressable>
@@ -125,6 +127,7 @@ const Request: FC<Props> = ({
               source={{
                 uri: 'https://res.cloudinary.com/multimediarog/image/upload/v1658710594/MessagingApp/error-10379_zw8i7a.png',
               }}
+              fadeDuration={0}
               style={styles.button}
             />
           </Pressable>

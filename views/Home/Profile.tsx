@@ -214,7 +214,7 @@ const Profile = ({
                       <Image
                         style={[styles.songCard, {marginLeft: 0}]}
                         source={{
-                          uri: song.img,
+                          uri: song.image,
                         }}
                       />
                       <ScrollView

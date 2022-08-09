@@ -73,6 +73,8 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
         mediaType: 'photo',
         includeBase64: true,
         saveToPhotos: true,
+        maxHeight: 700,
+        maxWidth: 650,
       });
 
       setImageSelect(false);
@@ -97,6 +99,8 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
         mediaType: 'photo',
         includeBase64: true,
         selectionLimit: 8,
+        maxWidth: 650,
+        maxHeight: 700,
       });
 
       setImageSelect(false);
@@ -106,13 +110,15 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
         result?.assets[0]?.fileSize
       ) {
         let size = 0;
-        result.assets.forEach((asset: any) => {
-          size += asset.fileSize;
+        result.assets.forEach((asset: any, key: number) => {
+          if (key < 8) {
+            size += asset.fileSize;
+          }
         });
 
         if (size / 1000000 <= 200) {
           await sendMessage_(
-            result?.assets?.map((asset: any) => {
+            result?.assets?.slice(0, 8).map((asset: any) => {
               return `data:image/jpeg;base64,${asset.base64}`;
             }),
           );
@@ -244,7 +250,7 @@ const CreateMessageContainer: FC<CreateMessageProps> = ({
                 }}
                 style={{width: 25, height: 25}}
               />
-              <Text style={styles.textOpt}>Gallery (MAX 200MB)</Text>
+              <Text style={styles.textOpt}>Gallery (MAX 200MB, 8 IMGs)</Text>
             </View>
           </Pressable>
           <Pressable onPress={openCameraVerification}>

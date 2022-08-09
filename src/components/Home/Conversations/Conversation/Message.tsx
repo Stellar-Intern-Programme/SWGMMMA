@@ -1,6 +1,7 @@
 import React, {FC} from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {TextMessage} from '../../../../typings';
+import FastImage from 'react-native-fast-image';
 
 const Message: FC<TextMessage> = ({
   text,
@@ -11,7 +12,10 @@ const Message: FC<TextMessage> = ({
   setImage,
   setSenderEmailFP,
   senderEmail,
+  contentOffset,
+  offset,
 }) => {
+  // console.log(contentOffset, offset);
   return (
     <View
       style={[
@@ -41,11 +45,12 @@ const Message: FC<TextMessage> = ({
               setSenderEmailFP(senderEmail);
             }}
             style={{marginTop: 5, backgroundColor: 'black'}}>
-            <Image
+            <FastImage
               source={{
                 uri: media,
+                priority: FastImage.priority.normal,
               }}
-              style={{width: 250, height: 300, resizeMode: 'contain'}}
+              style={{width: 250, height: 300}}
             />
           </Pressable>
         )}

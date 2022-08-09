@@ -11,6 +11,8 @@ export interface TextMessage {
   seen?: string;
   setImage: any;
   setSenderEmailFP: any;
+  contentOffset: number;
+  offset: number;
 }
 
 export type Section = 'Messages' | 'Social' | 'None';

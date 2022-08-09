@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useMemo, FC} from 'react';
+import React, {useState, useEffect, useMemo, FC} from 'react';
 import {TextMessage, MessageContainerProps} from '../../../src/typings';
 import {connect} from 'react-redux';
 import FullPhoto from '../../../src/components/Home/Conversations/Conversation/FullPhoto';
@@ -48,6 +48,8 @@ const Conversation: FC<MessageContainerProps> = ({
   const scrollRef = route.params.scrollRef;
   const usernameOther = route.params.usernameOther;
   const socket = useSocket();
+
+  const [contentOffset, setContentOffset] = useState(0);
 
   const blocked = useMemo(
     () =>
@@ -128,8 +130,6 @@ const Conversation: FC<MessageContainerProps> = ({
     if (newContainer) {
       getConversation();
     }
-
-    setLoading(false);
   }, [
     conversationId,
     newContainer,
@@ -159,11 +159,11 @@ const Conversation: FC<MessageContainerProps> = ({
     setLoading(true);
     setSkip((lSkip: number) => lSkip + 100);
     setBeforeInitialFullHeight(e.contentSize.height);
-    setBeforeLayoutHeight(e.layoutMeasurement.height);
 
     const onFinish = () => {
-      setLoading(false);
-
+      setTimeout(() => {
+        setLoading(false);
+      }, 0);
       setTimeout(() => {
         setActivate(false);
       }, 2000);
@@ -174,11 +174,10 @@ const Conversation: FC<MessageContainerProps> = ({
 
   const [scrolled, setScrolled] = useState(true);
   const [beforeInitialFullHeight, setBeforeInitialFullHeight] = useState(0);
-  const [beforeLayoutHeight, setBeforeLayoutHeight] = useState(0);
   const [disableLayout, setDisableLayout] = useState(false);
 
   const rawDate = new Date();
-
+  console.log(contentOffset);
   return (
     <View style={{flex: 1}}>
       {image && senderMailFP && (
@@ -204,7 +203,11 @@ const Conversation: FC<MessageContainerProps> = ({
       <ScrollView
         contentContainerStyle={styles.messagesContainer}
         ref={scrollRef}
+        scrollEnabled={!initialLoading}
         onContentSizeChange={(contentWidth, contentHeight) => {
+          if (!disableLayout) {
+            setContentOffset(contentHeight);
+          }
           if (
             (lastMessages[conversationId]?.totalUnseen || 0) === 0 &&
             !activate
@@ -216,13 +219,15 @@ const Conversation: FC<MessageContainerProps> = ({
           }
           if (activate) {
             scrollRef.current?.scrollTo({
-              y: contentHeight - beforeLayoutHeight - beforeInitialFullHeight,
+              y: contentHeight - beforeInitialFullHeight,
+              x: 0,
               animated: false,
             });
           }
         }}
         style={{opacity: scrolled ? 1 : 0}}
         onScroll={event => {
+          setContentOffset(event.nativeEvent.contentOffset.y);
           if (
             event.nativeEvent.contentOffset.y +
               event.nativeEvent.layoutMeasurement.height >=
@@ -240,18 +245,18 @@ const Conversation: FC<MessageContainerProps> = ({
             onScrollContainer();
           }
         }}>
+        {loading && (
+          <View style={{alignItems: 'center', marginBottom: 10}}>
+            <ActivityIndicator size={40} color={'rgb(200, 200, 200)'} />
+          </View>
+        )}
         {messages && messages.length > 0 && !initialLoading ? (
           <>
-            {loading && (
-              <View style={{alignItems: 'center', marginBottom: 10}}>
-                <ActivityIndicator size={40} color={'rgb(200, 200, 200)'} />
-              </View>
-            )}
             {messages.map((message: TextMessage, key: number) => {
               if (key === messages.length - 1 && !renderFirstTime) {
                 setTimeout(() => setRenderFirstTime(true), 0);
               }
-
+              let offset = 0;
               return (
                 <View
                   key={key + 10}
@@ -271,6 +276,9 @@ const Conversation: FC<MessageContainerProps> = ({
                         setScrolled(true);
                       }, 0);
                     }
+
+                    offset = event.nativeEvent.layout.y;
+                    console.log(offset);
                   }}>
                   {messages[key - 1] &&
                     dateDiffers(messages[key - 1].date, message.date) && (
@@ -305,6 +313,8 @@ const Conversation: FC<MessageContainerProps> = ({
                     time={message?.time || '00:00'}
                     setImage={setImage}
                     setSenderEmailFP={setSenderMailFP}
+                    contentOffset={contentOffset}
+                    offset={offset}
                   />
                 </View>
               );

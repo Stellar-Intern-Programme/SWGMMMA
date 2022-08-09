@@ -19,7 +19,8 @@ window.addEventListener('load', () => {
   parent = window.ReactNativeWebView;
 
   document.addEventListener('message', e => {
-    document.getElementById('musica').innerText = e.data;
+    parent?.postMessage(JSON.stringify([e, 'yup']));
+    document.getElementById('musica').innerText = '.data';
     localStorage.setItem('favorite', JSON.stringify(e.data));
     arrayOfFavMusic = JSON.parse(e.data) || [];
     loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
