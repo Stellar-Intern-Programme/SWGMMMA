@@ -21,19 +21,14 @@ window.addEventListener('load', () => {
   document.addEventListener('message', e => {
     document.getElementById('musica').innerText = '.data';
     localStorage.setItem('favorite', e.data);
-    arrayOfFavMusic = JSON.parse(e.data) || [];
-    loopDubios(JSON.parse(e.data) || [], 'actualFavSongs', true);
-
-    if (arrayOfFavMusic.length === 0) {
-      creeazaPoza();
-    }
-  });
-
-  window.addEventListener('message', e => {
-    document.getElementById('musica').innerText = '.data';
-    localStorage.setItem('favorite', e.data);
-    arrayOfFavMusic = JSON.parse(e.data) || [];
-    loopDubios(JSON.parse(e.data) || [], 'actualFavSongs', true);
+    arrayOfFavMusic =
+      JSON.parse(e.data).map(d => ({
+        name: d.title,
+        artist: d.artist,
+        img: d.image,
+        album: d.album,
+      })) || [];
+    loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
 
     if (arrayOfFavMusic.length === 0) {
       creeazaPoza();
@@ -174,7 +169,7 @@ function loopDubios(coolData, container, isFav) {
         coolData[i].image[2]['#text'],
       );
     } else {
-      musicImg.src = coolData[i].image;
+      musicImg.src = coolData[i].img;
     }
     musicImg.classList.add('cover');
     musicImg.classList.add('skeleton');
@@ -185,13 +180,10 @@ function loopDubios(coolData, container, isFav) {
     songName.classList.add('songname');
     artistName.classList.add('artist');
     root.appendChild(divContainer);
-    songName.innerText = coolData[i].name || coolData[i].title;
-    artistName.innerText = coolData[i].artist || coolData[i].artist;
-    musicImg.setAttribute('data-title', coolData[i].name || coolData[i].title);
-    musicImg.setAttribute(
-      'data-artist',
-      coolData[i].artist || coolData[i].artist,
-    );
+    songName.innerText = coolData[i].name;
+    artistName.innerText = coolData[i].artist;
+    musicImg.setAttribute('data-title', coolData[i].name);
+    musicImg.setAttribute('data-artist', coolData[i].artist);
     divContainer.appendChild(musicImg);
     divContainer.appendChild(songName);
     divContainer.appendChild(artistName);
