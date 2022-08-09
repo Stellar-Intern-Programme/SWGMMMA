@@ -17,16 +17,17 @@ window.addEventListener("load" ,()=>{
     favorite = document.getElementById("favorite")
     musica= document.getElementById("musica")
     musicFetch()
-    loopDubios(arrayOfFavMusic,"actualFavSongs", true)
-    if(arrayOfFavMusic.length===0){
-        creeazaPoza()
-    }
     parent = window.ReactNativeWebView
 })
 
 document.addEventListener("message", e => {
     localStorage.setItem('favorite', JSON.stringify(e.data))
-    arrayOfFavMusic=JSON.parse(e.data) || []
+    arrayOfFavMusic = JSON.parse(e.data) || []
+    loopDubios(arrayOfFavMusic,"actualFavSongs", true)
+    
+    if(arrayOfFavMusic.length===0){
+        creeazaPoza()
+    }
 })
 
 function creeazaPoza(){
