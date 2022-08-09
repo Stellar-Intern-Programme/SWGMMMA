@@ -18,19 +18,8 @@ window.addEventListener('load', () => {
   musicFetch();
   parent = window.ReactNativeWebView;
 
-  window.addEventListener('message', e => {
-    document.getElementById('musica').innerText = 'a';
-    localStorage.setItem('favorite', JSON.stringify(e.data));
-    arrayOfFavMusic = JSON.parse(e.data) || [];
-    loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
-
-    if (arrayOfFavMusic.length === 0) {
-      creeazaPoza();
-    }
-  });
-
   document.addEventListener('message', e => {
-    document.getElementById('musica').innerText = '.data';
+    document.getElementById('musica').innerText = e.data;
     localStorage.setItem('favorite', JSON.stringify(e.data));
     arrayOfFavMusic = JSON.parse(e.data) || [];
     loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
