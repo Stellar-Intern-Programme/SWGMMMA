@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
   musicFetch();
   parent = window.ReactNativeWebView;
 
-  document.addEventListener('message', e => {
+  window.addEventListener('message', e => {
     document.getElementById('musica').innerText = 'asd';
     localStorage.setItem('favorite', JSON.stringify(e.data));
     arrayOfFavMusic = JSON.parse(e.data) || [];
@@ -28,6 +28,17 @@ window.addEventListener('load', () => {
       creeazaPoza();
     }
   });
+});
+
+window.addEventListener('message', e => {
+  document.getElementById('musica').innerText = 'asd';
+  localStorage.setItem('favorite', JSON.stringify(e.data));
+  arrayOfFavMusic = JSON.parse(e.data) || [];
+  loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+
+  if (arrayOfFavMusic.length === 0) {
+    creeazaPoza();
+  }
 });
 
 function creeazaPoza() {
