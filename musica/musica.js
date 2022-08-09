@@ -191,7 +191,9 @@ function loopDubios(coolData, container, isFav) {
     divContainer.appendChild(musicImg);
     divContainer.appendChild(songName);
     divContainer.appendChild(artistName);
-    divContainer.append(albumName);
+    if (isFav) {
+      divContainer.append(albumName);
+    }
     root.addEventListener('click', popUpDisplay);
     root.addEventListener('click', generatePopUpElem);
     // console.log(root)
