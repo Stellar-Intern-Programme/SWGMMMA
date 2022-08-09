@@ -163,19 +163,13 @@ window.addEventListener('load', event => {
       });
     });
 
-  document.addEventListener('message', e => {
-    localStorage.setItem('favorite', e.data);
-    document.getElementById('topTitle').innerText = 'yay';
-
-    favoriteMoviesArray = JSON.parse(e.data);
-
-    if (favoriteMoviesArray.length === 0) {
-      nothing.style.display = 'flex';
-    } else {
-      nothing.style.display = 'none';
-    }
-    addFavoriteList();
-  });
+  // document.addEventListener('message', e => {
+  //   localStorage.setItem('favorite', e.data);
+  //   document.getElementById('topTitle').innerText = 'yay';
+  //   favoriteMoviesArray = JSON.parse(e.data);
+  //
+  //   addFavoriteList();
+  // });
 });
 
 function modalData(element) {
@@ -293,7 +287,6 @@ function addFavoriteList() {
     nothing.style.display = 'none';
   }
 
-  console.log(favoriteMoviesArray);
   favoriteMoviesArray.forEach(x => {
     const favMovieImg = document.createElement('img');
     favMovieImg.setAttribute(
