@@ -133,7 +133,7 @@ window.addEventListener('load', event => {
         const divMovieImg = document.createElement('div');
         const movieImg = document.createElement('img');
         divMovieImg.appendChild(movieImg);
-        if (favoriteMoviesArray.length === 0) {
+        if (favoriteMoviesArray.length || 0 === 0) {
           nothing.style.display = 'flex';
         }
         if (element.poster_path === null) {
@@ -163,13 +163,13 @@ window.addEventListener('load', event => {
       });
     });
 
-  // document.addEventListener('message', e => {
-  //   localStorage.setItem('favorite', e.data);
-  //   document.getElementById('topTitle').innerText = 'yay';
-  //   favoriteMoviesArray = JSON.parse(e.data);
-  //
-  //   addFavoriteList();
-  // });
+  document.addEventListener('message', e => {
+    localStorage.setItem('favorite', e.data);
+    document.getElementById('topTitle').innerText = 'yay';
+    favoriteMoviesArray = JSON.parse(e.data);
+
+    addFavoriteList();
+  });
 });
 
 function modalData(element) {
