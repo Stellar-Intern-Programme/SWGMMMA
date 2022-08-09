@@ -160,6 +160,7 @@ function loopDubios(coolData, container, isFav) {
     const musicImg = document.createElement('img');
     const songName = document.createElement('p');
     const artistName = document.createElement('p');
+    const albumName = document.createElement('p');
 
     if (!isFav) {
       albumFetch(
@@ -179,14 +180,18 @@ function loopDubios(coolData, container, isFav) {
 
     songName.classList.add('songname');
     artistName.classList.add('artist');
+    albumName.classList.add('Albumname');
     root.appendChild(divContainer);
     songName.innerText = coolData[i].name;
     artistName.innerText = coolData[i].artist;
+    albumName.innerText = coolData[i].album;
     musicImg.setAttribute('data-title', coolData[i].name);
     musicImg.setAttribute('data-artist', coolData[i].artist);
+    musicImg.setAttribute('data-album', coolData[i].album);
     divContainer.appendChild(musicImg);
     divContainer.appendChild(songName);
     divContainer.appendChild(artistName);
+    divContainer.append(albumName);
     root.addEventListener('click', popUpDisplay);
     root.addEventListener('click', generatePopUpElem);
     // console.log(root)
