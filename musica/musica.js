@@ -17,17 +17,17 @@ window.addEventListener('load', () => {
   musica = document.getElementById('musica');
   musicFetch();
   parent = window.ReactNativeWebView;
+});
 
-  window.addEventListener('message', e => {
-    document.getElementById('musica').innerText = 'asd';
-    localStorage.setItem('favorite', JSON.stringify(e.data));
-    arrayOfFavMusic = JSON.parse(e.data) || [];
-    loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+window.addEventListener('message', e => {
+  document.getElementById('musica').innerText = 'asd';
+  localStorage.setItem('favorite', JSON.stringify(e.data));
+  arrayOfFavMusic = JSON.parse(e.data) || [];
+  loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
 
-    if (arrayOfFavMusic.length === 0) {
-      creeazaPoza();
-    }
-  });
+  if (arrayOfFavMusic.length === 0) {
+    creeazaPoza();
+  }
 });
 
 function creeazaPoza() {
