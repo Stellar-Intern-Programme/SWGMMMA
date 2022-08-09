@@ -19,12 +19,10 @@ window.addEventListener('load', () => {
   parent = window.ReactNativeWebView;
 
   document.addEventListener('message', e => {
-    parent?.postMessage(JSON.stringify([e.data, 'yup']));
-    window?.ReactNativeWebView?.postMessage(JSON.stringify([e.data, 'yup']));
     document.getElementById('musica').innerText = '.data';
-    localStorage.setItem('favorite', JSON.stringify(e.data));
+    localStorage.setItem('favorite', e.data);
     arrayOfFavMusic = JSON.parse(e.data) || [];
-    loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+    loopDubios(JSON.parse(e.data) || [], 'actualFavSongs', true);
 
     if (arrayOfFavMusic.length === 0) {
       creeazaPoza();
