@@ -7,6 +7,7 @@ let parent;
 
 window.addEventListener('load', () => {
   pozaFundalPop = document.getElementById('fundalPopUp');
+  arrayOfFavMusic = JSON.parse(localStorage.getItem('favorite')) || [];
   const searchS = document.getElementById('search');
   searchS.addEventListener('keyup', musicSearhFetch);
   searchS.addEventListener('click', searchClick);
@@ -16,19 +17,23 @@ window.addEventListener('load', () => {
   favorite = document.getElementById('favorite');
   musica = document.getElementById('musica');
   musicFetch();
-  parent = window.ReactNativeWebView;
-});
-
-document.addEventListener('message', e => {
-  document.getElementById('musica').innerText = 'asd';
-  localStorage.setItem('favorite', JSON.stringify(e.data));
-  arrayOfFavMusic = JSON.parse(e.data) || [];
   loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
-
   if (arrayOfFavMusic.length === 0) {
     creeazaPoza();
   }
+  parent = window.ReactNativeWebView;
 });
+
+// document.addEventListener('message', e => {
+//   document.getElementById('musica').innerText = 'asd';
+//   localStorage.setItem('favorite', JSON.stringify(e.data));
+//   arrayOfFavMusic = JSON.parse(e.data) || [];
+//   loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+//
+//   if (arrayOfFavMusic.length === 0) {
+//     creeazaPoza();
+//   }
+// });
 
 function creeazaPoza() {
   const actual = document.getElementById('actualFavSongs');
