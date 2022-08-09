@@ -124,10 +124,10 @@ async function  saveToArray(title,artist,src,album){
         image: src
     }
     if(!arrayOfFavMusic.find(e=>e.name===title)){
-        parent?.postMessage?.(JSON.stringify(song))
+        parent?.postMessage?.(JSON.stringify([song, 'add']))
         arrayOfFavMusic.push({name:title,artist:artist,img:src,album:album})
     }else{
-        parent?.postMessage?.(JSON.stringify(song))
+        parent?.postMessage?.(JSON.stringify([song, 'delete']))
         let index=arrayOfFavMusic.findIndex(e=>e.name===title)
         arrayOfFavMusic.splice(index,1)
     }
