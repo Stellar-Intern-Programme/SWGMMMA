@@ -20,10 +20,10 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('message', e => {
+  document.getElementById('musica').innerText = 'asd';
   localStorage.setItem('favorite', JSON.stringify(e.data));
   arrayOfFavMusic = JSON.parse(e.data) || [];
   loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
-  parent?.postMessage(JSON.stringify(e.data));
 
   if (arrayOfFavMusic.length === 0) {
     creeazaPoza();
