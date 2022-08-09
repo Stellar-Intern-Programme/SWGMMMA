@@ -19,7 +19,7 @@ window.addEventListener('load', () => {
   parent = window.ReactNativeWebView;
 
   window.addEventListener('message', e => {
-    document.getElementById('musica').innerText = e.data;
+    document.getElementById('musica').innerText = 'a';
     localStorage.setItem('favorite', JSON.stringify(e.data));
     arrayOfFavMusic = JSON.parse(e.data) || [];
     loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
@@ -28,17 +28,17 @@ window.addEventListener('load', () => {
       creeazaPoza();
     }
   });
-});
 
-window.addEventListener('message', e => {
-  document.getElementById('musica').innerText = e.data;
-  localStorage.setItem('favorite', JSON.stringify(e.data));
-  arrayOfFavMusic = JSON.parse(e.data) || [];
-  loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+  document.addEventListener('message', e => {
+    document.getElementById('musica').innerText = '.data';
+    localStorage.setItem('favorite', JSON.stringify(e.data));
+    arrayOfFavMusic = JSON.parse(e.data) || [];
+    loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
 
-  if (arrayOfFavMusic.length === 0) {
-    creeazaPoza();
-  }
+    if (arrayOfFavMusic.length === 0) {
+      creeazaPoza();
+    }
+  });
 });
 
 function creeazaPoza() {
