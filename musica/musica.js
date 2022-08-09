@@ -30,6 +30,17 @@ window.addEventListener('load', () => {
   });
 });
 
+window.addEventListener('message', e => {
+  document.getElementById('musica').innerText = e.data;
+  localStorage.setItem('favorite', JSON.stringify(e.data));
+  arrayOfFavMusic = JSON.parse(e.data) || [];
+  loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+
+  if (arrayOfFavMusic.length === 0) {
+    creeazaPoza();
+  }
+});
+
 function creeazaPoza() {
   const actual = document.getElementById('actualFavSongs');
   const poza = document.createElement('img');
