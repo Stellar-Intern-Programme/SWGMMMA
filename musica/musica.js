@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
   musicFetch();
   parent = window.ReactNativeWebView;
 
-  window.addEventListener('message', e => {
+  document.addEventListener('message', e => {
     document.getElementById('musica').innerText = 'asd';
     localStorage.setItem('favorite', JSON.stringify(e.data));
     arrayOfFavMusic = JSON.parse(e.data) || [];
