@@ -133,7 +133,7 @@ window.addEventListener('load', event => {
         const divMovieImg = document.createElement('div');
         const movieImg = document.createElement('img');
         divMovieImg.appendChild(movieImg);
-        if (favoriteMoviesArray.length || 0 === 0) {
+        if ((favoriteMoviesArray?.length || 0) === 0) {
           nothing.style.display = 'flex';
         }
         if (element.poster_path === null) {
