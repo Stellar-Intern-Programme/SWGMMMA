@@ -11,7 +11,7 @@ fetch(
     console.log(data);
   });
 let favMovieList;
-let favoriteMovies;
+let favoriteMovies = [];
 let trendingMovies;
 let iframe;
 let trailerBtn;
@@ -166,7 +166,7 @@ window.addEventListener('load', event => {
   document.addEventListener('message', e => {
     localStorage.setItem('favorite', e.data);
     document.getElementById('topTitle').innerText = 'yay';
-    favoriteMoviesArray = JSON.parse(e.data);
+    favoriteMoviesArray = JSON.parse(e.data) || [];
 
     addFavoriteList();
   });
