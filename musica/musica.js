@@ -133,7 +133,12 @@ async function saveToArray(title, artist, src, album) {
   };
   if (!arrayOfFavMusic.find(e => e.name === title)) {
     parent?.postMessage?.(JSON.stringify([song, 'add']));
-    arrayOfFavMusic.push({name: title, artist: artist, img: src, album: album});
+    arrayOfFavMusic.unshift({
+      name: title,
+      artist: artist,
+      img: src,
+      album: album,
+    });
   } else {
     parent?.postMessage?.(JSON.stringify([song, 'delete']));
     let index = arrayOfFavMusic.findIndex(e => e.name === title);
