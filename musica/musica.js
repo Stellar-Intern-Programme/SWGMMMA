@@ -22,9 +22,8 @@ window.addEventListener('load', () => {
 document.addEventListener('message', e => {
   localStorage.setItem('favorite', JSON.stringify(e.data));
   arrayOfFavMusic = JSON.parse(e.data) || [];
-  document.getElementById('aaaa').textContent = e.data;
-  document.getElementById('musica').textContent = typeof JSON.parse(e.data);
   loopDubios(arrayOfFavMusic, 'actualFavSongs', true);
+  parent?.postMessage(JSON.stringify(e.data));
 
   if (arrayOfFavMusic.length === 0) {
     creeazaPoza();
