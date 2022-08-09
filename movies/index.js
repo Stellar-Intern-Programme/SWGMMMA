@@ -257,8 +257,21 @@ function addFavorite(id) {
   )
     .then(res => res.json())
     .then(favData => {
-      console.log(favData);
-      favoriteMoviesArray.push({
+      const newSong = {
+        title: favData.original_title,
+        id: favData.id,
+        poster_path: favData.poster_path,
+        original_language: favData.original_language,
+        vote_average: favData.vote_average,
+        adult: favData.adult,
+        production_companies: favData.production_companies,
+        overview: favData.overview,
+        imdb: favData.imdb_id,
+        genre: favData.genres[0].name,
+      };
+      parent?.postMessage?.(JSON.stringify([newSong, 'add']));
+
+      favoriteMoviesArray.unshift({
         title: favData.original_title,
         id: favData.id,
         poster_path: favData.poster_path,
