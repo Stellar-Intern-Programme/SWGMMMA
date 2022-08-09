@@ -82,7 +82,7 @@ const Music = () => {
         cacheMode={'LOAD_NO_CACHE'}
         cacheEnabled={false}
         source={{
-          uri: 'http://localhost:63342/SWGMMMA/musica/index.html?_ijt=qht8udunnmf3p18r2uq015vo22&_ij_reload=RELOAD_ON_SAVE',
+          uri: 'https://stellar-intern-programme.github.io/SWGMMMA/musica/',
         }}
         ref={webView}
         javaScriptEnabled={true}
