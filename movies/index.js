@@ -317,6 +317,12 @@ function removeFavorite(id) {
   addFav.setAttribute('onclick', `addFavorite(${id})`);
   addFav.style.backgroundColor = '#1A73E8';
   addFav.innerText = 'ADD TO FAVORITE';
+
+  const removedMovie = favoriteMoviesArray.filter(
+    favorite => favorite.id === id,
+  )[0];
+  parent?.postMessage?.(JSON.stringify([removedMovie, 'delete']));
+
   favoriteMoviesArray = favoriteMoviesArray.filter(
     favorite => favorite.id !== id,
   );
