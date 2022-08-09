@@ -26,7 +26,7 @@ window.addEventListener("load" ,()=>{
 
 document.addEventListener("message", e => {
     localStorage.setItem('favorite', JSON.stringify(e.data))
-    arrayOfFavMusic=e.data|| []
+    arrayOfFavMusic=JSON.parse(e.data) || []
 })
 
 function creeazaPoza(){
