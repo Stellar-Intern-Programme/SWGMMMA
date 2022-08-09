@@ -1,77 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="upgrade-insecure-requests" />
     <title>MUSICA</title>
     <script src="musica.js"></script>
-        <link rel="stylesheet" href="style.css">
-</head>
-<body class="body">
-  <div class="upper">
-    <p id="musica">MUSICA</p>
-  </div> 
-  <div class="coverAll">
-  <div class="favorite" id="favorite">
-    <p class="fav">FAVORITE SONGS</p>
-    <div class="actualFavSongs" id="actualFavSongs">
-        <div class="imgsfavsong">
-            <img src="resurse/nothing-here.png" alt="cover" class="cover">
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="body">
+    <p id="aaaa" style="color: white; z-index: 9999"></p>
+    <div class="upper">
+      <p id="musica">MUSICA</p>
+    </div>
+    <div class="coverAll">
+      <div class="favorite" id="favorite">
+        <p class="fav">FAVORITE SONGS</p>
+        <div class="actualFavSongs" id="actualFavSongs">
+          <div class="imgsfavsong">
+            <img src="resurse/nothing-here.png" alt="cover" class="cover" />
+          </div>
         </div>
+      </div>
+      <div class="searchbar" id="searchbar">
+        <input
+          autocomplete="off"
+          id="search"
+          type="text"
+          value=""
+          placeholder="SEARCH"
+          class="Placeholder" />
+        <img src="resurse/Vectorics.svg" alt="x" class="ics" id="ics" />
+        <img src="resurse/Vectorlupa.svg" alt="Lupa" class="lupa" />
+      </div>
+      <div class="trending" id="trending">
+        <p class="tren" id="tren">TRENDING SONGS</p>
+        <div class="gridTrending" id="gridTrending"></div>
+      </div>
     </div>
-  </div>
-  <div class="searchbar" id="searchbar">
-    <input
-      autocomplete="off"
-      id="search"
-      type="text"
-      value=""
-      placeholder="SEARCH"
-      class="Placeholder"
-    />
-    <img  src="resurse/Vectorics.svg" alt="x" class="ics" id="ics">
-    <img  src="resurse/Vectorlupa.svg" alt="Lupa" class="lupa">
-  </div> 
-  <div class="trending" id="trending">
-    <p class="tren" id="tren">TRENDING SONGS</p>
-    <div class="gridTrending" id="gridTrending">  
-       
-    </div>
-  </div>
-</div>
-  <div class="backGroundPopup" id="backGroundPopUp" >
-    <div class="infoPopup" id="infoPopUp">
+    <div class="backGroundPopup" id="backGroundPopUp">
+      <div class="infoPopup" id="infoPopUp">
         <div class="overButtonDrag">
-            <div class="butonDrag" id="butonDrag">
-            </div>
+          <div class="butonDrag" id="butonDrag"></div>
         </div>
-       <img class="fundalPopup" src="resurse/static.png" alt="guys" id="fundalPopUp"> 
-       <div class="pozamelodie" id="pozaMelodie">
-            <img src="resurse/1000x1000-000000-80-0-0 1songfoto.svg" alt="songfoto" class="songfoto" id="songfoto">
-       </div>
+        <img
+          class="fundalPopup"
+          src="resurse/static.png"
+          alt="guys"
+          id="fundalPopUp" />
+        <div class="pozamelodie" id="pozaMelodie">
+          <img
+            src="resurse/1000x1000-000000-80-0-0 1songfoto.svg"
+            alt="songfoto"
+            class="songfoto"
+            id="songfoto" />
+        </div>
         <div class="information">
-            <div class="titlnr">
-                <p class="title" id="title">Title</p>
-                <!-- <p class="positionintop">#1 in chart</p> -->
-            </div>
-            <p class="titlename" id="titlename">GET LUKY</p>
-            <p class="ARTIST">Artist</p>
-            <p class="artistname" id="artistname">DAFT PUNK</p>
-            <p class="Album">Album</p>
-            <p class="AlbumName" id="albumname">RANDOM ACCESS MEMORIES</p>
+          <div class="titlnr">
+            <p class="title" id="title">Title</p>
+            <!-- <p class="positionintop">#1 in chart</p> -->
+          </div>
+          <p class="titlename" id="titlename">GET LUKY</p>
+          <p class="ARTIST">Artist</p>
+          <p class="artistname" id="artistname">DAFT PUNK</p>
+          <p class="Album">Album</p>
+          <p class="AlbumName" id="albumname">RANDOM ACCESS MEMORIES</p>
         </div>
         <div class="buttonPlay" id="buttonPlay" onclick="playButton()">
-            <img src="resurse/VectorPLAY.svg" alt="" >
+          <img src="resurse/VectorPLAY.svg" alt="" />
         </div>
-        <div class="buttonFavoriteOver" >
-            <div class="buttonFavorite" id="divFavTxt">
-            </div>
-            <p>See dezeer page</p>
+        <div class="buttonFavoriteOver">
+          <div class="buttonFavorite" id="divFavTxt"></div>
+          <p>See dezeer page</p>
         </div>
-
+      </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
