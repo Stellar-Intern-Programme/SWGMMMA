@@ -121,19 +121,6 @@ window.addEventListener('load', event => {
   nothing = document.getElementById('nothing');
   parent = window.ReactNativeWebView;
 
-  document.addEventListener('message', e => {
-    localStorage.setItem('favorite', e.data);
-
-    favoriteMoviesArray = JSON.parse(e.data);
-
-    if (favoriteMoviesArray.length === 0) {
-      nothing.style.display = 'flex';
-    } else {
-      nothing.style.display = 'none';
-    }
-    addFavoriteList();
-  });
-
   fetch('https://api.themoviedb.org/3/trending/movie/day?api_key=' + API_KEY)
     .then(res => res.json())
     .then(data => {
@@ -175,6 +162,20 @@ window.addEventListener('load', event => {
         localStorage.setItem('trending', JSON.stringify(trendingMoviesArray));
       });
     });
+
+  document.addEventListener('message', e => {
+    localStorage.setItem('favorite', e.data);
+    document.getElementById('topTitle').innerText = 'yay';
+
+    favoriteMoviesArray = JSON.parse(e.data);
+
+    if (favoriteMoviesArray.length === 0) {
+      nothing.style.display = 'flex';
+    } else {
+      nothing.style.display = 'none';
+    }
+    addFavoriteList();
+  });
 });
 
 function modalData(element) {
