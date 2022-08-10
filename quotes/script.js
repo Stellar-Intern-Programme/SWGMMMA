@@ -37,7 +37,7 @@ const MAX_COUNT = 50;
 // click pe alea din search
 // modalitate sa go back to homepage
 
-let favorites;
+let favorites = [];
 
 window.addEventListener('load', () => {
   let loading = true;
