@@ -196,7 +196,6 @@ body {
 .result {
   display: flex;
   flex-direction: column;
-  gap: 16px;
   margin: 0px;
   top: 0px;
   width: 90%;
@@ -204,6 +203,10 @@ body {
   font-weight: 900;
   font-size: 18px;
   color: white;
+}
+
+.result p:not(:first-child) {
+  margin-top: 16px;
 }
 
 .result p {
@@ -457,11 +460,11 @@ body {
 }
 
 .quoteSearchResults div:nth-child(even) {
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .quotesSearchResults {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .quotesSearchResultsBigBoy {

@@ -102,10 +102,14 @@ body {
 }
 .recom-movie-list {
   display: flex;
-  gap: 18px;
   overflow: scroll;
   margin-left: 22px;
 }
+
+.recom-movie-list img:not(:first-child) {
+  margin-left: 18px;
+}
+
 .recom-movie-list img {
   height: 201px;
   width: 135px;
@@ -118,7 +122,7 @@ body {
   margin-left: 22px;
 }
 
-.fav-movie-list div:not(:first-child) {
+.fav-movie-list img:not(:first-child) {
   margin-left: 18px;
 }
 .fav-movie-list img {
@@ -183,7 +187,7 @@ body {
   margin-left: 22px;
 }
 
-.trend div:not(:first-child) {
+.trend img:not(:first-child) {
   margin-left: 18px;
 }
 
