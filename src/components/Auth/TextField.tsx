@@ -11,6 +11,7 @@ interface TextFieldProps {
   error?: string;
   loading?: boolean;
   keyboardType?: 'numeric';
+  specialError?: string | null | undefined;
 }
 
 const TextField: FC<TextFieldProps> = ({
@@ -23,6 +24,7 @@ const TextField: FC<TextFieldProps> = ({
   error = '',
   loading = false,
   keyboardType,
+  specialError,
 }) => {
   const onChangeText = (newValue: string) => {
     setField(name, newValue);
@@ -38,7 +40,11 @@ const TextField: FC<TextFieldProps> = ({
       <View style={{flexDirection: 'row'}}>
         <Text style={styles.label}>{label}</Text>
         <Text style={styles.error}>
-          {error.length && !loading ? `(${error})` : ''}
+          {error.length && !loading
+            ? `(${error})`
+            : specialError?.length
+            ? specialError
+            : ''}
         </Text>
       </View>
       <TextInput

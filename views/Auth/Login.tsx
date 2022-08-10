@@ -69,6 +69,8 @@ const Register = ({
     setLoading(false);
   };
 
+  console.log(serverErrors);
+
   const loginRequest = async () => {
     setError('fullError', '');
 
@@ -118,6 +120,7 @@ const Register = ({
         setField={setField}
         label={'Password'}
         error={errors?.password}
+        specialError={errors?.both}
         loading={loading}
       />
 

@@ -244,7 +244,7 @@ const Profile = ({
             </Pressable>
           ) : (
             <View>
-              <ActivityIndicator color={'#E81A1A'} size={70} />
+              <ActivityIndicator color={'#E81A1A'} size={50} />
             </View>
           )}
         </View>
