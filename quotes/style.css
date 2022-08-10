@@ -440,8 +440,7 @@ body {
   margin-bottom: 20px;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  margin-top: 16px;
+  margin-top: -4px;
 }
 
 .quotesSearchResults {
@@ -455,6 +454,14 @@ body {
   align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.quoteSearchResults div:nth-child(even) {
+    margin-left: 20px;
+}
+
+.quotesSearchResults {
+    margin-top: 20px;
 }
 
 .quotesSearchResultsBigBoy {

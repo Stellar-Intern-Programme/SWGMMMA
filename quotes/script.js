@@ -220,7 +220,10 @@ function addQuotes(data) {
     const openQuote = document.createElement('img');
     const arrowRight = document.createElement('img');
 
-    arrowRight.setAttribute('src', 'resources/ArrowRight.png');
+    arrowRight.setAttribute(
+      'src',
+      'https://res.cloudinary.com/multimediarog/image/upload/v1659946687/IFrameApplication/open_voywbb.svg',
+    );
     arrowRight.setAttribute('class', 'ArrowRight');
     openQuote.setAttribute('class', 'closedQuote');
     openQuote.setAttribute('src', 'resources/open.svg');
