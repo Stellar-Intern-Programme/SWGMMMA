@@ -28,6 +28,7 @@ export enum AUTH_ACTIONS {
   FP_FAIL = 'FP_FAIL',
   FP_SUCCESS = 'FP_SUCCESS',
   LOGOUT = 'LOGOUT',
+  CHANGE_PFP = 'CHANGE_PFP',
 }
 
 const reducer: any = (state = INITIAL_STATE, action: any) => {
@@ -144,6 +145,12 @@ const reducer: any = (state = INITIAL_STATE, action: any) => {
       return {
         ...state,
         loading: false,
+      };
+    }
+    case AUTH_ACTIONS.CHANGE_PFP: {
+      return {
+        ...state,
+        pfp: action.payload.img,
       };
     }
     default: {

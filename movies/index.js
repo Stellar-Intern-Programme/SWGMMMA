@@ -165,7 +165,6 @@ window.addEventListener('load', event => {
 
   document.addEventListener('message', e => {
     localStorage.setItem('favorite', e.data);
-    document.getElementById('topTitle').innerText = 'yay';
     favoriteMoviesArray = JSON.parse(e.data) || [];
 
     addFavoriteList();
@@ -257,7 +256,7 @@ function addFavorite(id) {
   )
     .then(res => res.json())
     .then(favData => {
-      const newSong = {
+      const newMovie = {
         title: favData.original_title,
         id: favData.id,
         poster_path: favData.poster_path,
@@ -269,7 +268,7 @@ function addFavorite(id) {
         imdb: favData.imdb_id,
         genre: favData.genres[0].name,
       };
-      parent?.postMessage?.(JSON.stringify([newSong, 'add']));
+      parent?.postMessage?.(JSON.stringify([newMovie, 'add']));
 
       favoriteMoviesArray.unshift({
         title: favData.original_title,
@@ -321,7 +320,8 @@ function removeFavorite(id) {
   const removedMovie = favoriteMoviesArray.filter(
     favorite => favorite.id === id,
   )[0];
-  parent?.postMessage?.(JSON.stringify([removedMovie, 'delete']));
+
+  parent?.postMessage?.(JSON.stringify([removedMovie, 'add']));
 
   favoriteMoviesArray = favoriteMoviesArray.filter(
     favorite => favorite.id !== id,

@@ -64,11 +64,13 @@ const Profile = ({
               Cookie: `auth-token=${await AsyncStorage.getItem('auth-token')};`,
             },
           })
-        ).data;
+        ).data.quote;
+
+        console.log(_quote);
 
         setMovies(_movies);
         setSongs(_songs);
-        setQuote({text: _quote.text, author: _quote.author});
+        setQuote({text: _quote.en, author: _quote.author});
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -103,8 +105,9 @@ const Profile = ({
     }
   };
 
+  console.log(pfp);
   return (
-    <ScrollView>
+    <ScrollView nestedScrollEnabled={true}>
       <Header
         text={'Profile'}
         Action={BackArrow}
@@ -134,18 +137,13 @@ const Profile = ({
                   {email}
                 </Text>
               </ScrollView>
-              {quote.text !== '' && (
+              {quote.text !== '' && quote.text && (
                 <>
                   <View style={styles.divider} />
                   <View style={{marginTop: 8}}>
-                    <ScrollView
-                      style={{
-                        width: 220,
-                        backgroundColor: 'rgb(50, 50, 50, 0)',
-                        maxHeight: 50,
-                      }}>
-                      <Text style={styles.quote}>{quote.text}</Text>
-                    </ScrollView>
+                    <Text style={styles.quote} numberOfLines={2}>
+                      {quote.text}
+                    </Text>
                     <View
                       style={{
                         justifyContent: 'flex-end',
@@ -155,7 +153,6 @@ const Profile = ({
                       <ScrollView
                         style={{
                           width: 180,
-                          marginLeft: 50,
                           backgroundColor: 'rgb(50, 50, 50, 0)',
                         }}
                         horizontal={true}>
@@ -169,7 +166,7 @@ const Profile = ({
               )}
             </View>
           </View>
-          <View style={{marginTop: 20}}>
+          <View style={{marginTop: 10}}>
             <Text style={styles.hl}>Favorite Movies</Text>
             <ScrollView
               contentContainerStyle={styles.flex_cards}
@@ -185,8 +182,9 @@ const Profile = ({
                           : styles.movieCard
                       }
                       source={{
-                        uri: movie.img,
+                        uri: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
                       }}
+                      resizeMode={'contain'}
                     />
                   );
                 })
@@ -197,7 +195,7 @@ const Profile = ({
               )}
             </ScrollView>
           </View>
-          <View style={{marginTop: 10}}>
+          <View style={{marginTop: 0}}>
             <Text style={styles.hl}>Favorite Songs</Text>
             <ScrollView
               contentContainerStyle={styles.flex_cards}
@@ -307,6 +305,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: 'white',
+    width: 235,
   },
   quoteAuthor: {
     fontFamily: 'Inter',
@@ -333,8 +332,8 @@ const styles = StyleSheet.create({
     overflow: 'scroll',
   },
   movieCard: {
-    height: 160,
-    width: 140,
+    height: 140,
+    width: 120,
     borderRadius: 20,
     marginLeft: 20,
   },
@@ -369,8 +368,8 @@ const styles = StyleSheet.create({
     width: '96%',
     backgroundColor: '#E81A1A',
     borderRadius: 15,
-    height: 60,
-    marginTop: 15,
+    height: 50,
+    marginTop: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },

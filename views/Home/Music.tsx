@@ -11,16 +11,6 @@ const Music = () => {
   const [error, setError] = useState(false);
   const webView = useRef<any>(null);
 
-  function getInjectableJSMessage(data: any) {
-    return `
-    (function() {
-      document.dispatchEvent(new MessageEvent('message', {
-        data: ${JSON.stringify(data)}
-      }));
-    })();
-  `;
-  }
-
   useEffect(() => {
     const getData = async () => {
       try {
@@ -41,7 +31,7 @@ const Music = () => {
     if (webView.current) {
       getData();
     }
-  }, [webView]);
+  }, [webView, loading]);
 
   const onMessage = async (song: any, type: string) => {
     try {

@@ -6,6 +6,13 @@ import {SOCIAL_ACTIONS} from '../reducers/socialReducer';
 import {server} from '../config/index';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export const modifyPfp = (img: string) => (dispatch: any) => {
+  dispatch({
+    type: AUTH_ACTIONS.CHANGE_PFP,
+    payload: {img},
+  });
+};
+
 export const verifyLogin = (authToken: string) => async (dispatch: any) => {
   try {
     const result = (

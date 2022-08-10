@@ -36,7 +36,7 @@ window.addEventListener('load', () => {
   getAvatars();
 
   document.addEventListener('message', e => {
-    localStorage.setItem('avatarPicture', JSON.parse(e.data));
+    localStorage.setItem('avatarPicture', e.data);
     userProfilePic.setAttribute('src', JSON.parse(e.data));
   });
 });

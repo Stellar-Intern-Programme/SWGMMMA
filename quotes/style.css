@@ -163,7 +163,7 @@ body {
     left: 140px;
     width: 30px;
     height: 30px;
-    background-color: #727272;    
+    background-color: #727272;
     margin-left: 10px;
     padding: 5px;
     border-radius: 20px;
@@ -322,12 +322,16 @@ body {
 
 .QuotesList {
     display: flex;
-    gap: 12px;
     padding-top: 20px;
     padding-left: 33px;
     overflow-x: scroll;
     padding-right: 20px;
     margin-bottom: 20px;
+}
+
+
+.QuotesList div:not(:first-child) {
+    margin-left: 12px;
 }
 
 .QuotesList::-webkit-scrollbar {
@@ -442,7 +446,7 @@ body {
 }
 
 .quotesSearchResults {
-    margin: 0px;
+    margin: -20px;
     display: flex;
     position: relative;
     background-color: #2E2E2E;
@@ -452,6 +456,14 @@ body {
     align-items: center;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.quotesSearchResults div:not(odd) {
+    margin-left: 20px
+}
+
+.quoteSearchResults div {
+    margin-top: 20px;
 }
 
 .quotesSearchResultsBigBoy {
@@ -738,12 +750,12 @@ body {
     height: 15px;
     background-color: #727272;
     margin-top: 25px;
-    border-radius: 5px; 
+    border-radius: 5px;
     animation: pulseazaLMAO 1s linear infinite alternate;
 }
 
 @keyframes pulseazaLMAO {
     0%{background-color: #727272}
     100%{background-color: #bdbdbd}
-    
+
 }
